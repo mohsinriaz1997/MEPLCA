@@ -1,0 +1,16 @@
+﻿<MudTh>
+    <div class="col-10 row">
+        @columnTile
+        <input class="form-control" placeholder="search" @oninput="OnsearchText"/>
+    </div>
+</MudTh>
+
+
+@code {
+
+    [Parameter]
+    public string columnTile { get; set; }
+
+    [Parameter]
+    public EventCallback<ChangeEventArgs> OnsearchText { get; set; }
+}

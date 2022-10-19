@@ -1,0 +1,398 @@
+﻿@using CA.API.Models
+<MudDialog>
+    <DialogContent>
+        <MudContainer style="max-height:500px;overflow-y:scroll;">
+            @if (Loading)
+            {
+                <center><MudProgressCircular Color="Color.Primary" Size="Size.Large" Indeterminate="true" /></center>
+            }
+            @if (DialogFor == "SalesQuotation")
+            {
+                <MudText Typo="Typo.h6">Detail</MudText>
+                <MudSpacer />
+                <MudDivider />
+
+                <MudGrid class="search-action-block align-items-center">
+                    <MudItem xs="4" sm="4" md="4" lg="4">
+                        <MudTextField Style="font-weight:bold" @bind-Value="mstSalesQuatationDetail.ProductCode" InputMode="InputMode.text" Immediate="true" Label="Product Code" Variant="Variant.Filled"
+                                  Adornment="Adornment.Start" AdornmentIcon="@Icons.Filled.AddToPhotos" AdornmentColor="Color.Info" OnAdornmentClick="@((e) => OpenSapDataDialogFinishGoodsProduct(FullView))" ReadOnly="true" />
+                    </MudItem>
+                    <MudItem xs="4" sm="4" md="4" lg="4">
+                        <MudTextField Style="font-weight:bold" @bind-Value="mstSalesQuatationDetail.ProductDescription" InputMode="InputMode.text" Immediate="true" Label="Product Description" Variant="Variant.Filled"
+                                  Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" ReadOnly="true" />
+                    </MudItem>
+                    <MudItem xs="4" sm="4" md="4" lg="4">
+                        <MudTextField Style="font-weight:bold" @bind-Value="mstSalesQuatationDetail.ProductDepartment" InputMode="InputMode.text" Immediate="true" Label="Product Department" Variant="Variant.Filled"
+                                  Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" ReadOnly="true" />
+                    </MudItem>
+                    <MudItem xs="4" sm="4" md="4" lg="4" hidden>
+                        <MudTextField Style="font-weight:bold" @bind-Value="mstSalesQuatationDetail.FkdirectMaterialId" InputMode="InputMode.text" Immediate="true" Label="D.M" Variant="Variant.Filled"
+                                  Adornment="Adornment.Start" ReadOnly="true" />
+                    </MudItem>
+                    <MudItem xs="4" sm="4" md="4" lg="4">
+                        <MudTextField Style="font-weight:bold" @bind-Value="mstSalesQuatationDetail.FkdirectMaterialDocNum" InputMode="InputMode.text" Immediate="true" Label="D.M" Variant="Variant.Filled"
+                                  Adornment="Adornment.Start" AdornmentIcon="@Icons.Filled.AddToPhotos" AdornmentColor="Color.Info" OnAdornmentClick="@((e) => OpenSaveDataDialogDirectMaterial(FullView))" ReadOnly="true" />
+                    </MudItem>
+                    <MudItem xs="4" sm="4" md="4" lg="4" hidden>
+                        <MudTextField Style="font-weight:bold" @bind-Value="mstSalesQuatationDetail.Fkvohid" InputMode="InputMode.text" Immediate="true" Label="D.M" Variant="Variant.Filled"
+                                  Adornment="Adornment.Start" ReadOnly="true" />
+                    </MudItem>
+                    <MudItem xs="4" sm="4" md="4" lg="4">
+                        <MudTextField Style="font-weight:bold" @bind-Value="mstSalesQuatationDetail.FkvohdocNum" InputMode="InputMode.text" Immediate="true" Label="V.O.H" Variant="Variant.Filled"
+                                  Adornment="Adornment.Start" AdornmentIcon="@Icons.Filled.AddToPhotos" AdornmentColor="Color.Info" OnAdornmentClick="@((e) => OpenSaveDataDialogVOH(FullView))" ReadOnly="true" />
+                    </MudItem>
+                    <MudItem xs="4" sm="4" md="4" lg="4" hidden>
+                        <MudTextField Style="font-weight:bold" @bind-Value="mstSalesQuatationDetail.Fkfohid" InputMode="InputMode.text" Immediate="true" Label="D.M" Variant="Variant.Filled"
+                                  Adornment="Adornment.Start" ReadOnly="true" />
+                    </MudItem>
+                    <MudItem xs="4" sm="4" md="4" lg="4">
+                        <MudTextField Style="font-weight:bold" @bind-Value="mstSalesQuatationDetail.FkfohdocNum" InputMode="InputMode.text" Immediate="true" Label="F.O.H" Variant="Variant.Filled"
+                                  Adornment="Adornment.Start" AdornmentIcon="@Icons.Filled.AddToPhotos" AdornmentColor="Color.Info" OnAdornmentClick="@((e) => OpenSaveDataDialogFohRate(FullView))" ReadOnly="true" />
+                    </MudItem>
+                    <MudItem xs="4" sm="4" md="4" lg="4">
+                        <MudTextField Style="font-weight:bold" @bind-Value="mstSalesQuatationDetail.ImportCost" InputMode="InputMode.text" Immediate="true" Label="Import Cost" Variant="Variant.Filled"
+                                  Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" ReadOnly="true" />
+                    </MudItem>
+                    <MudItem xs="4" sm="4" md="4" lg="4">
+                        <MudTextField Style="font-weight:bold" @bind-Value="mstSalesQuatationDetail.LocalCost" InputMode="InputMode.text" Immediate="true" Label="Local Cost" Variant="Variant.Filled"
+                                  Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" ReadOnly="true" />
+                    </MudItem>
+                    <MudItem xs="4" sm="4" md="4" lg="4">
+                        <MudTextField Style="font-weight:bold" @bind-Value="mstSalesQuatationDetail.TotalRmcost" InputMode="InputMode.text" Immediate="true" Label="Total RM Cost" Variant="Variant.Filled"
+                                  Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" ReadOnly="true" />
+                    </MudItem>
+                    <MudItem xs="4" sm="4" md="4" lg="4">
+                        <MudTextField Style="font-weight:bold" @bind-Value="mstSalesQuatationDetail.Machine" InputMode="InputMode.text" Immediate="true" Label="Machine" Variant="Variant.Filled"
+                                  Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" ReadOnly="true" />
+                    </MudItem>
+                    <MudItem xs="4" sm="4" md="4" lg="4">
+                        <MudTextField Style="font-weight:bold" @bind-Value="mstSalesQuatationDetail.Labour" InputMode="InputMode.text" Immediate="true" Label="Labour" Variant="Variant.Filled"
+                                  Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" ReadOnly="true" />
+                    </MudItem>
+                    <MudItem xs="4" sm="4" md="4" lg="4">
+                        <MudTextField Style="font-weight:bold" @bind-Value="mstSalesQuatationDetail.Electricity" InputMode="InputMode.text" Immediate="true" Label="Electricity" Variant="Variant.Filled"
+                                  Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" ReadOnly="true" />
+                    </MudItem>
+                    <MudItem xs="4" sm="4" md="4" lg="4">
+                        <MudTextField Style="font-weight:bold" @bind-Value="mstSalesQuatationDetail.DiesAndMolds" InputMode="InputMode.text" Immediate="true" Label="Dies And Molds" Variant="Variant.Filled"
+                                  Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" ReadOnly="true" />
+                    </MudItem>
+                    <MudItem xs="4" sm="4" md="4" lg="4">
+                        <MudTextField Style="font-weight:bold" @bind-Value="mstSalesQuatationDetail.Tools" InputMode="InputMode.text" Immediate="true" Label="Tools" Variant="Variant.Filled"
+                                  Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" ReadOnly="true" />
+                    </MudItem>
+                    <MudItem xs="4" sm="4" md="4" lg="4">
+                        <MudTextField Style="font-weight:bold" @bind-Value="mstSalesQuatationDetail.Gasoline" InputMode="InputMode.text" Immediate="true" Label="Gasoline" Variant="Variant.Filled"
+                                  Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" ReadOnly="true" />
+                    </MudItem>
+                    <MudItem xs="4" sm="4" md="4" lg="4">
+                        <MudNumericField @bind-Value="mstSalesQuatationDetail.Packing" InputMode="InputMode.text" Immediate="true" Clearable="true" Label="Packing" Variant="Variant.Text"
+                                     Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" />
+                    </MudItem>
+                    <MudItem xs="4" sm="4" md="4" lg="4">
+                            <MudNumericField @bind-Value="mstSalesQuatationDetail.Transportation" InputMode="InputMode.text" Immediate="true" Clearable="true" Label="Transportation" Variant="Variant.Text"
+                                     Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" />
+                    </MudItem>
+                    <MudItem xs="4" sm="4" md="4" lg="4">
+                        <MudNumericField @bind-Value="mstSalesQuatationDetail.Others" InputMode="InputMode.text" Immediate="true" Clearable="true" Label="Others" Variant="Variant.Text"
+                                     Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" />
+                    </MudItem>
+                    <MudItem xs="4" sm="4" md="4" lg="4">
+                        <MudTextField Style="font-weight:bold" @bind-Value="mstSalesQuatationDetail.TotalVohcost" InputMode="InputMode.numeric" Immediate="true" Label="Total VOH Cost" Variant="Variant.Filled"
+                                  Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" ReadOnly="true" />
+                    </MudItem>
+                    <MudItem xs="4" sm="4" md="4" lg="4">
+                        <MudTextField Style="font-weight:bold" @bind-Value="mstSalesQuatationDetail.TotalDirectCost" InputMode="InputMode.numeric" Immediate="true" Label="Total Direct Cost" Variant="Variant.Filled"
+                                  Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" ReadOnly="true" />
+                    </MudItem>
+                    <MudItem xs="4" sm="4" md="4" lg="4">
+                        <MudTextField Style="font-weight:bold" @bind-Value="mstSalesQuatationDetail.FohratePer" InputMode="InputMode.numeric" Immediate="true" Label="F.O.H Rate %" Variant="Variant.Filled"
+                                  Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" ReadOnly="true" />
+                    </MudItem>
+                    <MudItem xs="4" sm="4" md="4" lg="4">
+                        <MudTextField Style="font-weight:bold" @bind-Value="mstSalesQuatationDetail.Fohamount" InputMode="InputMode.numeric" Immediate="true" Label="F.O.H Amount" Variant="Variant.Filled"
+                                  Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" ReadOnly="true" />
+                    </MudItem>
+                    <MudItem xs="4" sm="4" md="4" lg="4">
+                        <MudNumericField @bind-Value="mstSalesQuatationDetail.OtherFoh" InputMode="InputMode.numeric" Immediate="true" Label="Other FOH" Variant="Variant.Text"
+                                     Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" />
+                    </MudItem>
+                    <MudItem xs="4" sm="4" md="4" lg="4">
+                        <MudTextField Style="font-weight:bold" @bind-Value="mstSalesQuatationDetail.TotalFoh" InputMode="InputMode.numeric" Immediate="true" Label="Total FOH" Variant="Variant.Filled"
+                                  Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" ReadOnly="true" />
+                    </MudItem>
+                    <MudItem xs="4" sm="4" md="4" lg="4">
+                        <MudTextField Style="font-weight:bold" @bind-Value="mstSalesQuatationDetail.TotalUnitCost" InputMode="InputMode.numeric" Immediate="true" Label="Total Unit Cost" Variant="Variant.Filled"
+                                  Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" ReadOnly="true" />
+                    </MudItem>
+                    <MudItem xs="4" sm="4" md="4" lg="4">
+                        <MudTextField Style="font-weight:bold" @bind-Value="mstSalesQuatationDetail.SellingPrice" InputMode="InputMode.numeric" Immediate="true" Label="Selling Price" Variant="Variant.Filled"
+                                  Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" ReadOnly="true" />
+                    </MudItem>
+                    <MudItem xs="4" sm="4" md="4" lg="4">
+                        <MudTextField Style="font-weight:bold" @bind-Value="mstSalesQuatationDetail.Margin" InputMode="InputMode.numeric" Immediate="true" Label="Margin" Variant="Variant.Filled"
+                                  Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" ReadOnly="true" />
+                    </MudItem>
+                    <MudItem xs="4" sm="4" md="4" lg="4">
+                        <MudTextField Style="font-weight:bold" @bind-Value="mstSalesQuatationDetail.MarginPer" InputMode="InputMode.numeric" Immediate="true" Label="Margin %" Variant="Variant.Filled"
+                                  Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Percent" ReadOnly="true" />
+                    </MudItem>
+                </MudGrid>
+            }
+            @if (DialogFor == "Customer")
+            {
+                <MudTable FixedHeader="true" HorizontalScrollbar="true" Height="350px" Dense="true" Bordered="true" Filter="new Func<SAPModels,bool>(FilterFunc1)" Loading="@Loading" LoadingProgressColor="Color.Primary" @ref="@_table" Items="SAPModelsList" Hover="true" Striped="true" @bind-SelectedItem="oSAPModels" RowClassFunc="@SelectedRowClassFunc" OnRowClick="RowClickEvent" T="SAPModels">
+                    <ToolBarContent>
+                        <MudText Typo="Typo.h6">SAP Customers</MudText>
+                        <MudSpacer />
+                        <MudTextField @bind-Value="searchString1" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+                    </ToolBarContent>
+                    <HeaderContent>
+                        <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.CardCode)">Customer Code</MudTableSortLabel></MudTh>
+                        <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.CardName)">Customer Name</MudTableSortLabel></MudTh>
+                    </HeaderContent>
+                    <RowTemplate>
+                        <MudTd>@context.CardCode</MudTd>
+                        <MudTd>@context.CardName</MudTd>
+                    </RowTemplate>
+                    <PagerContent>
+                        <MudPagination SelectedChanged="PageChanged" Count="@((_table.GetFilteredItemsCount() + _table.RowsPerPage - 1) / _table.RowsPerPage)" Class="pa-4" />
+                    </PagerContent>
+                    <PagerContent>
+                        <MudTablePager />
+                    </PagerContent>
+                </MudTable>
+            }
+            @if (oSalesListItemDefault?.Count > 0 && DialogFor == "SalePriceList")
+            {
+                <MudTable Items="@oSalesListItemDefault" Class="table-setting" Dense="true" Hover="true" Bordered="true" Striped="true" Filter="new Func<MstSalesPriceList,bool>(FilterFuncSalesDeafult)" @ref="@_tableSales"
+                      Loading="@Loading" LoadingProgressColor="Color.Primary" T="MstSalesPriceList" @bind-SelectedItem="oModelSaleItemDefault" RowClassFunc="@SelectedRowClassFuncSaleDefault" OnRowClick="RowClickEventSaleDefault">
+                    <ToolBarContent>
+                        <MudText Typo="Typo.h6">Sale Price List Default Master Data</MudText>
+                        <MudSpacer />
+                        <MudTextField T="string" @bind-Value="searchString7" Placeholder="Search" Variant="Variant.Text" Clearable="true" Immediate="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" />
+                    </ToolBarContent>
+                    <HeaderContent>
+                        <MudTh>Customer Code</MudTh>
+                        <MudTh>Customer Name</MudTh>
+                        <MudTh>Price List Name</MudTh>
+                        <MudTh>Default</MudTh>
+                    </HeaderContent>
+                    <RowTemplate>
+                        <MudTd DataLabel="Code">@context.CustomerCode</MudTd>
+                        <MudTd DataLabel="Code">@context.CustomerName</MudTd>
+                        <MudTd DataLabel="Code">@context.Plname</MudTd>
+                        <MudTd DataLabel="Code">@context.FlgDefult</MudTd>
+                    </RowTemplate>
+                    <PagerContent>
+                        <MudPagination SelectedChanged="PageChanged" Count="@((_tableSales.GetFilteredItemsCount() + _tableSales.RowsPerPage - 1) / _tableSales.RowsPerPage)" Class="pa-4" />
+                    </PagerContent>
+                    <PagerContent>
+                        <MudTablePager />
+                    </PagerContent>
+                </MudTable>
+            }
+            @if (DialogFor == "FinishGoodsProduct")
+            {
+                <MudTable FixedHeader="true" HorizontalScrollbar="true" Height="350px" Dense="true" Bordered="true" Filter="new Func<SAPModels,bool>(FilterFunc1)" Loading="@Loading" LoadingProgressColor="Color.Primary" @ref="@_table" Items="SAPModelsList" Hover="true" Striped="true" @bind-SelectedItem="oSAPModels" RowClassFunc="@SelectedRowClassFunc" OnRowClick="RowClickEvent" T="SAPModels">
+                    <ToolBarContent>
+                        <MudText Typo="Typo.h6">SAP Product</MudText>
+                        <MudSpacer />
+                        <MudTextField @bind-Value="searchString1" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+                    </ToolBarContent>
+                    <HeaderContent>
+                        <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.ItemCode)">Product Code</MudTableSortLabel></MudTh>
+                        <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.ItemName)">Product Name</MudTableSortLabel></MudTh>
+                        <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.ItemName)">Product Department</MudTableSortLabel></MudTh>
+                    </HeaderContent>
+                    <RowTemplate>
+                        <MudTd>@context.ItemCode</MudTd>
+                        <MudTd>@context.ItemName</MudTd>
+                        <MudTd>@context.U_Item_Department</MudTd>
+                    </RowTemplate>
+                    <PagerContent>
+                        <MudPagination SelectedChanged="PageChanged" Count="@((_table.GetFilteredItemsCount() + _table.RowsPerPage - 1) / _table.RowsPerPage)" Class="pa-4" />
+                    </PagerContent>
+                    <PagerContent>
+                        <MudTablePager />
+                    </PagerContent>
+                </MudTable>
+            }
+            @if (oTrnsDirectMaterial?.Count > 0 && DialogFor == "DirectMaterialMaster")
+            {
+                <MudTable Items="@oTrnsDirectMaterial" Class="table-setting" Dense="true" Hover="true" Bordered="true" Striped="true" Filter="new Func<TrnsDirectMaterial,bool>(FilterFuncDirectMaterial)" @ref="@_tableDirect"
+                      Loading="@Loading" LoadingProgressColor="Color.Primary" T="TrnsDirectMaterial" @bind-SelectedItem="oModelTrnsDirectMaterial" RowClassFunc="@SelectedRowClassFuncDirectMaterial" OnRowClick="RowClickEventDirectMaterial">
+                    <ToolBarContent>
+                        <MudText Typo="Typo.h6">Direct Material Master Data</MudText>
+                        <MudSpacer />
+                        <MudTextField T="string" @bind-Value="searchString8" Placeholder="Search" Variant="Variant.Text" Clearable="true" Immediate="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" />
+                    </ToolBarContent>
+                    <HeaderContent>
+                        @* <MudTh>Product Code</MudTh>
+                    <MudTh>Product Name</MudTh>
+                    <MudTh>Product Department</MudTh>*@
+                        <MudTh>Doc Number</MudTh>
+                        <MudTh>Doc Date</MudTh>
+                        <MudTh>Doc Name</MudTh>
+                        <MudTh>Cost Type</MudTh>
+                        <MudTh>RM Analysis</MudTh>
+                        @*<MudTh>Exchange Rate Currency</MudTh>
+                    <MudTh>Exchange Rate</MudTh>
+                    <MudTh>IPL Doc Num</MudTh>
+                    <MudTh>For Analysis</MudTh>*@
+                    </HeaderContent>
+                    <RowTemplate>
+                        @* <MudTd DataLabel="Code">@context.ProductCode</MudTd>
+                    <MudTd DataLabel="Code">@context.ProductDescription</MudTd>
+                    <MudTd DataLabel="Code">@context.ProductDept</MudTd>*@
+                        <MudTd DataLabel="Code">@context.DocNum</MudTd>
+                        <MudTd DataLabel="Code">@context.DocDate</MudTd>
+                        <MudTd DataLabel="Code">@context.DocName</MudTd>
+                        <MudTd DataLabel="Code">@context.CostTypeDesc</MudTd>
+                        <MudTd DataLabel="Action">
+                            <MudIconButton Color="Color.Primary" Variant="Variant.Outlined" Icon="@Icons.Filled.Summarize" OnClick="@((e) => RedirectDirectMaterial((int)context.DocNum,FullView))" Title="Analysis"></MudIconButton>
+                        </MudTd>
+                        @*<MudTd DataLabel="Code">@context.CurrencyEr</MudTd>
+                    <MudTd DataLabel="Code">@context.ExchangeRate</MudTd>
+                    <MudTd DataLabel="Code">@context.FkitemPriceListDocNum</MudTd>
+                    <MudTd DataLabel="Code">@context.ForAnalysis</MudTd>*@
+                    </RowTemplate>
+                    <PagerContent>
+                        <MudPagination SelectedChanged="PageChanged" Count="@((_tableDirect.GetFilteredItemsCount() + _tableDirect.RowsPerPage - 1) / _tableSales.RowsPerPage)" Class="pa-4" />
+                    </PagerContent>
+                    <PagerContent>
+                        <MudTablePager />
+                    </PagerContent>
+                </MudTable>
+            }
+            @if (oTrnsVOCList?.Count > 0 && DialogFor == "VOCMaster")
+            {
+                <MudTable Items="@oTrnsVOCList" Class="table-setting" Dense="true" Hover="true" Bordered="true" Striped="true" Filter="new Func<TrnsVoc,bool>(FilterFuncVOC)" @ref="@_tableVOC"
+                      Loading="@Loading" LoadingProgressColor="Color.Primary" T="TrnsVoc" @bind-SelectedItem="oModelVOC" RowClassFunc="@SelectedRowClassFunVOC" OnRowClick="RowClickEventVOC">
+                    <ToolBarContent>
+                        <MudText Typo="Typo.h6">VOC Master Data</MudText>
+                        <MudSpacer />
+                        <MudTextField T="string" @bind-Value="searchString8" Placeholder="Search" Variant="Variant.Text" Clearable="true" Immediate="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" />
+                    </ToolBarContent>
+                    <HeaderContent>
+                        <MudTh>Doc Number</MudTh>
+                        <MudTh>Doc Date</MudTh>
+                        <MudTh>Doc Name</MudTh>
+                        <MudTh>Cost Type</MudTh>
+                        <MudTh>V.O.H Analysis</MudTh>
+                    </HeaderContent>
+                    <RowTemplate>
+                        <MudTd DataLabel="Code">@context.DocNum</MudTd>
+                        <MudTd DataLabel="Code">@context.DocDate</MudTd>
+                        <MudTd DataLabel="Code">@context.DocName</MudTd>
+                        <MudTd DataLabel="Code">@context.CostTypeDesc</MudTd>
+                        <MudTd DataLabel="Action">
+                            <MudIconButton Color="Color.Primary" Variant="Variant.Outlined" Icon="@Icons.Filled.Summarize" OnClick="@((e) => RedirectVOC((int)context.DocNum,FullView))" Title="Analysis"></MudIconButton>
+                        </MudTd>
+                    </RowTemplate>
+                    <PagerContent>
+                        <MudPagination SelectedChanged="PageChanged" Count="@((_tableVOC.GetFilteredItemsCount() + _tableVOC.RowsPerPage - 1) / _tableSales.RowsPerPage)" Class="pa-4" />
+                    </PagerContent>
+                    <PagerContent>
+                        <MudTablePager />
+                    </PagerContent>
+                </MudTable>
+            }
+            @if (oListTrnsFohrate?.Count > 0 && DialogFor == "FohRateMaster")
+            {
+                <MudTable Items="@oListTrnsFohrate" Class="table-setting" Dense="true" Hover="true" Bordered="true" Striped="true" Filter="new Func<TrnsFohrate,bool>(FilterFuncTrnsFohrate)" @ref="@_table5"
+                      Loading="@Loading" LoadingProgressColor="Color.Primary" T="TrnsFohrate" @bind-SelectedItem="oModelTrnsFohrate" RowClassFunc="@SelectedRowClassFuncFohRate" OnRowClick="RowClickEventFohRate">
+                    <ToolBarContent>
+                        <MudText Typo="Typo.h6">FOH Rate Master Data</MudText>
+                        <MudSpacer />
+                        <MudTextField T="string" @bind-Value="searchString6" Placeholder="Search" Variant="Variant.Text" Clearable="true" Immediate="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" />
+                    </ToolBarContent>
+                    <HeaderContent>
+                        <MudTh>Document No</MudTh>
+                        <MudTh>Document Date</MudTh>
+                        <MudTh>Document Name</MudTh>
+                        <MudTh>Cost Type</MudTh>
+                    </HeaderContent>
+                    <RowTemplate>
+                        <MudTd DataLabel="DocNum">@context.DocNum</MudTd>
+                        <MudTd DataLabel="DocDate">@context.DocDate</MudTd>
+                        <MudTd DataLabel="DocName">@context.DocName</MudTd>
+                        <MudTd DataLabel="Code">@context.FkcostTypeId</MudTd>
+                    </RowTemplate>
+                    <PagerContent>
+                        <MudPagination SelectedChanged="PageChanged" Count="@((_table5.GetFilteredItemsCount() + _table5.RowsPerPage - 1) / _table5.RowsPerPage)" Class="pa-4" />
+                    </PagerContent>
+                    <PagerContent>
+                        <MudTablePager />
+                    </PagerContent>
+                </MudTable>
+            }
+            @if (oListSalesQuotation?.Count > 0 && DialogFor == "SaveDataSalesQuotation")
+            {
+                <MudTable Items="@oListSalesQuotation" Class="table-setting" Dense="true" Hover="true" Bordered="true" Striped="true" Filter="new Func<TrnsSalesQuotation,bool>(FilterFuncSQ)" @ref="@_tableSQ"
+                      Loading="@Loading" LoadingProgressColor="Color.Primary" T="TrnsSalesQuotation" @bind-SelectedItem="oModelSQ" RowClassFunc="@SelectedRowClassFuncSQ" OnRowClick="RowClickEventSQ">
+                            <ToolBarContent>
+                                <MudText Typo="Typo.h6">Sales Quotation</MudText>
+                                <MudSpacer />
+                                <MudTextField T="string" @bind-Value="searchStringSQ" Placeholder="Search" Variant="Variant.Text" Clearable="true" Immediate="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" />
+                            </ToolBarContent>
+                            <HeaderContent>
+                                <MudTh>Doc Num</MudTh>
+                                <MudTh>Document Date</MudTh>
+                                <MudTh>Customer Code</MudTh>
+                                <MudTh>Customer Name</MudTh>
+                                <MudTh>Quotation Type</MudTh>
+                            </HeaderContent>
+                            <RowTemplate>
+                                <MudTd DataLabel="Code">@context.DocNum</MudTd>
+                                <MudTd DataLabel="Code">@context.DocDate</MudTd>
+                                <MudTd DataLabel="Code">@context.CustomerCode</MudTd>
+                                <MudTd DataLabel="Code">@context.CustomerName</MudTd>
+                                <MudTd DataLabel="Code">@context.CostTypeDesc</MudTd>
+                            </RowTemplate>
+                            <PagerContent>
+                                <MudPagination SelectedChanged="PageChanged" Count="@((_table.GetFilteredItemsCount() + _table.RowsPerPage - 1) / _table.RowsPerPage)" Class="pa-4" />
+                            </PagerContent>
+                            <PagerContent>
+                                <MudTablePager />
+                            </PagerContent>
+                        </MudTable>
+            }
+            @if (oListSalesQuotation?.Count > 0 && DialogFor == "SaveDataSalesQuotationCopyForm")
+            {
+                <MudTable Items="@oListSalesQuotation" Class="table-setting" Dense="true" Hover="true" Bordered="true" Striped="true" Filter="new Func<TrnsSalesQuotation,bool>(FilterFuncSQ)" @ref="@_tableSQ"
+                      Loading="@Loading" LoadingProgressColor="Color.Primary" T="TrnsSalesQuotation" @bind-SelectedItem="oModelSQ" RowClassFunc="@SelectedRowClassFuncSQ" OnRowClick="RowClickEventSQ">
+                            <ToolBarContent>
+                                <MudText Typo="Typo.h6">Sales Quotation</MudText>
+                                <MudSpacer />
+                                <MudTextField T="string" @bind-Value="searchStringSQ" Placeholder="Search" Variant="Variant.Text" Clearable="true" Immediate="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" />
+                            </ToolBarContent>
+                            <HeaderContent>
+                                <MudTh>Doc Num</MudTh>
+                                <MudTh>Document Date</MudTh>
+                                <MudTh>Customer Code</MudTh>
+                                <MudTh>Customer Name</MudTh>
+                                <MudTh>Quotation Type</MudTh>
+                            </HeaderContent>
+                            <RowTemplate>
+                                <MudTd DataLabel="Code">@context.DocNum</MudTd>
+                                <MudTd DataLabel="Code">@context.DocDate</MudTd>
+                                <MudTd DataLabel="Code">@context.CustomerCode</MudTd>
+                                <MudTd DataLabel="Code">@context.CustomerName</MudTd>
+                                <MudTd DataLabel="Code">@context.CostTypeDesc</MudTd>
+                            </RowTemplate>
+                            <PagerContent>
+                                <MudPagination SelectedChanged="PageChanged" Count="@((_table.GetFilteredItemsCount() + _table.RowsPerPage - 1) / _table.RowsPerPage)" Class="pa-4" />
+                            </PagerContent>
+                            <PagerContent>
+                                <MudTablePager />
+                            </PagerContent>
+                        </MudTable>
+            }
+        </MudContainer>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Submit">Ok</MudButton>
+    </DialogActions>
+</MudDialog>

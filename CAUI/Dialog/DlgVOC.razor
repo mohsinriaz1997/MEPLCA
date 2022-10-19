@@ -1,0 +1,414 @@
+﻿@using CA.API.Models
+<MudDialog>
+    <DialogContent>
+        @if (Loading)
+        {
+            <center><MudProgressCircular Color="Color.Primary" Size="Size.Large" Indeterminate="true" /></center>
+        }
+        @if (DialogFor == "VOCFinishedGoodsItem")
+        {
+            <MudTable FixedHeader="true" HorizontalScrollbar="true" Height="350px" Dense="true" Bordered="true" Filter="new Func<SAPModels,bool>(FilterFunc1)" Loading="@Loading" LoadingProgressColor="Color.Primary" @ref="@_table" Items="SAPModelsList" Hover="true" Striped="true" @bind-SelectedItem="oSAPModels" RowClassFunc="@SelectedRowClassFunc" OnRowClick="RowClickEvent" T="SAPModels">
+                <ToolBarContent>
+                    <MudText Typo="Typo.h6">SAP Finished Goods Items</MudText>
+                    <MudSpacer />
+                    <MudTextField @bind-Value="searchString1" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+                </ToolBarContent>
+                <HeaderContent>
+                    <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.ItemCode)">Item Code</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.ItemName)">Item Description</MudTableSortLabel></MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd>@context.ItemCode</MudTd>
+                    <MudTd>@context.ItemName</MudTd>
+                </RowTemplate>
+                <PagerContent>
+                    <MudPagination SelectedChanged="PageChanged" Count="@((_table.GetFilteredItemsCount() + _table.RowsPerPage - 1) / _table.RowsPerPage)" Class="pa-4" />
+                </PagerContent>
+                <PagerContent>
+                    <MudTablePager />
+                </PagerContent>
+            </MudTable>
+        }
+        @if (DialogFor == "VOCResourceMasterData")
+        {
+            <MudTable Items="@oResourceForVOCList" Class="table-setting" Dense="true" Hover="true" Bordered="true" Striped="true" Filter="new Func<MstResource,bool>(FilterFuncRes)" @ref="@_table1"
+                  Loading="@Loading" LoadingProgressColor="Color.Primary" T="MstResource" @bind-SelectedItem="oModelResourceForVOC" RowClassFunc="@SelectedRowClassFuncRes" OnRowClick="RowClickEventRes">
+                <ToolBarContent>
+                    <MudText Typo="Typo.h6">Resource Master Data</MudText>
+                    <MudSpacer />
+                    <MudTextField T="string" @bind-Value="searchString1" Placeholder="Search" Variant="Variant.Text" Clearable="true" Immediate="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" />
+                </ToolBarContent>
+                <HeaderContent>
+                    <MudTh>Doc Num</MudTh>
+                    <MudTh>Resource List Name</MudTh>
+                    <MudTh>Document Date</MudTh>
+                    <MudTh>Currency Exchange Rate</MudTh>
+                    <MudTh>Exchange Rate</MudTh>
+                    <MudTh>Default Resource Master</MudTh>
+                    <MudTh>In-Active</MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd DataLabel="Code">@context.DocNum</MudTd>
+                    <MudTd DataLabel="Code">@context.ResrListName</MudTd>
+                    <MudTd DataLabel="Code">@context.DocDate</MudTd>
+                    <MudTd DataLabel="Code">@context.CurrencySap</MudTd>
+                    <MudTd DataLabel="Code">@context.RateSap</MudTd>
+                    <MudTd DataLabel="Code">@context.FlgDefaultResrMst</MudTd>
+                    <MudTd DataLabel="Code">@context.FlgActive</MudTd>
+                </RowTemplate>
+                <PagerContent>
+                    <MudPagination SelectedChanged="PageChanged" Count="@((_table1.GetFilteredItemsCount() + _table1.RowsPerPage - 1) / _table1.RowsPerPage)" Class="pa-4" />
+                </PagerContent>
+                <PagerContent>
+                    <MudTablePager />
+                </PagerContent>
+            </MudTable>
+        }
+        @if (DialogFor == "VOCActivityTab")
+        {
+            <MudText Typo="Typo.h6">Activity</MudText>
+            <MudSpacer />
+            <MudDivider />
+            <MudGrid class="search-action-block align-items-center">
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudAutocomplete ToStringFunc="@(e=> e==null?null : $"{e.Description}")" T="MstActivityType" Label="Activity Type" @bind-Value="oModelActivityType" SearchFunc="@SearchActivityType" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" />
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField InputMode="InputMode.numeric" Immediate="true" Clearable="true" Label="Actual Time Cycle" Variant="Variant.Text"
+                                 Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="oModelVOCActivity.ActualTimeCycle" TextChanged="onChangeActivityCycleTimeSec">
+                    </MudNumericField>
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField InputMode="InputMode.numeric" Immediate="true" Clearable="true" Label="IncFactor Time Cycle" Variant="Variant.Text"
+                                 Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="oModelVOCActivity.IncFactor" TextChanged="onChangeActivityCycleTimeSec">
+                    </MudNumericField>
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField Style="font-weight:bold" InputMode="InputMode.numeric" Immediate="true" Label="Cycle Time Sec" Variant="Variant.Filled" ReadOnly="true"
+                                 Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="oModelVOCActivity.CycleTimeSec">
+                    </MudNumericField>
+                </MudItem>
+            </MudGrid>
+        }
+        @if (DialogFor == "VOCMachineTab")
+        {
+            <MudText Typo="Typo.h6">Machine</MudText>
+            <MudSpacer />
+            <MudDivider />
+            <MudGrid class="search-action-block align-items-center">
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudAutocomplete ToStringFunc="@(e=> e==null?null : $"{e.Description}")" T="MstActivityType" Label="Activity Type" @bind-Value="oModelActivityType" SearchFunc="@SearchActivityType" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" TextChanged="onChangeVOCMachineTypeCycleTimeSec" />
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudAutocomplete ToStringFunc="@(e=> e==null?null : $"{e.ResrDescription}")" T="MstResourceDetail" Label="Machine Type" @bind-Value="oModelResouceType" SearchFunc="@searchResourceDescriptionMachine" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" TextChanged="onChangeVOCMachineTypeCost" />
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField Style="font-weight:bold" InputMode="InputMode.numeric" Immediate="true" Label="Cost" Variant="Variant.Filled"
+                                 Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="mstVocMachineDetail.Cost" ReadOnly="true">
+                    </MudNumericField>
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField Style="font-weight:bold" InputMode="InputMode.numeric" Immediate="true" Label="Cycle Time (Sec) Time Cycle" Variant="Variant.Filled"
+                                 Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="mstVocMachineDetail.CycleTimeSec" ReadOnly="true" TextChanged="onChangeVOCMachineTypeNoofWorkerAndNos">
+                    </MudNumericField>
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField Style="font-weight:bold" InputMode="InputMode.numeric" Immediate="true" Label="No Of Workers" Variant="Variant.Filled"
+                                 Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="mstVocMachineDetail.NoOfWorkers" ReadOnly="true">
+                    </MudNumericField>
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField Style="font-weight:bold" InputMode="InputMode.numeric" Immediate="true" Label="Nos" Variant="Variant.Filled"
+                                 Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="mstVocMachineDetail.Nos" ReadOnly="true">
+                    </MudNumericField>
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField InputMode="InputMode.numeric" Immediate="true" Clearable="true" Label="Life Year" Variant="Variant.Text"
+                                 Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="mstVocMachineDetail.LifeYears" TextChanged="onChangeVOCMachineTabTotal">
+                    </MudNumericField>
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField Style="font-weight:bold" InputMode="InputMode.numeric" HelperText="Enter From Total " Immediate="true" Label="Total" Variant="Variant.Filled"
+                                 Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="mstVocMachineDetail.Total" ReadOnly="true">
+                    </MudNumericField>
+                </MudItem>
+            </MudGrid>
+        }
+        @if (DialogFor == "VOCLaborTab")
+        {
+            <MudText Typo="Typo.h6">Labor</MudText>
+            <MudSpacer />
+            <MudDivider />
+            <MudGrid class="search-action-block align-items-center">
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudAutocomplete ToStringFunc="@(e=> e==null?null : $"{e.Description}")" T="MstActivityType" Label="Activity Type" @bind-Value="oModelActivityType" SearchFunc="@SearchActivityType" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" TextChanged="onChangeVOCLaborTypeCycleTimeSec" />
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudAutocomplete ToStringFunc="@(e=> e==null?null : $"{e.Description}")" T="MstLabourRateDetail" Label="Labor Description" @bind-Value="oModelLabourRateDetail" SearchFunc="@searchLabourRateLabor" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" TextChanged="onChangeVOCLaborTypeWageRates" />
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField Style="font-weight:bold" InputMode="InputMode.numeric" Immediate="true" Label="Wage Rate" Variant="Variant.Filled"
+                                 Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="mstVocLaborDetail.WageRate" ReadOnly="true">
+                    </MudNumericField>
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField Style="font-weight:bold" InputMode="InputMode.numeric" Immediate="true" Label="Cost / Sec" Variant="Variant.Filled"
+                                 Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="mstVocLaborDetail.CostPerSec" ReadOnly="true" TextChanged="onChangeVOCMachineTypeNoofWorkerAndNos">
+                    </MudNumericField>
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField Style="font-weight:bold" InputMode="InputMode.numeric" Immediate="true" Label="Cycle Time (Sec)" Variant="Variant.Filled"
+                                 Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="mstVocLaborDetail.CycleTimeSec" ReadOnly="true">
+                    </MudNumericField>
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField Style="font-weight:bold" InputMode="InputMode.numeric" Immediate="true" Label="No. of Workers" Variant="Variant.Filled"
+                                 Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="mstVocLaborDetail.NoOfWorkers" ReadOnly="true">
+                    </MudNumericField>
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField Style="font-weight:bold" InputMode="InputMode.numeric" Immediate="true" Label="Total" Variant="Variant.Filled"
+                                 Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="mstVocLaborDetail.Total" ReadOnly="true">
+                    </MudNumericField>
+                </MudItem>
+            </MudGrid>
+        }
+        @if (DialogFor == "VOCElectricityTab")
+        {
+            <MudText Typo="Typo.h6">Electricity</MudText>
+            <MudSpacer />
+            <MudDivider />
+            <MudGrid class="search-action-block align-items-center">
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudAutocomplete ToStringFunc="@(e=> e==null?null : $"{e.Description}")" T="MstActivityType" Label="Activity Type" @bind-Value="oModelActivityType" SearchFunc="@SearchActivityType" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" TextChanged="onChangeVOCElectricityCycleTimeSec" />
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudAutocomplete ToStringFunc="@(e=> e==null?null : $"{e.ResrDescription}")" T="MstResourceDetail" Label="Machine Type" @bind-Value="oModelResouceType" SearchFunc="@searchResourceDescription" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" />
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField Style="font-weight:bold" InputMode="InputMode.numeric" Immediate="true" Label="No Of Workers" Variant="Variant.Filled"
+                                 Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="mstVocElecticcityDetail.NoOfWorkers" ReadOnly="true">
+                    </MudNumericField>
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField Style="font-weight:bold" InputMode="InputMode.numeric" Immediate="true" Clearable="true" Label="No Of Machine" Variant="Variant.Filled"
+                                 Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="mstVocElecticcityDetail.NoOfMachine" ReadOnly="true">
+                    </MudNumericField>
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField InputMode="InputMode.numeric" Immediate="true" Clearable="true" Label="Actual KW/Hour" Variant="Variant.Text" TextChanged="onChangeVOCElectricityKWPerHours"
+                                 Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="mstVocElecticcityDetail.ActualKwperHrs">
+                    </MudNumericField>
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField InputMode="InputMode.numeric" Immediate="true" Clearable="true" Label="Inc. Factor" Variant="Variant.Text" TextChanged="onChangeVOCElectricityKWPerHours"
+                                 Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="mstVocElecticcityDetail.IncFactor">
+                    </MudNumericField>
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField InputMode="InputMode.numeric" Immediate="true" Clearable="true" Label="KW/Hour" Variant="Variant.Filled" Style="font-weight:bold"
+                                 Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="mstVocElecticcityDetail.KwperHrs" ReadOnly="true">
+                    </MudNumericField>
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField InputMode="InputMode.numeric" Immediate="true" Clearable="true" Label="Rate / Unit" Variant="Variant.Text" TextChanged="onChangeVOCElectricityCostPerSec"
+                                 Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="mstVocElecticcityDetail.RatePerUnit">
+                    </MudNumericField>
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField InputMode="InputMode.numeric" Immediate="true" Clearable="true" Label="Cost / Sec" Variant="Variant.Filled" Style="font-weight:bold"
+                                 Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="mstVocElecticcityDetail.CostPerSec" ReadOnly="true">
+                    </MudNumericField>
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField InputMode="InputMode.numeric" Immediate="true" Clearable="true" Label="Total" Variant="Variant.Filled"
+                                 Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="mstVocElecticcityDetail.Total">
+                    </MudNumericField>
+                </MudItem>
+            </MudGrid>
+        }
+        @if (DialogFor == "VOCDyesAndMoldTab")
+        {
+            <MudText Typo="Typo.h6">Dyes & Mold</MudText>
+            <MudSpacer />
+            <MudDivider />
+            <MudGrid class="search-action-block align-items-center">
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudAutocomplete ToStringFunc="@(e=> e==null?null : $"{e.Description}")" T="MstActivityType" Label="Activity Type" @bind-Value="oModelActivityType" SearchFunc="@SearchActivityType" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" TextChanged="onChangeVOCDyesAndMoldCycleTimeSec" />
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudAutocomplete ToStringFunc="@(e=> e==null?null : $"{e.ResrDescription}")" T="MstResourceDetail" Label="Dyes & Mold Description" @bind-Value="oModelResouceType" SearchFunc="@searchResourceDescriptionDyes" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" TextChanged="onChangeVOCDyesAndMoldTypeCost" />
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField InputMode="InputMode.numeric" Immediate="true" Label="Cost" Variant="Variant.Filled" Style="font-weight:bold"
+                                 Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="mstVocDyesDetail.Cost" ReadOnly="true">
+                    </MudNumericField>
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField InputMode="InputMode.numeric" Immediate="true" Label="Cycle Time (Sec)" Variant="Variant.Filled"
+                                 Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="mstVocDyesDetail.CycleTimeSec" ReadOnly="true">
+                    </MudNumericField>
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField InputMode="InputMode.numeric" Immediate="true" Label="No Of Workers" Variant="Variant.Filled" Style="font-weight:bold"
+                                 Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="mstVocDyesDetail.NoOfWorkers" ReadOnly="true">
+                    </MudNumericField>
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField InputMode="InputMode.numeric" Immediate="true" Label="Nos" Variant="Variant.Filled" Style="font-weight:bold"
+                                 Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="mstVocDyesDetail.Nos" ReadOnly="true">
+                    </MudNumericField>
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField InputMode="InputMode.numeric" Immediate="true" Clearable="true" Label="Life Units" Variant="Variant.Text"
+                                 Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="mstVocDyesDetail.LifeUnit">
+                    </MudNumericField>
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField InputMode="InputMode.numeric" Immediate="true" Label="Total" Variant="Variant.Filled" Style="font-weight:bold"
+                                 Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="mstVocDyesDetail.Total" ReadOnly="true">
+                    </MudNumericField>
+                </MudItem>
+            </MudGrid>
+        }
+        @if (DialogFor == "VOCToolsTab")
+        {
+            <MudText Typo="Typo.h6">Tools</MudText>
+            <MudSpacer />
+            <MudDivider />
+            <MudGrid class="search-action-block align-items-center">
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudAutocomplete ToStringFunc="@(e=> e==null?null : $"{e.Description}")" T="MstActivityType" Label="Activity Type" @bind-Value="oModelActivityType" SearchFunc="@SearchActivityType" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" TextChanged="onChangeVOCToolsCycleTimeSec" />
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudAutocomplete ToStringFunc="@(e=> e==null?null : $"{e.ResrDescription}")" T="MstResourceDetail" Label="Tools Type Description" @bind-Value="oModelResouceType" SearchFunc="@searchResourceDescriptionTools" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" TextChanged="onChangeVOCToolsCost" />
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField InputMode="InputMode.numeric" Immediate="true" Label="Cost" Variant="Variant.Filled"
+                                 Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="mstVocToolsDetail.Cost" ReadOnly="true" Style="font-weight:bold">
+                    </MudNumericField>
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField InputMode="InputMode.numeric" Immediate="true" Label="Cycle Time (Sec)" Variant="Variant.Filled"
+                                 Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="mstVocToolsDetail.CycleTimeSec" ReadOnly="true" Style="font-weight:bold">
+                    </MudNumericField>
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField InputMode="InputMode.numeric" Immediate="true" Label="No Of Workers" Variant="Variant.Filled"
+                                 Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="mstVocToolsDetail.NoOfWorkers" ReadOnly="true" Style="font-weight:bold">
+                    </MudNumericField>
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField InputMode="InputMode.numeric" Immediate="true" Label="Nos" Variant="Variant.Filled"
+                                 Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="mstVocToolsDetail.Nos" ReadOnly="true" Style="font-weight:bold">
+                    </MudNumericField>
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField InputMode="InputMode.numeric" Immediate="true" Clearable="true" Label="Life Units" Variant="Variant.Text"
+                                 Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="mstVocToolsDetail.LifeUnit">
+                    </MudNumericField>
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField InputMode="InputMode.numeric" Immediate="true" Label="Total" Variant="Variant.Filled"
+                                 Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="mstVocToolsDetail.Total" ReadOnly="true" Style="font-weight:bold">
+                    </MudNumericField>
+                </MudItem>
+            </MudGrid>
+        }
+        @if (DialogFor == "VOCGasolineTab")
+        {
+            <MudText Typo="Typo.h6">Gasoline</MudText>
+            <MudSpacer />
+            <MudDivider />
+            <MudGrid class="search-action-block align-items-center">
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudAutocomplete ToStringFunc="@(e=> e==null?null : $"{e.Description}")" T="MstActivityType" Label="Activity Type" @bind-Value="oModelActivityType" SearchFunc="@SearchActivityType" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" TextChanged="onChangeVOCGasolineCycleTimeSec" />
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudAutocomplete ToStringFunc="@(e=> e==null?null : $"{e.ResrDescription}")" T="MstResourceDetail" Label="Gasoline" @bind-Value="oModelResouceType" SearchFunc="@searchResourceDescriptionGasoline" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" TextChanged="onChangeVOCGasolineCost" />
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField InputMode="InputMode.numeric" Immediate="true" Label="Cost" Variant="Variant.Filled"
+                                 Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="mstVocGasolineDetail.CycleTimeSec" ReadOnly="true" Style="font-weight:bold">
+                    </MudNumericField>
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField InputMode="InputMode.numeric" Immediate="true" Clearable="true" Label="Cycle Time (Sec)" Variant="Variant.Filled" ReadOnly="true" Style="font-weight:bold"
+                                 Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="mstVocGasolineDetail.CycleTimeSec">
+                    </MudNumericField>
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField InputMode="InputMode.numeric" Immediate="true" Label="No Of Workers" Variant="Variant.Filled" ReadOnly="true" Style="font-weight:bold"
+                                 Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="mstVocGasolineDetail.NoOfWorkers">
+                    </MudNumericField>
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField InputMode="InputMode.numeric" Immediate="true" Label="Nos" Variant="Variant.Filled" ReadOnly="true" Style="font-weight:bold"
+                                 Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="mstVocGasolineDetail.Nos">
+                    </MudNumericField>
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField InputMode="InputMode.numeric" Immediate="true" Clearable="true" Label="Life Units" Variant="Variant.Text"
+                                 Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="mstVocGasolineDetail.LifeUnit">
+                    </MudNumericField>
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField InputMode="InputMode.numeric" Immediate="true" Label="Total" Variant="Variant.Filled" ReadOnly="true" Style="font-weight:bold"
+                                 Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="mstVocGasolineDetail.Total">
+                    </MudNumericField>
+                </MudItem>
+            </MudGrid>
+        }
+        @if (oTrnsVoc?.Count > 0 && DialogFor == "VOCMaster")
+                {
+                    <MudTable Items="@oTrnsVoc" Class="table-setting" Dense="true" Hover="true" Bordered="true" Striped="true" Filter="new Func<TrnsVoc,bool>(FilterFuncVOC)" @ref="@_tableVOC"
+                      Loading="@Loading" LoadingProgressColor="Color.Primary" T="TrnsVoc" @bind-SelectedItem="oModelTrnsVoc" RowClassFunc="@SelectedRowClassFunVOC" OnRowClick="RowClickEventVOC">
+                        <ToolBarContent>
+                            <MudText Typo="Typo.h6">Variable Overhead Cost</MudText>
+                            <MudSpacer />
+                            <MudTextField T="string" @bind-Value="searchString10" Placeholder="Search" Variant="Variant.Text" Clearable="true" Immediate="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" />
+                        </ToolBarContent>
+                        <HeaderContent>
+                            <MudTh>Doc Num</MudTh>
+                            <MudTh>Doc Date</MudTh>                                                        
+                            <MudTh>Doc Name</MudTh>                                                        
+                            <MudTh>Product Code</MudTh>                                                        
+                            <MudTh>Product Name</MudTh>                                                        
+                            <MudTh>Per Day Shift Hour</MudTh>                                                        
+                            <MudTh>Working Days</MudTh>                                                        
+                            <MudTh>Number Of Shifts</MudTh>                                                        
+                            <MudTh>Monthly Volume</MudTh>                                                        
+                            <MudTh>Resource Doc Num</MudTh>                                                        
+                            <MudTh>Cost Type</MudTh>                                                        
+                            <MudTh>Default</MudTh>                                                        
+                            <MudTh>For Analysis</MudTh>                                                        
+                        </HeaderContent>
+                        <RowTemplate>
+                            <MudTd DataLabel="DocNum">@context.DocNum</MudTd>
+                            <MudTd DataLabel="DocDate">@context.DocDate</MudTd>                            
+                            <MudTd DataLabel="DocDate">@context.DocName</MudTd>                            
+                            <MudTd DataLabel="ProductCode">@context.ProductCode</MudTd>                            
+                            <MudTd DataLabel="ProductName">@context.ProductName</MudTd>                            
+                            <MudTd DataLabel="ProductName">@context.PerDayShiftHrs</MudTd>                            
+                            <MudTd DataLabel="ProductName">@context.WorkingDays</MudTd>                            
+                            <MudTd DataLabel="ProductName">@context.NoOfShift</MudTd>                            
+                            <MudTd DataLabel="ProductName">@context.MonthlyVolume</MudTd>                            
+                            <MudTd DataLabel="ProductName">@context.FkresourceDocNum</MudTd>                            
+                            <MudTd DataLabel="ProductName">@context.CostTypeDesc</MudTd>                            
+                            <MudTd DataLabel="ProductName">@context.FlgDefault</MudTd>                            
+                            <MudTd DataLabel="ProductName">@context.ForAnalysis</MudTd>                            
+                         </RowTemplate>  
+                        <PagerContent>
+                            <MudPagination SelectedChanged="PageChanged" Count="@((_tableVOC.GetFilteredItemsCount() + _tableVOC.RowsPerPage - 1) / _tableVOC.RowsPerPage)" Class="pa-4" />
+                        </PagerContent>
+                        <PagerContent>
+                            <MudTablePager />
+                        </PagerContent>
+                    </MudTable>
+                }
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Submit">Ok</MudButton>
+    </DialogActions>
+</MudDialog>

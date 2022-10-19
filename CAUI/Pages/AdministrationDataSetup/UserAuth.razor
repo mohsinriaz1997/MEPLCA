@@ -1,0 +1,88 @@
+﻿@page "/UserAuth"
+@using CA.API.Models
+
+<div class="input-field-setting">
+    <h3>User Authorization</h3>
+    <MudDivider />
+    @if (Loading)
+    {
+        <MudProgressLinear Color="Color.Primary" Indeterminate="true" Class="my-7" />
+    }
+    <div class="row mt-5">
+        @if (false)
+        {
+            <div class="col-md-4 col-sm-6">
+                <MudTextField Required="true" Disabled="true"  @bind-Value="oUser.Id" InputMode="InputMode.text" Immediate="true" Label="User ID" Variant="Variant.Text"
+                              Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+            </div>
+        }
+        <div class="col-md-4 col-sm-6">
+            <MudTextField Style="font-weight:bold" TextChanged="FetchUserAuth" @bind-Value="oUser.UserCode" InputMode="InputMode.text" Immediate="true" Label="User Code" Variant="Variant.Filled" ReadOnly="true"
+                          Adornment="Adornment.Start" AdornmentIcon="@Icons.Filled.AddToPhotos" AdornmentColor="Color.Info" OnAdornmentClick="@((e) => OpenAddDialog(FullView))" />
+        </div>
+        <div class="custom-btn-design">
+            <MudFab StartIcon="@Icons.Filled.ContentCopy"  Label="Copy Authorization" Variant="Variant.Outlined" OnClick="@((e) => OpenCopyDialog(FullView))" />
+           
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-sm-12">
+            <MudTable Items="@oVmListTable"
+                      GroupHeaderStyle="background-color:var(--mud-palette-background-grey)"
+                      GroupFooterClass="mb-4" Breakpoint="Breakpoint.Sm" Height="500px" FixedHeader="true" class="table-spacing" LoadingProgressColor="Color.Info">
+                <ColGroup>
+                    <col />
+                    <col style="width: 100px;" />
+                </ColGroup>
+                <HeaderContent>
+                    <MudTh>Menu Name</MudTh>
+                    <MudTh>Rights</MudTh>
+                </HeaderContent>
+                <GroupHeaderTemplate>
+                    <MudTh Class="mud-table-cell-custom-group" colspan="5">@($"{context.GroupName}: {context.Key}")</MudTh>
+                    </GroupHeaderTemplate>
+                    <RowTemplate>
+                    @if (context.ID == 1 || context.ID == 9 || context.ID == 18)
+                    {
+                        <MudTd DataLabel="Menu Name"><b style="font-size:22px !important;">@context.MenuParent</b></MudTd>
+                        <MudDivider />
+                    }
+                    else
+                    {
+                        @if (@context.RightsValue == 1)
+                        {
+                            <MudTd Style="color:#FA5B3F" DataLabel="Menu Name">@context.MenuChild</MudTd>
+                        }
+                        else
+                        {
+                            <MudTd  Style="color:#64A450" DataLabel="Menu Name">@context.MenuChild</MudTd>
+                        }            
+                        <MudTd DataLabel="Rights">
+                            <MudSelect  @bind-Value="@context.RightsValue" Label="Select Rights" Variant="Variant.Outlined" OffsetY="true" Margin="Margin.Dense">
+                                <MudSelectItem Value="1">No Authorization</MudSelectItem>
+                                <MudSelectItem Value="2">Full Authorization</MudSelectItem>
+                            </MudSelect>
+                        </MudTd>
+                    }
+                </RowTemplate>
+            </MudTable>
+        </div>
+    </div>
+    <div class="row mt-5 justify-content-start">
+        <div class="col-md-2 text-left custom-btn-design">
+            <MudButton Variant="Variant.Filled" Disabled="@Loading" ButtonType="ButtonType.Submit" Size="Size.Medium" @onclick="@SaveUserAuthorization"
+                       Class="ma-2 w-100 mud-fab mud-fab-primary" EndIcon="@Icons.Material.Sharp.Save" Style="border-radius:25px;">
+                @if (Loading)
+                {
+                    <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
+                    <MudText Class="ms-2">Loading</MudText>
+                }
+                else
+                {
+                    <MudText>Save</MudText>
+                }
+            </MudButton>
+        </div>
+    </div>
+</div>

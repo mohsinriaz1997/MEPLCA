@@ -1,0 +1,544 @@
+﻿@page "/MonthlyVOHCalculation"
+@using CA.API.Models
+@using CA.UI.General
+<div class="container-fluid page-content-setting">
+    <div class="row">
+        <div class="col-sm-11">
+            <h3>Monthly VOH Calculation</h3>
+            <MudDivider />
+        </div>
+        @*<div class="col-sm-1">
+        <MudFab Color="Color.Primary" OnClick="@((e) => OpenDialog(FullView))" StartIcon="@Icons.Material.Filled.List" Title="View All" />
+        </div>*@
+    </div>
+    <div class="row mt-5">
+        <div class="col-sm-12">
+            <MudGrid class="block-design">
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudTextField @bind-Value="oModel.DocNum" InputMode="InputMode.text" Immediate="true" Clearable="true" Label="Doc Number" Variant="Variant.Text"
+                                  Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" disabled />
+                </MudItem>
+                @* <MudItem xs="4" sm="4" md="4" lg="4">
+                <MudDatePicker @bind-Date="oModel.DocDate" PickerVariant="PickerVariant.Dialog" Label="Doc Date" HelperText="Doc Date"
+                DateFormat="dd/MM/yyyy" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.CalendarMonth" PickerClosed="OnDateChange" />
+                </MudItem>*@
+                @*<MudItem xs="4" sm="4" md="4" lg="4">
+                <MudTextField @bind-Value="oModel.Lyear" InputMode="InputMode.text" Immediate="true" Clearable="true" Label="Yaer" Variant="Variant.Text"
+                Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                </MudItem>*@
+                <MudItem xs="4" sm="4" md="4" lg="4">
+
+                    <MudAutocomplete ToStringFunc="@(e=> e==null?null : $"{e.year}")" T="YearModel" Label="Year" @bind-Value="oYearModel" SearchFunc="@DateChange" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" />
+                </MudItem>
+                <MudSelect xs="4" sm="4" md="4" lg="4" T="string" @bind-Value="@oModel.Lmonth" Label="Type" Variant="Variant.Text" AnchorOrigin="Origin.BottomCenter">
+                    <MudSelectItem Value="@("1")" />
+                    <MudSelectItem Value="@("2")" />
+                    <MudSelectItem Value="@("3")" />
+                    <MudSelectItem Value="@("4")" />
+                    <MudSelectItem Value="@("5")" />
+                    <MudSelectItem Value="@("6")" />
+                    <MudSelectItem Value="@("7")" />
+                    <MudSelectItem Value="@("8")" />
+                    <MudSelectItem Value="@("9")" />
+                    <MudSelectItem Value="@("10")" />
+                    <MudSelectItem Value="@("11")" />
+                    <MudSelectItem Value="@("12")" />
+
+                </MudSelect>
+
+                @*                <MudItem xs="4" sm="4" md="4" lg="4">
+                <MudTextField @bind-Value="oModel.Lmonth" InputMode="InputMode.text" Immediate="true" Clearable="true" Label="Month" Variant="Variant.Text"
+                Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                </MudItem>*@
+
+                <MudItem xs="12" sm="12" md="12" lg="12">
+
+                
+                @if (Loading)
+                {
+                    <MudItem xs="2" sm="2" md="2" lg="2" class="text-right">
+                        <MudText>Loading...</MudText>
+                        <MudProgressLinear Color="Color.Primary" Indeterminate="true" Class="my-7" />
+                    </MudItem>
+                }
+                else
+                {
+                    <MudItem xs="12" sm="12" md="12" lg="12" class="text-right custom-btn-design">
+                            <MudButton Variant="Variant.Filled" OnClick="Save" StartIcon="@Icons.Material.Filled.Save" Color="Color.Info" Size="Size.Small">Save</MudButton>
+                            <MudButton Variant="Variant.Filled" OnClick="Reset" StartIcon="@Icons.Material.Filled.Refresh" Color="Color.Error">Reset</MudButton>
+
+                       @* <MudFab Color="Color.Primary" OnClick="Save" StartIcon="@Icons.Material.Filled.Save" Title="Save" IconSize="Size.Small" />
+                        <MudFab Color="Color.Info" OnClick="Reset" StartIcon="@Icons.Material.Filled.Refresh" Title="Refresh" IconSize="Size.Small" />*@
+
+                    </MudItem>
+                }
+                </MudItem>
+            </MudGrid>
+            <div class="row mt-5">
+                <div class="col-sm-12">
+                    <MudCard Elevation="5">
+                        <MudCardContent>
+                            <MudGrid class="search-action-block align-items-center">
+                                <MudItem xs="10" sm="10" md="10" lg="10" Class="pb-4">
+                                    <MudText Typo="Typo.h6">Grid Machine VOH Row Level</MudText>
+                                </MudItem>
+                                <MudSpacer />
+                                <MudItem xs="2" sm="2" md="2" lg="2" Class="text-right custom-btn-design" style="justify-content: flex-end;">
+
+                                    <MudButton Variant="Variant.Filled" OnClick="@((e) => OpenSapDataDialogFGItemForMonthlyVOHMachine(FullView,oModel))" StartIcon="@Icons.Material.Filled.Add" Color="Color.Success" Size="Size.Small">Add Details</MudButton>
+                                    @*<MudFab Color="Color.Primary" OnClick="@((e) => OpenSapDataDialogFGItemForMonthlyVOHMachine(FullView,oModel))" StartIcon="@Icons.Material.Filled.Add" Title="Add Details" IconSize="Size.Small" />*@
+
+
+                                </MudItem>
+                            </MudGrid>
+                            @*<MudTable Items="@oDetailMachineList" Class="table-setting" Dense="true" Hover="true" Bordered="true" Striped="true">*@
+                            <MudTable Filter="new Func<TrnsVohmachineDetail,bool>(FilterFunc)" MultiSelection="false" SortLabel="Sort By" CommitEditTooltip="Save" CancelEditTooltip="Cancel"
+                                      OnCommitEditClick="@(() => Snackbar.Add("Commit Edit Handler Invoked"))" RowEditPreview="BackupItem" RowEditCancel="ResetItemToOriginalValues"
+                                      RowEditCommit="ItemHasBeenCommitted" IsEditRowSwitchingBlocked="@blockSwitch" CanCancelEdit="true" @bind-SelectedItems="selectedItems1" Items="@oDetailMachineList" Class="table-setting" Dense="true" Hover="true" Bordered="true" Striped="true">
+
+                                <HeaderContent>
+                                    <MudTh>Product Code</MudTh>
+                                    <MudTh>Product Name</MudTh>
+                                    <MudTh>Machine V.O.H Rate</MudTh>
+                                    <MudTh>Machine V.O.H Ammount</MudTh>
+
+                                </HeaderContent>
+                                <RowTemplate>
+                                    <MudTd DataLabel="ProductCode">@context.ProductCode</MudTd>
+                                    <MudTd DataLabel="ProductName">@context.ProductName</MudTd>
+                                    <MudTd DataLabel="MachineVohrate">@context.MachineVohrate</MudTd>
+                                    <MudTd DataLabel="MachineVohamount">@context.MachineVohamount</MudTd>
+
+
+
+                                </RowTemplate>
+                                <RowEditingTemplate>
+                                    <MudTd DataLabel="ProductCode">@context.ProductCode</MudTd>
+                                    <MudTd DataLabel="ProductName">
+                                        <MudTextField @bind-Value="@context.ProductName" />
+                                    </MudTd>
+                                    <MudTd DataLabel="MachineVohrate">
+                                        <MudTextField @bind-Value="@context.MachineVohrate" />
+                                    </MudTd>
+                                    <MudTd DataLabel="MachineVohamount">
+                                        <MudTextField @bind-Value="@context.MachineVohamount" />
+                                    </MudTd>
+                                    <MudExpansionPanels Style="flex: 1;">
+                                        <MudExpansionPanel Text="Show inline-edit event log">
+                                            @foreach (var message in editEvents)
+                                            {
+                                                <MudText>@message</MudText>
+                                            }
+
+                                        </MudExpansionPanel>
+                                    </MudExpansionPanels>
+                                </RowEditingTemplate>
+                                <PagerContent>
+                                    <MudTablePager />
+                                </PagerContent>
+                            </MudTable>
+                        </MudCardContent>
+                    </MudCard>
+                </div>
+            </div>
+            @*<div class="row mt-5">
+            <div class="col-sm-12">
+            <MudCard Elevation="5">
+            <MudCardContent>
+            <MudGrid class="search-action-block align-items-center">
+            <MudItem xs="10" sm="10" md="10" lg="10" Class="pl-5 pb-4">
+            <MudText Typo="Typo.h6">Machine VOH Row Level</MudText>
+            </MudItem>
+            <MudSpacer />
+            <MudItem xs="1" sm="1" md="1" lg="1" Class="text-right pr-5 pb-4">
+            <MudFab Color="Color.Primary" OnClick="@((e) => OpenAddDialog(FullView))" StartIcon="@Icons.Material.Filled.Add" Title="Add Details" IconSize="Size.Small" />
+            </MudItem>
+            </MudGrid>
+            <MudTable Items="@oDetailMachineList" Class="table-setting" Dense="true" Hover="true" Bordered="true" Striped="true">
+            <HeaderContent>
+            <MudTh>Product Code</MudTh>
+            <MudTh>Product Name</MudTh>
+            <MudTh>Machine V.O.H Rate</MudTh>
+            <MudTh>Machine V.O.H Amount</MudTh>
+
+            <MudTh>Action</MudTh>
+            </HeaderContent>
+            <RowTemplate>
+            <MudTd DataLabel="ProductCode">@context.ProductCode</MudTd>
+            <MudTd DataLabel="ProductName">@context.ProductName</MudTd>
+            <MudTd DataLabel="MachineVohrate">@context.MachineVohrate</MudTd>
+            <MudTd DataLabel="MachineVohamount">@context.MachineVohamount</MudTd>
+
+
+            <MudTd DataLabel="Action">
+            <MudIconButton Color="Color.Primary" Variant="Variant.Outlined" Icon="@Icons.Material.Filled.Edit" OnClick="@((e) => OpenEditDialog(FullView, context))" Title="Edit"></MudIconButton>
+            <MudIconButton Color="Color.Primary" Variant="Variant.Outlined" Icon="@Icons.Material.Filled.Delete" OnClick="@((e) => RemoveRecord(context.TypeOfResr,context.ResrDescription,context.CurrCodeSap,context.CurrNameSap,context.Rate,context.Price,context.Cost))" Title="Delete"></MudIconButton>
+            </MudTd>
+            </RowTemplate>
+            <PagerContent>
+            <MudTablePager />
+            </PagerContent>
+            </MudTable>
+            </MudCardContent>
+            </MudCard>
+            </div>
+            </div>*@
+            <div class="row mt-5">
+                <div class="col-sm-12">
+                    <MudCard Elevation="5">
+                        <MudCardContent>
+                            <MudGrid class="search-action-block align-items-center">
+                                <MudItem xs="10" sm="10" md="10" lg="10" Class=" pb-4">
+                                    <MudText Typo="Typo.h6">Grid Labor VOH Row Level</MudText>
+                                </MudItem>
+                                <MudSpacer />
+                                <MudItem xs="2" sm="2" md="2" lg="2" Class="text-right custom-btn-design" style="justify-content: flex-end;">
+                                    <MudButton Variant="Variant.Filled" OnClick="@((e) => OpenSapDataDialogFGItemForMonthlyVOHLabor(FullView,oModel))" StartIcon="@Icons.Material.Filled.Add" Color="Color.Success" Size="Size.Small">Add Details</MudButton>
+                                    @*<MudFab Color="Color.Primary" OnClick="@((e) => OpenSapDataDialogFGItemForMonthlyVOHLabor(FullView,oModel))" StartIcon="@Icons.Material.Filled.Add" Title="Add Details" IconSize="Size.Small" />*@
+                                </MudItem>
+                            </MudGrid>
+
+                            <MudTable Filter="new Func<TrnsVohlabourDetail,bool>(FilterFuncLabor)" MultiSelection="false" SortLabel="Sort By" CommitEditTooltip="Save" CancelEditTooltip="Cancel"
+                                      OnCommitEditClick="@(() => Snackbar.Add("Commit Edit Handler Invoked"))" RowEditPreview="BackupItemLabour" RowEditCancel="ResetItemToOriginalValuesLabour"
+                                      RowEditCommit="ItemHasBeenCommittedLabour" IsEditRowSwitchingBlocked="@blockSwitchLabour" CanCancelEdit="true" @bind-SelectedItems="selectedItemsLabour" Items="@oDetailLaborList" Class="table-setting" Dense="true" Hover="true" Bordered="true" Striped="true">
+
+                                <HeaderContent>
+                                    <MudTh>Product Code</MudTh>
+                                    <MudTh>Product Name</MudTh>
+                                    <MudTh>Labor V.O.H Rate</MudTh>
+                                    <MudTh>Labor V.O.H Amount</MudTh>
+                                </HeaderContent>
+                                <RowTemplate>
+                                    <MudTd DataLabel="ProductCode">@context.ProductCode</MudTd>
+                                    <MudTd DataLabel="ProductName">@context.ProductName</MudTd>
+                                    <MudTd DataLabel="LabourVohrate">@context.LabourVohrate</MudTd>
+                                    <MudTd DataLabel="LabourVohamount">@context.LabourVohamount</MudTd>
+                                </RowTemplate>
+                                <RowEditingTemplate>
+                                    <MudTd DataLabel="ProductCode">@context.ProductCode</MudTd>
+                                    <MudTd DataLabel="ProductName">
+                                        <MudTextField @bind-Value="@context.ProductName" />
+                                    </MudTd>
+                                    <MudTd DataLabel="LabourVohrate">
+                                        <MudTextField @bind-Value="@context.LabourVohrate" />
+                                    </MudTd>
+                                    <MudTd DataLabel="LabourVohamount">
+                                        <MudTextField @bind-Value="@context.LabourVohamount" />
+                                    </MudTd>
+                                    <MudExpansionPanels Style="flex: 1;">
+
+                                    </MudExpansionPanels>
+                                </RowEditingTemplate>
+                                <PagerContent>
+                                    <MudTablePager />
+                                </PagerContent>
+                            </MudTable>
+                        </MudCardContent>
+                    </MudCard>
+                </div>
+            </div>
+            @*<div class="row mt-5">
+            <div class="col-sm-12">
+            <MudCard Elevation="5">
+            <MudCardContent>
+            <MudGrid class="search-action-block align-items-center">
+            <MudItem xs="10" sm="10" md="10" lg="10" Class="pl-5 pb-4">
+            <MudText Typo="Typo.h6">Labor VOH Row Level</MudText>
+            </MudItem>
+            <MudSpacer />
+            <MudItem xs="1" sm="1" md="1" lg="1" Class="text-right pr-5 pb-4">
+            <MudFab Color="Color.Primary" OnClick="@((e) => OpenAddDialogLabor(FullView))" StartIcon="@Icons.Material.Filled.Add" Title="Add Details" IconSize="Size.Small" />
+            </MudItem>
+            </MudGrid>
+            <MudTable Items="@oDetailLaborList" Class="table-setting" Dense="true" Hover="true" Bordered="true" Striped="true">
+            <HeaderContent>
+            <MudTh>Product Code</MudTh>
+            <MudTh>Product Name</MudTh>
+            <MudTh>Labor V.O.H Rate</MudTh>
+            <MudTh>Labor V.O.H Amount</MudTh>
+
+            <MudTh>Action</MudTh>
+            </HeaderContent>
+            <RowTemplate>
+            <MudTd DataLabel="ProductCode">@context.ProductCode</MudTd>
+            <MudTd DataLabel="ProductName">@context.ProductName</MudTd>
+            <MudTd DataLabel="LabourVohrate">@context.LabourVohrate</MudTd>
+            <MudTd DataLabel="LabourVohamount">@context.LabourVohamount</MudTd>
+
+
+            <MudTd DataLabel="Action">
+            <MudIconButton Color="Color.Primary" Variant="Variant.Outlined" Icon="@Icons.Material.Filled.Edit" OnClick="@((e) => OpenEditDialog(FullView, context))" Title="Edit"></MudIconButton>
+            <MudIconButton Color="Color.Primary" Variant="Variant.Outlined" Icon="@Icons.Material.Filled.Delete" OnClick="@((e) => RemoveRecord(context.TypeOfResr,context.ResrDescription,context.CurrCodeSap,context.CurrNameSap,context.Rate,context.Price,context.Cost))" Title="Delete"></MudIconButton>
+            </MudTd>
+            </RowTemplate>
+            <PagerContent>
+            <MudTablePager />
+            </PagerContent>
+            </MudTable>
+            </MudCardContent>
+            </MudCard>
+            </div>
+            </div>*@
+            <div class="row mt-5">
+                <div class="col-sm-12">
+                    <MudCard Elevation="5">
+                        <MudCardContent>
+                            <MudGrid class="search-action-block align-items-center">
+                                <MudItem xs="10" sm="10" md="10" lg="10" Class=" pb-4">
+                                    <MudText Typo="Typo.h6">Grid Electricity VOH Row Level</MudText>
+                                </MudItem>
+                                <MudSpacer />
+                                <MudItem xs="2" sm="2" md="2" lg="2" Class="text-right custom-btn-design" style="justify-content: flex-end;">
+                                    <MudButton Variant="Variant.Filled" OnClick="@((e) => OpenAddDialog(FullView))" StartIcon="@Icons.Material.Filled.Add" Color="Color.Success" Size="Size.Small">Add Details</MudButton>
+                                   @* <MudFab Color="Color.Primary" OnClick="@((e) => OpenSapDataDialogFGItemForMonthlyVOHElectricty(FullView,oModel))" StartIcon="@Icons.Material.Filled.Add" Title="Add Details" IconSize="Size.Small" />*@
+                                </MudItem>
+                            </MudGrid>
+
+                            <MudTable Filter="new Func<TrnsVohelectricityDetail,bool>(FilterFuncElectricity)" MultiSelection="false" SortLabel="Sort By" CommitEditTooltip="Save" CancelEditTooltip="Cancel"
+                                      OnCommitEditClick="@(() => Snackbar.Add("Commit Edit Handler Invoked"))" RowEditPreview="BackupItemElectricity" RowEditCancel="ResetItemToOriginalValuesElectricity"
+                                      RowEditCommit="ItemHasBeenCommittedElectricity" IsEditRowSwitchingBlocked="@blockSwitchElectricity" CanCancelEdit="true" @bind-SelectedItems="selectedItemsElectricity" Items="@oDetailElecticityList" Class="table-setting" Dense="true" Hover="true" Bordered="true" Striped="true">
+
+                                <HeaderContent>
+                                    <MudTh>Product Code</MudTh>
+                                    <MudTh>Product Name</MudTh>
+                                    <MudTh>Electricity V.O.H Rate</MudTh>
+                                    <MudTh>Electricity V.O.H Amount</MudTh>
+                                </HeaderContent>
+                                <RowTemplate>
+                                    <MudTd DataLabel="ProductCode">@context.ProductCode</MudTd>
+                                    <MudTd DataLabel="ProductName">@context.ProductName</MudTd>
+                                    <MudTd DataLabel="ElectricityVohrate">@context.ElectricityVohrate</MudTd>
+                                    <MudTd DataLabel="ElectricityVohamount">@context.ElectricityVohamount</MudTd>
+                                </RowTemplate>
+                                <RowEditingTemplate>
+                                    <MudTd DataLabel="ProductCode">@context.ProductCode</MudTd>
+                                    <MudTd DataLabel="ProductName">
+                                        <MudTextField @bind-Value="@context.ProductName" />
+                                    </MudTd>
+                                    <MudTd DataLabel="ElectricityVohrate">
+                                        <MudTextField @bind-Value="@context.ElectricityVohrate" />
+                                    </MudTd>
+                                    <MudTd DataLabel="ElectricityVohamount">
+                                        <MudTextField @bind-Value="@context.ElectricityVohamount" />
+                                    </MudTd>
+                                    <MudExpansionPanels Style="flex: 1;">
+
+                                    </MudExpansionPanels>
+                                </RowEditingTemplate>
+                                <PagerContent>
+                                    <MudTablePager />
+                                </PagerContent>
+                            </MudTable>
+                        </MudCardContent>
+                    </MudCard>
+                </div>
+            </div>
+            @*<div class="row mt-5">
+            <div class="col-sm-12">
+            <MudCard Elevation="5">
+            <MudCardContent>
+            <MudGrid class="search-action-block align-items-center">
+            <MudItem xs="10" sm="10" md="10" lg="10" Class="pl-5 pb-4">
+            <MudText Typo="Typo.h6">Electricity VOH Row Level</MudText>
+            </MudItem>
+            <MudSpacer />
+            <MudItem xs="1" sm="1" md="1" lg="1" Class="text-right pr-5 pb-4">
+            <MudFab Color="Color.Primary" OnClick="@((e) => OpenAddDialogElectricity(FullView))" StartIcon="@Icons.Material.Filled.Add" Title="Add Details" IconSize="Size.Small" />
+            </MudItem>
+            </MudGrid>
+            <MudTable Items="@oDetailElecticityList" Class="table-setting" Dense="true" Hover="true" Bordered="true" Striped="true">
+            <HeaderContent>
+            <MudTh>Product Code</MudTh>
+            <MudTh>Product Name</MudTh>
+            <MudTh>Electricity V.O.H Rate</MudTh>
+            <MudTh>Electricity V.O.H Amount</MudTh>
+
+            <MudTh>Action</MudTh>
+            </HeaderContent>
+            <RowTemplate>
+            <MudTd DataLabel="ProductCode">@context.ProductCode</MudTd>
+            <MudTd DataLabel="ProductName">@context.ProductName</MudTd>
+            <MudTd DataLabel="DriverValue">@context.ElectricityVohrate</MudTd>
+            <MudTd DataLabel="FohdistributionCost">@context.ElectricityVohamount</MudTd>
+
+
+            <MudTd DataLabel="Action">
+            <MudIconButton Color="Color.Primary" Variant="Variant.Outlined" Icon="@Icons.Material.Filled.Edit" OnClick="@((e) => OpenEditDialog(FullView, context))" Title="Edit"></MudIconButton>
+            <MudIconButton Color="Color.Primary" Variant="Variant.Outlined" Icon="@Icons.Material.Filled.Delete" OnClick="@((e) => RemoveRecord(context.TypeOfResr,context.ResrDescription,context.CurrCodeSap,context.CurrNameSap,context.Rate,context.Price,context.Cost))" Title="Delete"></MudIconButton>
+            </MudTd>
+            </RowTemplate>
+            <PagerContent>
+            <MudTablePager />
+            </PagerContent>
+            </MudTable>
+            </MudCardContent>
+            </MudCard>
+            </div>
+            </div>*@
+            <div class="row mt-5">
+                <div class="col-sm-12">
+                    <MudCard Elevation="5">
+                        <MudCardContent>
+                            <MudGrid class="search-action-block align-items-center">
+                                <MudItem xs="10" sm="10" md="10" lg="10" Class=" pb-4">
+                                    <MudText Typo="Typo.h6">Grid Dyes VOH Row Level</MudText>
+                                </MudItem>
+                                <MudSpacer />
+                                <MudItem xs="2" sm="2" md="2" lg="2" Class="text-right custom-btn-design" style="justify-content: flex-end;">
+                                    <MudButton Variant="Variant.Filled" OnClick="@((e) => OpenSapDataDialogFGItemForMonthlyVOHDyes(FullView,oModel))" StartIcon="@Icons.Material.Filled.Add" Color="Color.Success" Size="Size.Small">Add Details</MudButton>
+                                    @*<MudFab Color="Color.Primary" OnClick="@((e) => OpenSapDataDialogFGItemForMonthlyVOHDyes(FullView,oModel))" StartIcon="@Icons.Material.Filled.Add" Title="Add Details" IconSize="Size.Small" />*@
+                                </MudItem>
+                            </MudGrid>
+
+                            <MudTable Filter="new Func<TrnsVohdyesAndMoldDetail,bool>(FilterFuncDyes)" MultiSelection="false" SortLabel="Sort By" CommitEditTooltip="Save" CancelEditTooltip="Cancel"
+                                      OnCommitEditClick="@(() => Snackbar.Add("Commit Edit Handler Invoked"))" RowEditPreview="BackupItemDyes" RowEditCancel="ResetItemToOriginalValuesDyes"
+                                      RowEditCommit="ItemHasBeenCommittedDyes" IsEditRowSwitchingBlocked="@blockSwitchDyes" CanCancelEdit="true" @bind-SelectedItems="selectedItemsDyes" Items="@oDetailDyesList" Class="table-setting" Dense="true" Hover="true" Bordered="true" Striped="true">
+
+                                <HeaderContent>
+                                    <MudTh>Product Code</MudTh>
+                                    <MudTh>Product Name</MudTh>
+                                    <MudTh>Dyes V.O.H Rate</MudTh>
+                                    <MudTh>Dyes V.O.H Amount</MudTh>
+                                </HeaderContent>
+                                <RowTemplate>
+                                    <MudTd DataLabel="ProductCode">@context.ProductCode</MudTd>
+                                    <MudTd DataLabel="ProductName">@context.ProductName</MudTd>
+                                    <MudTd DataLabel="DyesAndMoldVohrate">@context.DyesAndMoldVohrate</MudTd>
+                                    <MudTd DataLabel="DyesAndMoldVohamount">@context.DyesAndMoldVohamount</MudTd>
+                                </RowTemplate>
+                                <RowEditingTemplate>
+                                    <MudTd DataLabel="ProductCode">@context.ProductCode</MudTd>
+                                    <MudTd DataLabel="ProductName">
+                                        <MudTextField @bind-Value="@context.ProductName" />
+                                    </MudTd>
+                                    <MudTd DataLabel="DyesAndMoldVohrate">
+                                        <MudTextField @bind-Value="@context.DyesAndMoldVohrate" />
+                                    </MudTd>
+                                    <MudTd DataLabel="DyesAndMoldVohamount">
+                                        <MudTextField @bind-Value="@context.DyesAndMoldVohamount" />
+                                    </MudTd>
+                                    <MudExpansionPanels Style="flex: 1;">
+
+                                    </MudExpansionPanels>
+                                </RowEditingTemplate>
+                                <PagerContent>
+                                    <MudTablePager />
+                                </PagerContent>
+                            </MudTable>
+                        </MudCardContent>
+                    </MudCard>
+                </div>
+            </div>
+            <div class="row mt-5">
+                <div class="col-sm-12">
+                    <MudCard Elevation="5">
+                        <MudCardContent>
+                            <MudGrid class="search-action-block align-items-center">
+                                <MudItem xs="10" sm="10" md="10" lg="10" Class=" pb-4">
+                                    <MudText Typo="Typo.h6">Grid Tools VOH Row Level</MudText>
+                                </MudItem>
+                                <MudSpacer />
+                                <MudItem xs="2" sm="2" md="2" lg="2" Class="text-right custom-btn-design" style="justify-content: flex-end;">
+                                    <MudButton Variant="Variant.Filled"  OnClick="@((e) => OpenSapDataDialogFGItemForMonthlyVOHTools(FullView,oModel))" StartIcon="@Icons.Material.Filled.Add" Color="Color.Success" Size="Size.Small">Add Details</MudButton>
+                                    @*<MudFab Color="Color.Primary" OnClick="@((e) => OpenSapDataDialogFGItemForMonthlyVOHTools(FullView,oModel))" StartIcon="@Icons.Material.Filled.Add" Title="Add Details" IconSize="Size.Small" />*@
+                                </MudItem>
+                            </MudGrid>
+
+                            <MudTable Filter="new Func<TrnsVohtoolsDetail,bool>(FilterFuncTools)" MultiSelection="false" SortLabel="Sort By" CommitEditTooltip="Save" CancelEditTooltip="Cancel"
+                                      OnCommitEditClick="@(() => Snackbar.Add("Commit Edit Handler Invoked"))" RowEditPreview="BackupItemTools" RowEditCancel="ResetItemToOriginalValuesTools"
+                                      RowEditCommit="ItemHasBeenCommittedTools" IsEditRowSwitchingBlocked="@blockSwitchTools" CanCancelEdit="true" @bind-SelectedItems="selectedItemsTools" Items="@oDetailToolsList" Class="table-setting" Dense="true" Hover="true" Bordered="true" Striped="true">
+
+                                <HeaderContent>
+                                    <MudTh>Product Code</MudTh>
+                                    <MudTh>Product Name</MudTh>
+                                    <MudTh>Dyes V.O.H Rate</MudTh>
+                                    <MudTh>Dyes V.O.H Amount</MudTh>
+                                </HeaderContent>
+                                <RowTemplate>
+                                    <MudTd DataLabel="ProductCode">@context.ProductCode</MudTd>
+                                    <MudTd DataLabel="ProductName">@context.ProductName</MudTd>
+                                    <MudTd DataLabel="ToolsVohrate">@context.ToolsVohrate</MudTd>
+                                    <MudTd DataLabel="ToolsVohamount">@context.ToolsVohamount</MudTd>
+                                </RowTemplate>
+                                <RowEditingTemplate>
+                                    <MudTd DataLabel="ProductCode">@context.ProductCode</MudTd>
+                                    <MudTd DataLabel="ProductName">
+                                        <MudTextField @bind-Value="@context.ProductName" />
+                                    </MudTd>
+                                    <MudTd DataLabel="ToolsVohrate">
+                                        <MudTextField @bind-Value="@context.ToolsVohrate" />
+                                    </MudTd>
+                                    <MudTd DataLabel="DyesAndMoldVohToolsVohamountamount">
+                                        <MudTextField @bind-Value="@context.ToolsVohamount" />
+                                    </MudTd>
+                                    <MudExpansionPanels Style="flex: 1;">
+
+                                    </MudExpansionPanels>
+                                </RowEditingTemplate>
+                                <PagerContent>
+                                    <MudTablePager />
+                                </PagerContent>
+                            </MudTable>
+                        </MudCardContent>
+                    </MudCard>
+                </div>
+            </div>
+            <div class="row mt-5">
+                <div class="col-sm-12">
+                    <MudCard Elevation="5">
+                        <MudCardContent>
+                            <MudGrid class="search-action-block align-items-center">
+                                <MudItem xs="10" sm="10" md="10" lg="10" Class="pb-4">
+                                    <MudText Typo="Typo.h6">Grid Gasoline VOH Row Level</MudText>
+                                </MudItem>
+                                <MudSpacer />
+                                <MudItem xs="2" sm="2" md="2" lg="2" Class="text-right custom-btn-design" style="justify-content: flex-end;">
+                                    <MudButton Variant="Variant.Filled" OnClick="@((e) => OpenSapDataDialogFGItemForMonthlyVOHGasoline(FullView,oModel))" StartIcon="@Icons.Material.Filled.Add" Color="Color.Success" Size="Size.Small">Add Details</MudButton>
+                                    @*<MudFab Color="Color.Primary" OnClick="@((e) => OpenSapDataDialogFGItemForMonthlyVOHGasoline(FullView,oModel))" StartIcon="@Icons.Material.Filled.Add" Title="Add Details" IconSize="Size.Small" />*@
+                                </MudItem>
+                            </MudGrid>
+
+                            <MudTable Filter="new Func<TrnsVohgasolineDetail,bool>(FilterFuncGasoline)" MultiSelection="false" SortLabel="Sort By" CommitEditTooltip="Save" CancelEditTooltip="Cancel"
+                                      OnCommitEditClick="@(() => Snackbar.Add("Commit Edit Handler Invoked"))" RowEditPreview="BackupItemGasoline" RowEditCancel="ResetItemToOriginalValuesGasoline"
+                                      RowEditCommit="ItemHasBeenCommittedGasoline" IsEditRowSwitchingBlocked="@blockSwitchTools" CanCancelEdit="true" @bind-SelectedItems="selectedItemsGasoline" Items="@oDetailGasolineList" Class="table-setting" Dense="true" Hover="true" Bordered="true" Striped="true">
+
+                                <HeaderContent>
+                                    <MudTh>Product Code</MudTh>
+                                    <MudTh>Product Name</MudTh>
+                                    <MudTh>Dyes V.O.H Rate</MudTh>
+                                    <MudTh>Dyes V.O.H Amount</MudTh>
+                                </HeaderContent>
+                                <RowTemplate>
+                                    <MudTd DataLabel="ProductCode">@context.ProductCode</MudTd>
+                                    <MudTd DataLabel="ProductName">@context.ProductName</MudTd>
+                                    <MudTd DataLabel="GasolineVohrate">@context.GasolineVohrate</MudTd>
+                                    <MudTd DataLabel="GasolineVohamount">@context.GasolineVohamount</MudTd>
+                                </RowTemplate>
+                                <RowEditingTemplate>
+                                    <MudTd DataLabel="ProductCode">@context.ProductCode</MudTd>
+                                    <MudTd DataLabel="ProductName">
+                                        <MudTextField @bind-Value="@context.ProductName" />
+                                    </MudTd>
+                                    <MudTd DataLabel="GasolineVohrate">
+                                        <MudTextField @bind-Value="@context.GasolineVohrate" />
+                                    </MudTd>
+                                    <MudTd DataLabel="GasolineVohamount">
+                                        <MudTextField @bind-Value="@context.GasolineVohamount" />
+                                    </MudTd>
+                                    <MudExpansionPanels Style="flex: 1;">
+
+                                    </MudExpansionPanels>
+                                </RowEditingTemplate>
+                                <PagerContent>
+                                    <MudTablePager />
+                                </PagerContent>
+                            </MudTable>
+                        </MudCardContent>
+                    </MudCard>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,78 @@
+﻿@*<MudNavMenu>
+    <MudNavLink Href="Dashboard" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home">Home</MudNavLink>
+    <MudNavGroup Title="Cost Allocation" Expanded="false" Icon="@Icons.Sharp.AdminPanelSettings" IconColor="Color.Inherit">
+        <MudNavLink Href="DirectMaterial" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.List">Direct Material</MudNavLink>
+        <MudNavLink Href="MonthlyFohCostCalculation" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.List">Monthly Foh Cost Calculation</MudNavLink>
+        <MudNavLink Href="FOHRateCalculation" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.List">FOH Rate Calculation</MudNavLink>
+        <MudNavLink Href="MonthlyFohDriverRatesCalculation" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.List">Monthly Foh Driver Rates Calculation</MudNavLink>
+        <MudNavLink Href="MonthlyVOHCalculation" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.List">Monthly VOH Calculation</MudNavLink>
+        <MudNavLink Href="MonthlyVOCCalculator" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.List">Monthly VOC Calculator</MudNavLink>
+        <MudNavLink Href="SalesQuotation" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.List">Sales Quotation</MudNavLink>
+    </MudNavGroup>
+    <MudNavGroup Title="Administration" Expanded="false" Icon="@Icons.Sharp.AdminPanelSettings" IconColor="Color.Inherit">
+        <MudNavLink Href="UserProfile" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.List">User Profile</MudNavLink>
+        <MudNavLink Href="CostType" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.List">Cost Type</MudNavLink>
+        <MudNavLink Href="CostDriver" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.List">Cost Driver</MudNavLink>
+    </MudNavGroup>
+    <MudNavGroup Title="Master Data" Expanded="false" Icon="@Icons.Sharp.AdminPanelSettings" IconColor="Color.Inherit">
+        <MudNavLink Href="ResourceMasterData" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.List">Resource Master Data</MudNavLink>
+        <MudNavLink Href="SalesPriceList" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.List">Sale Price List</MudNavLink>
+        <MudNavLink Href="DepartmentMaster" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.List">Department Master</MudNavLink>
+        <MudNavLink Href="DesignationMaster" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.List">Designation Master</MudNavLink>
+        <MudNavLink Href="GroupSetup" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.List">Group Setup</MudNavLink>
+        <MudNavLink Href="ActivityType" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.List">Activity Type</MudNavLink>
+        <MudNavLink Href="ItemPriceList" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.List">Item PriceList</MudNavLink>
+        <MudNavLink Href="LaborRate" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.List">Labor Rate</MudNavLink>
+    </MudNavGroup>
+</MudNavMenu>*@
+
+<MudPaper Class="py-3 nav-custom" Square="false">
+
+    <MudNavMenu>
+        @* <MudText Typo="Typo.h6" Class="px-4">Stile Web Portal<span style="margin-left:5px; font-size:10px; color:gray;">@Settings.AppVersion</span></MudText>
+        <MudText Typo="Typo.body2" Class="px-4" Style="color:lightgray;">Web Base Costing</MudText>*@
+
+        @if (AuthMenus != null)
+        {
+            <MudNavLink Href="Dashboard" Icon="@Icons.Sharp.Dashboard" IconColor="Color.Inherit">Dashboard</MudNavLink>
+
+            if (AuthMenus.Where(x => x.MenuParent == 1).ToList().Count > 0)
+            {
+                <MudNavGroup Title="Administration" Expanded="false" Icon="@Icons.Sharp.AdminPanelSettings" IconColor="Color.Inherit">
+                    @foreach (var item in AuthMenus.Where(x => x.MenuParent == 1))
+                    {
+                        @if (item.MenuName == "Document Approval")
+                        {
+                            <MudNavLink Href=@item.MenuLink>@item.MenuName  <span class="bg-info p-2"><b>@oUserAlertList.Count</b></span></MudNavLink>
+                        }
+                        else
+                        {
+
+                            <MudNavLink Href=@item.MenuLink>@item.MenuName</MudNavLink>
+                        }
+                    }
+                </MudNavGroup>
+            }
+
+            if (AuthMenus.Where(x => x.MenuParent == 9).ToList().Count > 0)
+            {
+                <MudNavGroup Title="Master Data" Expanded="false" Icon="@Icons.Sharp.Description" IconColor="Color.Inherit">
+                    @foreach (var item in AuthMenus.Where(x => x.MenuParent == 9))
+                    {
+                        <MudNavLink Href=@item.MenuLink>@item.MenuName</MudNavLink>
+                    }
+                </MudNavGroup>
+            }
+
+            if (AuthMenus.Where(x => x.MenuParent == 18).ToList().Count > 0)
+            {
+                <MudNavGroup Title="Cost Allocation" Expanded="false" Icon="@Icons.Sharp.Description" IconColor="Color.Inherit">
+                    @foreach (var item in AuthMenus.Where(x => x.MenuParent == 18))
+                    {
+                        <MudNavLink Href=@item.MenuLink>@item.MenuName</MudNavLink>
+                    }
+                </MudNavGroup>
+            }
+        }
+    </MudNavMenu>
+</MudPaper>

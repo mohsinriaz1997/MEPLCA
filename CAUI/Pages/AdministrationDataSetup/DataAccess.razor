@@ -1,0 +1,65 @@
+﻿@page "/DataAccess"
+@using CA.API.Models
+
+<div class="input-field-setting">
+    <h3>User Data Access</h3>
+    <MudDivider />
+    @if (Loading)
+    {
+        <MudProgressLinear Color="Color.Primary" Indeterminate="true" Class="my-7" />
+    }
+    <div class="row mt-5">
+        @if (false)
+        {
+            <div class="col-md-4 col-sm-6">
+                <MudTextField Required="true" Disabled="true" @bind-Value="oUser.Id" InputMode="InputMode.text" Immediate="true" Label="User ID" Variant="Variant.Text" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+            </div>
+        }
+        <div class="col-md-4 col-sm-6">
+            <MudTextField Style="font-weight:bold" TextChanged="GetAllCostType" @bind-Value="oUser.UserCode" InputMode="InputMode.text" Immediate="true" Label="User Code" Variant="Variant.Filled" ReadOnly="true"
+                          Adornment="Adornment.Start" AdornmentColor="Color.Info" AdornmentIcon="@Icons.Filled.AddToPhotos" OnAdornmentClick="@((e) => OpenAddDialog(FullView))" />
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-sm-12">
+            <MudTable Items="@oList" T="UserDataAccess" Dense="true"
+                      Hover="true" GroupHeaderStyle="background-color:var(--mud-palette-background-grey)"
+                      FixedHeader="true" LoadingProgressColor="Color.Info" GroupBy="@_groupDefinition" @ref="TableRef">
+                <ColGroup>
+                    <col style="width: 60px;" />
+                    <col style="width: 60px;" />
+                </ColGroup>
+                <HeaderContent>
+                    <MudTh>Select</MudTh>
+                    <MudTh>Cost Type</MudTh>
+                </HeaderContent>
+                <GroupHeaderTemplate>
+                    <MudTh colspan="5">@($"{context.GroupName}: {context.Key}")</MudTh>
+                    </GroupHeaderTemplate>
+                    <RowTemplate>
+                        <MudTd>
+                            <MudCheckBox @bind-Checked="@context.FlgAccess" Dense="true" Color="Color.Primary"></MudCheckBox>
+                        </MudTd>
+                        <MudTd DataLabel="Menu Name">@context.Description </MudTd>
+                    </RowTemplate>
+                </MudTable>
+            </div>
+        </div>
+        <div class="row mt-5 justify-content-start">
+            <div class="col-md-2 text-left">
+                <MudButton Variant="Variant.Filled" Disabled="@Loading" ButtonType="ButtonType.Submit" Size="Size.Medium" @onclick="@SaveUserAuthorization"
+                       Class="ma-2 w-100 mud-fab mud-fab-primary" EndIcon="@Icons.Material.Sharp.Save" Style="border-radius:25px;">
+                @if (Loading)
+                {
+                    <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
+                    <MudText Class="ms-2">Loading</MudText>
+                }
+                else
+                {
+                    <MudText>Save</MudText>
+                }
+            </MudButton>
+        </div>
+    </div>
+</div>

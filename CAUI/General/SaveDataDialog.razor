@@ -1,0 +1,566 @@
+﻿@using CA.API.Models
+<MudDialog class="modal-settings">
+    <DialogContent>
+        <div Style="max-height: 300px; overflow-y: scroll">
+            @if (Loading)
+            {
+                <center><MudProgressCircular Color="Color.Primary" Size="Size.Large" Indeterminate="true" /></center>
+            }
+            else
+            {
+                @if (oListResource?.Count > 0 && DialogFor == "ResourceMaster")
+                {
+                    <MudTable Items="@oListResource" Class="table-setting" Dense="true" Hover="true" Bordered="true" Striped="true" Filter="new Func<MstResource,bool>(FilterFunc1)" @ref="@_table"
+                      Loading="@Loading" LoadingProgressColor="Color.Primary" T="MstResource" @bind-SelectedItem="oModelResource" RowClassFunc="@SelectedRowClassFunc" OnRowClick="RowClickEvent">
+                        <ToolBarContent>
+                            <MudText Typo="Typo.h6">Resource Master Data</MudText>
+                            <MudSpacer />
+                            <MudTextField T="string" @bind-Value="searchString1" Placeholder="Search" Variant="Variant.Text" Clearable="true" Immediate="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" />
+                        </ToolBarContent>
+                        <HeaderContent>
+                            <MudTh>Doc Num</MudTh>
+                            <MudTh>Resource List Name</MudTh>
+                            <MudTh>Document Date</MudTh>
+                            <MudTh>Exchange Rate</MudTh>
+                            <MudTh>In-Active</MudTh>
+                        </HeaderContent>
+                        <RowTemplate>
+                            <MudTd DataLabel="Code">@context.DocNum</MudTd>
+                            <MudTd DataLabel="Code">@context.ResrListName</MudTd>
+                            <MudTd DataLabel="Code">@context.DocDate</MudTd>
+                            <MudTd DataLabel="Code">@context.RateSap</MudTd>
+                            <MudTd DataLabel="Code">@context.FlgActive</MudTd>
+                        </RowTemplate>
+                        <PagerContent>
+                            <MudPagination SelectedChanged="PageChanged" Count="@((_table.GetFilteredItemsCount() + _table.RowsPerPage - 1) / _table.RowsPerPage)" Class="pa-4" />
+                        </PagerContent>
+                        <PagerContent>
+                            <MudTablePager />
+                        </PagerContent>
+                    </MudTable>
+                }
+                @if (oListResource?.Count > 0 && DialogFor == "ResourceMasterCopyTo")
+                {
+                    <MudTable Items="@oListResource" Class="table-setting" Dense="true" Hover="true" Bordered="true" Striped="true" Filter="new Func<MstResource,bool>(FilterFunc1)" @ref="@_table"
+                      Loading="@Loading" LoadingProgressColor="Color.Primary" T="MstResource" @bind-SelectedItem="oModelResource" RowClassFunc="@SelectedRowClassFunc" OnRowClick="RowClickEvent">
+                        <ToolBarContent>
+                            <MudText Typo="Typo.h6">Resource Master Data</MudText>
+                            <MudSpacer />
+                            <MudTextField T="string" @bind-Value="searchString1" Placeholder="Search" Variant="Variant.Text" Clearable="true" Immediate="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" />
+                        </ToolBarContent>
+                        <HeaderContent>
+                            <MudTh>Doc Num</MudTh>
+                            <MudTh>Resource List Name</MudTh>
+                            <MudTh>Document Date</MudTh>
+                        </HeaderContent>
+                        <RowTemplate>
+                            <MudTd DataLabel="Code">@context.DocNum</MudTd>
+                            <MudTd DataLabel="Code">@context.ResrListName</MudTd>
+                            <MudTd DataLabel="Code">@context.DocDate</MudTd>
+
+                        </RowTemplate>
+                        <PagerContent>
+                            <MudPagination SelectedChanged="PageChanged" Count="@((_table.GetFilteredItemsCount() + _table.RowsPerPage - 1) / _table.RowsPerPage)" Class="pa-4" />
+                        </PagerContent>
+                        <PagerContent>
+                            <MudTablePager />
+                        </PagerContent>
+                    </MudTable>
+                }
+                @if (oListItem?.Count > 0 && DialogFor == "ItemPriceListMaster")
+                {
+                    <MudTable Items="@oListItem" Class="table-setting" Dense="true" Hover="true" Bordered="true" Striped="true" Filter="new Func<MstItemPriceList,bool>(FilterFunc2)" @ref="@_table1"
+                      Loading="@Loading" LoadingProgressColor="Color.Primary" T="MstItemPriceList" @bind-SelectedItem="oModelItem" RowClassFunc="@SelectedRowClassFuncItem" OnRowClick="RowClickEventItem">
+                        <ToolBarContent>
+                            <MudText Typo="Typo.h6">Item Price List Master Data</MudText>
+                            <MudSpacer />
+                            <MudTextField T="string" @bind-Value="searchString1" Placeholder="Search" Variant="Variant.Text" Clearable="true" Immediate="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" />
+                        </ToolBarContent>
+                        <HeaderContent>
+                            <MudTh>Doc Num</MudTh>
+                            <MudTh>Doc Date</MudTh>
+                            <MudTh>Price List Name</MudTh>
+                            <MudTh>Price Base</MudTh>
+                            <MudTh>Exchange Rate</MudTh>
+                            <MudTh>Default Price List</MudTh>
+                        </HeaderContent>
+                        <RowTemplate>
+                            <MudTd DataLabel="Code">@context.DocNum</MudTd>
+                            <MudTd DataLabel="Code">@context.DocDate</MudTd>
+                            <MudTd DataLabel="Code">@context.Plname</MudTd>
+                            <MudTd DataLabel="Code">@context.PriceBase</MudTd>
+                            <MudTd DataLabel="Code">@context.ExchangeRate</MudTd>
+                            <MudTd DataLabel="Code">@context.FlgDefaultPl</MudTd>
+                        </RowTemplate>
+                        <PagerContent>
+                            <MudPagination SelectedChanged="PageChanged" Count="@((_table.GetFilteredItemsCount() + _table.RowsPerPage - 1) / _table.RowsPerPage)" Class="pa-4" />
+                        </PagerContent>
+                        <PagerContent>
+                            <MudTablePager />
+                        </PagerContent>
+                    </MudTable>
+                }
+                @if (oListItem?.Count > 0 && DialogFor == "ItemPriceListMasterCopyTo")
+                {
+                    <MudTable Items="@oListItem" Class="table-setting" Dense="true" Hover="true" Bordered="true" Striped="true" Filter="new Func<MstItemPriceList,bool>(FilterFunc2)" @ref="@_table1"
+                      Loading="@Loading" LoadingProgressColor="Color.Primary" T="MstItemPriceList" @bind-SelectedItem="oModelItem" RowClassFunc="@SelectedRowClassFuncItem" OnRowClick="RowClickEventItem">
+                        <ToolBarContent>
+                            <MudText Typo="Typo.h6">Item Price List Master Data</MudText>
+                            <MudSpacer />
+                            <MudTextField T="string" @bind-Value="searchString1" Placeholder="Search" Variant="Variant.Text" Clearable="true" Immediate="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" />
+                        </ToolBarContent>
+                        <HeaderContent>
+                            <MudTh>Doc Num</MudTh>
+                            <MudTh>Price list Name</MudTh>
+                            <MudTh>Document Date</MudTh>
+                        </HeaderContent>
+                        <RowTemplate>
+                            <MudTd DataLabel="Code">@context.DocNum</MudTd>
+                            <MudTd DataLabel="Code">@context.Plname</MudTd>
+                            <MudTd DataLabel="Code">@context.DocDate</MudTd>
+
+                        </RowTemplate>
+                        <PagerContent>
+                            <MudPagination SelectedChanged="PageChanged" Count="@((_table.GetFilteredItemsCount() + _table.RowsPerPage - 1) / _table.RowsPerPage)" Class="pa-4" />
+                        </PagerContent>
+                        <PagerContent>
+                            <MudTablePager />
+                        </PagerContent>
+                    </MudTable>
+                }
+                 @if (oListItem?.Count > 0 && DialogFor == "DirectMaterialItemPriceList")
+                {
+                    <MudTable Items="@oListItem" Class="table-setting" Dense="true" Hover="true" Bordered="true" Striped="true" Filter="new Func<MstItemPriceList,bool>(FilterFunc2)" @ref="@_table1"
+                      Loading="@Loading" LoadingProgressColor="Color.Primary" T="MstItemPriceList" @bind-SelectedItem="oModelItem" RowClassFunc="@SelectedRowClassFuncItem" OnRowClick="RowClickEventItem">
+                        <ToolBarContent>
+                            <MudText Typo="Typo.h6">Item Price List</MudText>
+                            <MudSpacer />
+                            <MudTextField T="string" @bind-Value="searchString1" Placeholder="Search" Variant="Variant.Text" Clearable="true" Immediate="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" />
+                        </ToolBarContent>
+                        <HeaderContent>
+                            <MudTh>Doc Num</MudTh>
+                            <MudTh>Doc Date</MudTh>
+                            <MudTh>Price List Name</MudTh>
+                            <MudTh>Default Price List</MudTh>
+                        </HeaderContent>
+                        <RowTemplate>
+                            <MudTd DataLabel="Code">@context.DocNum</MudTd>
+                            <MudTd DataLabel="Code">@context.DocDate</MudTd>
+                            <MudTd DataLabel="Code">@context.Plname</MudTd>
+                            <MudTd DataLabel="Code">@context.FlgDefaultPl</MudTd>
+                        </RowTemplate>
+                        <PagerContent>
+                            <MudPagination SelectedChanged="PageChanged" Count="@((_table.GetFilteredItemsCount() + _table.RowsPerPage - 1) / _table.RowsPerPage)" Class="pa-4" />
+                        </PagerContent>
+                        <PagerContent>
+                            <MudTablePager />
+                        </PagerContent>
+                    </MudTable>
+                }
+                 @if (DialogFor == "VOCResourceMasterData")
+                {
+                    <MudTable Items="@oListResourceForVOC" Class="table-setting" Dense="true" Hover="true" Bordered="true" Striped="true" Filter="new Func<MstResource,bool>(FilterFunc1)" @ref="@_table"
+                      Loading="@Loading" LoadingProgressColor="Color.Primary" T="MstResource" @bind-SelectedItem="oModelResourceForVOC" RowClassFunc="@SelectedRowClassFunc" OnRowClick="RowClickEvent">
+                        <ToolBarContent>
+                            <MudText Typo="Typo.h6">Resource Master Data</MudText>
+                            <MudSpacer />
+                            <MudTextField T="string" @bind-Value="searchString1" Placeholder="Search" Variant="Variant.Text" Clearable="true" Immediate="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" />
+                        </ToolBarContent>
+                        <HeaderContent>
+                            <MudTh>Doc Num</MudTh>
+                            <MudTh>Resource List Name</MudTh>
+                            <MudTh>Document Date</MudTh>
+                            <MudTh>Currency Exchange Rate</MudTh>
+                            <MudTh>Exchange Rate</MudTh>
+                            <MudTh>Default Resource Master</MudTh>
+                            <MudTh>In-Active</MudTh>
+                        </HeaderContent>
+                        <RowTemplate>
+                            <MudTd DataLabel="Code">@context.DocNum</MudTd>
+                            <MudTd DataLabel="Code">@context.ResrListName</MudTd>
+                            <MudTd DataLabel="Code">@context.DocDate</MudTd>
+                            <MudTd DataLabel="Code">@context.CurrencySap</MudTd>
+                            <MudTd DataLabel="Code">@context.RateSap</MudTd>
+                            <MudTd DataLabel="Code">@context.FlgDefaultResrMst</MudTd>
+                            <MudTd DataLabel="Code">@context.FlgActive</MudTd>
+                        </RowTemplate>
+                        <PagerContent>
+                            <MudPagination SelectedChanged="PageChanged" Count="@((_table.GetFilteredItemsCount() + _table.RowsPerPage - 1) / _table.RowsPerPage)" Class="pa-4" />
+                        </PagerContent>
+                        <PagerContent>
+                            <MudTablePager />
+                        </PagerContent>
+                    </MudTable>
+                }
+                @if (oListItemDetail?.Count > 0 && DialogFor == "ItemPriceListDetailMaster")
+                {
+                    <MudTable Items="@oListItemDetail" Class="table-setting" Dense="true" Hover="true" Bordered="true" Striped="true" Filter="new Func<MstItemPriceListDetail,bool>(FilterFuncItemPriceListDetail)" @ref="@_tableItemPriceListDetail"
+                      Loading="@Loading" LoadingProgressColor="Color.Primary" T="MstItemPriceListDetail" @bind-SelectedItem="oModelItemDetail" RowClassFunc="@SelectedRowClassFuncItemDetail" OnRowClick="RowClickEventItemDetail">
+                        <ToolBarContent>
+                            <MudText Typo="Typo.h6">Item Price Detail List Master Data</MudText>
+                            <MudSpacer />
+                            <MudTextField T="string" @bind-Value="searchString1" Placeholder="Search" Variant="Variant.Text" Clearable="true" Immediate="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" />
+                        </ToolBarContent>
+                        <HeaderContent>
+                            <MudTh>Currency</MudTh>
+                            <MudTh>Rate</MudTh>
+                            <MudTh>UnitPricePkr</MudTh>
+
+                        </HeaderContent>
+                        <RowTemplate>
+                            <MudTd DataLabel="Code">@context.Currency</MudTd>
+                            <MudTd DataLabel="Code">@context.Rate</MudTd>
+                            <MudTd DataLabel="Code">@context.UnitPricePkr</MudTd>
+
+                        </RowTemplate>
+                        <PagerContent>
+                            <MudPagination SelectedChanged="PageChanged" Count="@((_table.GetFilteredItemsCount() + _table.RowsPerPage - 1) / _table.RowsPerPage)" Class="pa-4" />
+                        </PagerContent>
+                        <PagerContent>
+                            <MudTablePager />
+                        </PagerContent>
+                    </MudTable>
+                }
+                @if (oSalesListItem?.Count > 0 && DialogFor == "SalePriceListMaster")
+                {
+                    <MudTable Items="@oSalesListItem" Class="table-setting" Dense="true" Hover="true" Bordered="true" Striped="true" Filter="new Func<MstSalesPriceList,bool>(FilterFunc3)" @ref="@_table2"
+                      Loading="@Loading" LoadingProgressColor="Color.Primary" T="MstSalesPriceList" @bind-SelectedItem="oModelSaleItem" RowClassFunc="@SelectedRowClassFuncSale" OnRowClick="RowClickEventSale">
+                        <ToolBarContent>
+                            <MudText Typo="Typo.h6">Sale Price List Master Data</MudText>
+                            <MudSpacer />
+                            <MudTextField T="string" @bind-Value="searchString3" Placeholder="Search" Variant="Variant.Text" Clearable="true" Immediate="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" />
+                        </ToolBarContent>
+                        <HeaderContent>
+                            <MudTh>Customer Code</MudTh>
+                            <MudTh>Customer Name</MudTh>
+                            <MudTh>Price List Name</MudTh>
+                        </HeaderContent>
+                        <RowTemplate>
+                            <MudTd DataLabel="Code">@context.CustomerCode</MudTd>
+                            <MudTd DataLabel="Code">@context.CustomerName</MudTd>
+                            <MudTd DataLabel="Code">@context.Plname</MudTd>
+                        </RowTemplate>
+                        <PagerContent>
+                            <MudPagination SelectedChanged="PageChanged" Count="@((_table.GetFilteredItemsCount() + _table.RowsPerPage - 1) / _table.RowsPerPage)" Class="pa-4" />
+                        </PagerContent>
+                        <PagerContent>
+                            <MudTablePager />
+                        </PagerContent>
+                    </MudTable>
+                }
+                @if (oLaborRate?.Count > 0 && DialogFor == "LaborRateListMaster")
+                {
+                    <MudTable Items="@oLaborRate" Class="table-setting" Dense="true" Hover="true" Bordered="true" Striped="true" Filter="new Func<MstLabourRate,bool>(FilterFuncLabor)" @ref="@_table3"
+                      Loading="@Loading" LoadingProgressColor="Color.Primary" T="MstLabourRate" @bind-SelectedItem="oModelLaborRate" RowClassFunc="@SelectedRowClassFuncLabor" OnRowClick="RowClickEventLabor">
+                        <ToolBarContent>
+                            <MudText Typo="Typo.h6">Sale Price List Master Data</MudText>
+                            <MudSpacer />
+                            <MudTextField T="string" @bind-Value="searchString4" Placeholder="Search" Variant="Variant.Text" Clearable="true" Immediate="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" />
+                        </ToolBarContent>
+                        <HeaderContent>
+                            <MudTh>Doc Num</MudTh>
+                            <MudTh>To Date</MudTh>
+                            <MudTh>From Date</MudTh>
+                        </HeaderContent>
+                        <RowTemplate>
+                            <MudTd DataLabel="Code">@context.DocNum</MudTd>
+                            <MudTd DataLabel="Code">@context.ToDate</MudTd>
+                            <MudTd DataLabel="Code">@context.FromDate</MudTd>
+                        </RowTemplate>
+                        <PagerContent>
+                            <MudPagination SelectedChanged="PageChanged" Count="@((_table.GetFilteredItemsCount() + _table.RowsPerPage - 1) / _table.RowsPerPage)" Class="pa-4" />
+                        </PagerContent>
+                        <PagerContent>
+                            <MudTablePager />
+                        </PagerContent>
+                    </MudTable>
+                }
+                @if (oListCostDriversType?.Count > 0 && DialogFor == "CostDriverListMaster")
+                {
+                    <MudTable Items="@oListCostDriversType" Class="table-setting" Dense="true" Hover="true" Bordered="true" Striped="true" Filter="new Func<MstCostDriversType,bool>(FilterFuncCostDriver)" @ref="@_table4"
+                      Loading="@Loading" LoadingProgressColor="Color.Primary" T="MstCostDriversType" @bind-SelectedItem="oModelCostDriverType" RowClassFunc="@SelectedRowClassFuncCostDriver" OnRowClick="RowClickEventCostDriver">
+                        <ToolBarContent>
+                            <MudText Typo="Typo.h6">Cost Driver Master Data</MudText>
+                            <MudSpacer />
+                            <MudTextField T="string" @bind-Value="searchString5" Placeholder="Search" Variant="Variant.Text" Clearable="true" Immediate="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" />
+                        </ToolBarContent>
+                        <HeaderContent>
+                            <MudTh>Code</MudTh>
+                            <MudTh>Description</MudTh>
+                            
+                        </HeaderContent>
+                        <RowTemplate>
+                            <MudTd DataLabel="Code">@context.Code</MudTd>
+                            <MudTd DataLabel="Description">@context.Description</MudTd>
+                            
+                        </RowTemplate>
+                        <PagerContent>
+                            <MudPagination SelectedChanged="PageChanged" Count="@((_table.GetFilteredItemsCount() + _table.RowsPerPage - 1) / _table.RowsPerPage)" Class="pa-4" />
+                        </PagerContent>
+                        <PagerContent>
+                            <MudTablePager />
+                        </PagerContent>
+                    </MudTable>
+                }
+                @if (oListTrnsFohrate?.Count > 0 && DialogFor == "FohRateMaster")
+                {
+                   <MudTable Items="@oListTrnsFohrate" Class="table-setting" Dense="true" Hover="true" Bordered="true" Striped="true" Filter="new Func<TrnsFohrate,bool>(FilterFuncTrnsFohrate)" @ref="@_table5"
+                      Loading="@Loading" LoadingProgressColor="Color.Primary" T="TrnsFohrate" @bind-SelectedItem="oModelTrnsFohrate" RowClassFunc="@SelectedRowClassFuncFohRate" OnRowClick="RowClickEventFohRate">
+                        <ToolBarContent>
+                            <MudText Typo="Typo.h6">FOH Rate Master Data</MudText>
+                            <MudSpacer />
+                            <MudTextField T="string" @bind-Value="searchString6" Placeholder="Search" Variant="Variant.Text" Clearable="true" Immediate="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" />
+                        </ToolBarContent>
+                        <HeaderContent>
+
+                            <MudTh>Document No</MudTh>
+                            <MudTh>Document Date</MudTh>
+                            <MudTh>Document Name</MudTh>
+                            <MudTh>Product Code</MudTh>
+                            <MudTh>Product Name</MudTh>
+                            
+                        </HeaderContent>
+                        <RowTemplate>
+                            <MudTd DataLabel="DocNum">@context.DocNum</MudTd>
+                            <MudTd DataLabel="DocDate">@context.DocDate</MudTd>
+                            <MudTd DataLabel="DocName">@context.DocName</MudTd>
+                            <MudTd DataLabel="ProductCode">@context.ProductCode</MudTd>
+                            <MudTd DataLabel="ProductName">@context.ProductName</MudTd>
+                        </RowTemplate>
+                        <PagerContent>
+                            <MudPagination SelectedChanged="PageChanged" Count="@((_table5.GetFilteredItemsCount() + _table5.RowsPerPage - 1) / _table5.RowsPerPage)" Class="pa-4" />
+                        </PagerContent>
+                        <PagerContent>
+                            <MudTablePager />
+                        </PagerContent>
+                    </MudTable>
+                }
+                @if (oListTrnsFohdriverRate?.Count > 0 && DialogFor == "FohDriverMaster")
+                {
+                    <MudTable Items="@oListTrnsFohdriverRate" Class="table-setting" Dense="true" Hover="true" Bordered="true" Striped="true" Filter="new Func<TrnsFohdriverRate,bool>(FilterFuncTrnsFohDriver)" @ref="@_tableFohDriver"
+                      Loading="@Loading" LoadingProgressColor="Color.Primary" T="TrnsFohdriverRate" @bind-SelectedItem="oModelTrnsFohdriverRate" RowClassFunc="@SelectedRowClassFuncFohRate" OnRowClick="RowClickEventFohDriver">
+                        <ToolBarContent>
+                            <MudText Typo="Typo.h6">FOH Rate Master Data</MudText>
+                            <MudSpacer />
+                            <MudTextField T="string" @bind-Value="searchString6" Placeholder="Search" Variant="Variant.Text" Clearable="true" Immediate="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" />
+                        </ToolBarContent>
+                        <HeaderContent>
+
+                            <MudTh>Document No</MudTh>
+                            <MudTh>Document Date</MudTh>
+
+
+                            
+                        </HeaderContent>
+                        <RowTemplate>
+                            <MudTd DataLabel="DocNum">@context.DocNum</MudTd>
+                            <MudTd DataLabel="DocDate">@context.DocDate</MudTd>
+
+
+                        </RowTemplate>
+                        <PagerContent>
+                            <MudPagination SelectedChanged="PageChanged" Count="@((_table5.GetFilteredItemsCount() + _tableFohDriver.RowsPerPage - 1) / _tableFohDriver.RowsPerPage)" Class="pa-4" />
+                        </PagerContent>
+                        <PagerContent>
+                            <MudTablePager />
+                        </PagerContent>
+                    </MudTable>
+                }
+                @if (oSalesListItemDefault?.Count > 0 && DialogFor == "SalePriceListMasterDefault")
+                {
+                    <MudTable Items="@oSalesListItemDefault" Class="table-setting" Dense="true" Hover="true" Bordered="true" Striped="true" Filter="new Func<MstSalesPriceList,bool>(FilterFuncSalesDeafult)" @ref="@_tableSales"
+                      Loading="@Loading" LoadingProgressColor="Color.Primary" T="MstSalesPriceList" @bind-SelectedItem="oModelSaleItemDefault" RowClassFunc="@SelectedRowClassFuncSaleDefault" OnRowClick="RowClickEventSaleDefault">
+                        <ToolBarContent>
+                            <MudText Typo="Typo.h6">Sale Price List Default Master Data</MudText>
+                            <MudSpacer />
+                            <MudTextField T="string" @bind-Value="searchString7" Placeholder="Search" Variant="Variant.Text" Clearable="true" Immediate="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" />
+                        </ToolBarContent>
+                        <HeaderContent>
+                            <MudTh>Customer Code</MudTh>
+                            <MudTh>Customer Name</MudTh>
+                            <MudTh>Price List Name</MudTh>
+                            <MudTh>Default</MudTh>
+                        </HeaderContent>
+                        <RowTemplate>
+                            <MudTd DataLabel="Code">@context.CustomerCode</MudTd>
+                            <MudTd DataLabel="Code">@context.CustomerName</MudTd>
+                            <MudTd DataLabel="Code">@context.Plname</MudTd>
+                            <MudTd DataLabel="Code">@context.FlgDefult</MudTd>
+                        </RowTemplate>
+                        <PagerContent>
+                            <MudPagination SelectedChanged="PageChanged" Count="@((_tableSales.GetFilteredItemsCount() + _tableSales.RowsPerPage - 1) / _tableSales.RowsPerPage)" Class="pa-4" />
+                        </PagerContent>
+                        <PagerContent>
+                            <MudTablePager />
+                        </PagerContent>
+                    </MudTable>
+                }
+                @if (oTrnsDirectMaterial?.Count > 0 && DialogFor == "DirectMaterialMaster")
+                {
+                    <MudTable Items="@oTrnsDirectMaterial" Class="table-setting" Dense="true" Hover="true" Bordered="true" Striped="true" Filter="new Func<TrnsDirectMaterial,bool>(FilterFuncDirectMaterial)" @ref="@_tableDirect"
+                      Loading="@Loading" LoadingProgressColor="Color.Primary" T="TrnsDirectMaterial" @bind-SelectedItem="oModelTrnsDirectMaterial" RowClassFunc="@SelectedRowClassFuncDirectMaterial" OnRowClick="RowClickEventDirectMaterial">
+                        <ToolBarContent>
+                            <MudText Typo="Typo.h6">Direct Material Master Data</MudText>
+                            <MudSpacer />
+                            <MudTextField T="string" @bind-Value="searchString8" Placeholder="Search" Variant="Variant.Text" Clearable="true" Immediate="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" />
+                        </ToolBarContent>
+                        <HeaderContent>
+                            <MudTh>Product Code</MudTh>  
+                            <MudTh>Product Name</MudTh>  
+                            <MudTh>Product Department</MudTh>  
+                            <MudTh>Doc Number</MudTh>
+                            <MudTh>Doc Date</MudTh>                            
+                            <MudTh>Doc Name</MudTh>
+                            <MudTh>Cost Type</MudTh>
+                            <MudTh>Exchange Rate Currency</MudTh>
+                            <MudTh>Exchange Rate</MudTh>
+                            <MudTh>IPL Doc Num</MudTh>
+                            <MudTh>For Analysis</MudTh>
+                        </HeaderContent>
+                        <RowTemplate>
+                            <MudTd DataLabel="Code">@context.ProductCode</MudTd>
+                            <MudTd DataLabel="Code">@context.ProductDescription</MudTd>
+                            <MudTd DataLabel="Code">@context.ProductDept</MudTd>
+                            <MudTd DataLabel="Code">@context.DocNum</MudTd>
+                            <MudTd DataLabel="Code">@context.DocDate</MudTd>
+                            <MudTd DataLabel="Code">@context.DocName</MudTd>
+                            <MudTd DataLabel="Code">@context.CostTypeDesc</MudTd>
+                            <MudTd DataLabel="Code">@context.CurrencyEr</MudTd>                            
+                            <MudTd DataLabel="Code">@context.ExchangeRate</MudTd>
+                            <MudTd DataLabel="Code">@context.FkitemPriceListDocNum</MudTd>
+                            <MudTd DataLabel="Code">@context.ForAnalysis</MudTd>
+                        </RowTemplate>
+                        <PagerContent>
+                            <MudPagination SelectedChanged="PageChanged" Count="@((_tableDirect.GetFilteredItemsCount() + _tableDirect.RowsPerPage - 1) / _tableSales.RowsPerPage)" Class="pa-4" />
+                        </PagerContent>
+                        <PagerContent>
+                            <MudTablePager />
+                        </PagerContent>
+                    </MudTable>
+                }
+                @if (oTrnsVoh?.Count > 0 && DialogFor == "VOHMaster")
+                {
+                    <MudTable Items="@oTrnsVoh" Class="table-setting" Dense="true" Hover="true" Bordered="true" Striped="true" Filter="new Func<TrnsVoh,bool>(FilterFuncVOH)" @ref="@_tableVOH"
+                      Loading="@Loading" LoadingProgressColor="Color.Primary" T="TrnsVoh" @bind-SelectedItem="oModelTrnsTrnsVoh" RowClassFunc="@SelectedRowClassFunVOH" OnRowClick="RowClickEventVOH">
+                        <ToolBarContent>
+                            <MudText Typo="Typo.h6">VOH Master Data</MudText>
+                            <MudSpacer />
+                            <MudTextField T="string" @bind-Value="searchString8" Placeholder="Search" Variant="Variant.Text" Clearable="true" Immediate="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" />
+                        </ToolBarContent>
+                        <HeaderContent>
+                            <MudTh>Doc Num</MudTh>
+                            <MudTh>Doc Date</MudTh>                                                        
+                        </HeaderContent>
+                        <RowTemplate>
+                            <MudTd DataLabel="DocNum">@context.DocNum</MudTd>
+                            <MudTd DataLabel="DocDate">@context.DocDate</MudTd>                            
+                         </RowTemplate>  
+                        <PagerContent>
+                            <MudPagination SelectedChanged="PageChanged" Count="@((_tableVOH.GetFilteredItemsCount() + _tableVOH.RowsPerPage - 1) / _tableSales.RowsPerPage)" Class="pa-4" />
+                        </PagerContent>
+                        <PagerContent>
+                            <MudTablePager />
+                        </PagerContent>
+                    </MudTable>
+                }
+                @if (oTrnsVoc?.Count > 0 && DialogFor == "VOCMaster")
+                {
+                    <MudTable Items="@oTrnsVoc" Class="table-setting" Dense="true" Hover="true" Bordered="true" Striped="true" Filter="new Func<TrnsVoc,bool>(FilterFuncVOC)" @ref="@_tableVOC"
+                      Loading="@Loading" LoadingProgressColor="Color.Primary" T="TrnsVoc" @bind-SelectedItem="oModelTrnsVoc" RowClassFunc="@SelectedRowClassFunVOC" OnRowClick="RowClickEventVOC">
+                        <ToolBarContent>
+                            <MudText Typo="Typo.h6">VOC Master Data</MudText>
+                            <MudSpacer />
+                            <MudTextField T="string" @bind-Value="searchString10" Placeholder="Search" Variant="Variant.Text" Clearable="true" Immediate="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" />
+                        </ToolBarContent>
+                        <HeaderContent>
+                            <MudTh>Doc Num</MudTh>
+                            <MudTh>Doc Date</MudTh>                                                        
+                            <MudTh>Product Code</MudTh>                                                        
+                            <MudTh>Product Name</MudTh>                                                        
+                        </HeaderContent>
+                        <RowTemplate>
+                            <MudTd DataLabel="DocNum">@context.DocNum</MudTd>
+                            <MudTd DataLabel="DocDate">@context.DocDate</MudTd>                            
+                            <MudTd DataLabel="ProductCode">@context.ProductCode</MudTd>                            
+                            <MudTd DataLabel="ProductName">@context.ProductName</MudTd>                            
+                         </RowTemplate>  
+                        <PagerContent>
+                            <MudPagination SelectedChanged="PageChanged" Count="@((_tableVOC.GetFilteredItemsCount() + _tableVOC.RowsPerPage - 1) / _tableVOC.RowsPerPage)" Class="pa-4" />
+                        </PagerContent>
+                        <PagerContent>
+                            <MudTablePager />
+                        </PagerContent>
+                    </MudTable>
+                }
+                @if (oMstStage?.Count > 0 && DialogFor == "Stage")
+                {
+                    <MudTable Items="@oMstStage" Class="table-setting" Dense="true" Hover="true" Bordered="true" Striped="true" Filter="new Func<MstStage,bool>(FilterFuncStage)" @ref="@_tableStage"
+                      Loading="@Loading" LoadingProgressColor="Color.Primary" T="MstStage" @bind-SelectedItem="oModelMstStage" RowClassFunc="@SelectedRowClassFunStage" OnRowClick="RowClickEventStage">
+                        <ToolBarContent>
+                            <MudText Typo="Typo.h6">Stage Master Data</MudText>
+                            <MudSpacer />
+                            <MudTextField T="string" @bind-Value="searchString11" Placeholder="Search" Variant="Variant.Text" Clearable="true" Immediate="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" />
+                        </ToolBarContent>
+                        <HeaderContent>
+                            <MudTh>Stage Name</MudTh>
+                            <MudTh>No Of Approval</MudTh>
+                            <MudTh>No Of Rejection</MudTh>
+                                                                         
+                        </HeaderContent>
+                        <RowTemplate>
+                            <MudTd DataLabel="StageName">@context.StageName</MudTd>
+                            <MudTd DataLabel="NoOfApproval">@context.NoOfApproval</MudTd>
+                            <MudTd DataLabel="NoOfRejection">@context.NoOfRejection</MudTd>
+
+                        </RowTemplate>  
+                        <PagerContent>
+                            <MudPagination SelectedChanged="PageChanged" Count="@((_tableStage.GetFilteredItemsCount() + _tableStage.RowsPerPage - 1) / _tableStage.RowsPerPage)" Class="pa-4" />
+                        </PagerContent>
+                        <PagerContent>
+                            <MudTablePager />
+                        </PagerContent>
+                    </MudTable>
+                }
+
+                @if (oMstApprovalSetup?.Count > 0 && DialogFor == "ApprovalSetup")
+                {
+                    <MudTable  Items="@oMstApprovalSetup" Class="table-setting" Dense="true" Hover="true" Bordered="true" Striped="true" Filter="new Func<MstApprovalSetup,bool>(FilterFuncApproval)" @ref="@_tableApproval"
+                      Loading="@Loading" LoadingProgressColor="Color.Primary" T="MstApprovalSetup" @bind-SelectedItem="oModelMstApprovalSetup" RowClassFunc="@SelectedRowClassFunApproval" OnRowClick="RowClickEventApproval">
+                        <ToolBarContent>
+                            <MudText Typo="Typo.h6">Approval Setup Master Data</MudText>
+                            <MudSpacer />
+                            <MudTextField T="string" @bind-Value="searchString12" Placeholder="Search" Variant="Variant.Text" Clearable="true" Immediate="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" />
+                        </ToolBarContent>
+                        <HeaderContent>
+                            <MudTh>Name</MudTh>
+
+                                                                         
+                        </HeaderContent>
+                        <RowTemplate>
+                            <MudTd DataLabel="StageName">@context.Name</MudTd>
+                            
+
+                        </RowTemplate>  
+                        <PagerContent>
+                            <MudPagination SelectedChanged="PageChanged" Count="@((_tableApproval.GetFilteredItemsCount() + _tableApproval.RowsPerPage - 1) / _tableApproval.RowsPerPage)" Class="pa-4" />
+                        </PagerContent>
+                        <PagerContent>
+                            <MudTablePager />
+                        </PagerContent>
+                    </MudTable>
+                }
+                
+            }
+        </div>
+    </DialogContent>
+    <DialogActions>
+
+        <MudItem class="text-right custom-btn-design">
+            <MudButton Variant="Variant.Filled" OnClick="Submit" StartIcon="@Icons.Filled.CheckCircle" Color="Color.Info" Size="Size.Small">Ok</MudButton>
+            <MudButton Variant="Variant.Filled" OnClick="Cancel" StartIcon="@Icons.Filled.Cancel" Color="Color.Error">Cancel</MudButton>
+        </MudItem>
+
+       @* <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Submit">Ok</MudButton>*@
+    </DialogActions>
+</MudDialog>

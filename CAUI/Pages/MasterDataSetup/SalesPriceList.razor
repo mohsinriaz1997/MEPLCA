@@ -1,0 +1,104 @@
+﻿@page "/SalesPriceList"
+@using CA.API.Models
+@inject IDialogService Dialog
+<div class="container-fluid page-content-setting">
+    <div class="row">
+        <div class="col-sm-10">
+            <h3>Sales Price List </h3>
+            <MudDivider />
+        </div>
+        <div class="col-sm-2 custom-btn-design text-right">
+            <MudButton Variant="Variant.Filled" OnClick="@((e) => OpenDialog(FullView))" StartIcon="@Icons.Filled.RemoveRedEye" Color="Color.Info" Size="Size.Small">View All</MudButton>
+            @*<MudFab Color="Color.Primary" OnClick="@((e) => OpenDialog(FullView))" StartIcon="@Icons.Material.Filled.List" Title="View All" />*@
+        </div>
+    </div>
+    <div class="row mt-5">
+        <div class="col-sm-12">
+            <MudGrid class="block-design">
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudTextField T="string" @bind-Value="oModel.CustomerCode" InputMode="InputMode.text" MaxLength="200" Counter="200" HelperText="Enter From Customer Code" Immediate="true" Clearable="true" Label="Customer Code" Variant="Variant.Text"
+                                  Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" Disabled />
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudTextField T="string" @bind-Value="oModel.CustomerName" InputMode="InputMode.text" MaxLength="200" Counter="200" HelperText="Enter From Customer Name" Immediate="true" Clearable="true" Label="Customer Name" Variant="Variant.Text"
+                                  Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" Disabled />
+                </MudItem>
+                <MudItem xs="1" sm="1" md="1" lg="1" Class="text-right pr-5 pb-4">
+                    <MudIconButton OnClick="@((e) => OpenSapDataDialogCustomerCode(FullView))" Icon="@Icons.Material.Filled.MenuOpen" Color="Color.Primary" Size="Size.Small" Title="Search Item"></MudIconButton>
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudTextField T="string" @bind-Value="oModel.Plname" InputMode="InputMode.text" MaxLength="200" Counter="200" HelperText="Enter From Price List Name" Immediate="true" Clearable="true" Label="Price List Name" Variant="Variant.Text"
+                                  Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudSwitch @bind-Checked="oModel.FlgDefult" Label="Default" Color="Color.Info" />
+                </MudItem>
+
+                <MudItem xs="4" sm="4" md="4" lg="4" class="text-right custom-btn-design">
+                    <MudButton Variant="Variant.Filled" OnClick="Save" StartIcon="@Icons.Material.Filled.Save" Color="Color.Info" Size="Size.Small">Save</MudButton>
+                </MudItem>
+            </MudGrid>
+            <div class="row mt-5">
+                @*<div class="col-sm-12">
+                <MudGrid>
+
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                <MudTextField T="string" InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Product Code" Immediate="true" Clearable="true" Label="Product Code" Variant="Variant.Text"
+                Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                <MudTextField T="string" InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Product Description" Immediate="true" Clearable="true" Label="Product Description" Variant="Variant.Text"
+                Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                <MudTextField T="string" InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Per/Unit Sales Price" Immediate="true" Clearable="true" Label="Per/Unit Sales Price" Variant="Variant.Text"
+                Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                </MudItem>
+                </MudGrid>
+                </div>*@
+            </div>
+            <div class="row mt-5">
+                <div class="col-sm-12">
+                    <MudCard Elevation="5">
+                        <MudCardContent>
+                            <MudGrid class="search-action-block align-items-center block-design">
+                                <MudItem xs="10" sm="10" md="10" lg="10" Class="pb-4">
+                                    <MudText Typo="Typo.h6">Detail</MudText>
+                                </MudItem>
+                                <MudSpacer />
+                                <MudItem xs="2" sm="2" md="2" lg="2" Class="text-right custom-btn-design" style="justify-content: flex-end;">
+                                    <MudButton Variant="Variant.Filled" OnClick="@((e) => OpenAddDialog(FullView))" StartIcon="@Icons.Material.Filled.Add" Color="Color.Success" Size="Size.Small">Add Details</MudButton>
+                                    @*<MudFab Color="Color.Primary" OnClick="@((e) => OpenAddDialog(FullView))" StartIcon="@Icons.Material.Filled.Add" Title="Add Details" IconSize="Size.Small" />*@
+                                </MudItem>
+                            </MudGrid>
+                            @*<MudTable @ref="@_table" Items="oList" Hover="true" Striped="true" @bind-SelectedItem="mstDriverMasterData" OnRowClick="RowClickEvent" T="MstDriverMasterData">*@
+                            @*<MudTable @ref="_table" @bind-SelectedItem="mstSalesPriceListDetail" T="MstSalesPriceListDetail" OnRowClick="RowClickEvent" Items="@oDetailList" Class="table-setting" Dense="true" Hover="true" Bordered="true" Striped="true">                                *@
+                            <MudTable @ref="_table" @bind-SelectedItem="mstSalesPriceListDetail" T="MstSalesPriceListDetail" Items="@oDetailList" Class="table-setting" Dense="true" Hover="true" Bordered="true" Striped="true">
+                                <HeaderContent>
+                                    <MudTh>Product Code</MudTh>
+                                    <MudTh>Product Description</MudTh>
+                                    <MudTh>Per Unit SalePrice</MudTh>
+
+                                    <MudTh>Action</MudTh>
+                                </HeaderContent>
+                                <RowTemplate>
+                                    <MudTd DataLabel="Product Code">@context.ProductCode</MudTd>
+                                    <MudTd DataLabel="ProductDescription">@context.ProductDescription</MudTd>
+                                    <MudTd DataLabel="PerUnitSalePrice">@context.PerUnitSalesPrice</MudTd>
+                                    <MudTd DataLabel="Action">
+                                        <MudIconButton Color="Color.Primary" Variant="Variant.Outlined" Icon="@Icons.Material.Filled.Edit" OnClick="@((e) => OpenEditDialog(FullView, context))" Title="Edit"></MudIconButton>
+                                        <MudIconButton Color="Color.Primary" Variant="Variant.Outlined" Icon="@Icons.Material.Filled.Delete" OnClick="@((e) => RemoveRecord(context. ProductCode,context. ProductDescription, context. PerUnitSalesPrice))" Title="Delete"></MudIconButton>
+                                    </MudTd>
+                                </RowTemplate>
+                                <PagerContent>
+                                    <MudTablePager />
+                                </PagerContent>
+                            </MudTable>
+
+                        </MudCardContent>
+                    </MudCard>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,1217 @@
+﻿@using CA.API.Models
+<MudDialog class="modal-settings">
+    <DialogContent>
+        <MudContainer style="max-height:500px;overflow-y:scroll;">
+                @if (Loading)
+                {
+                    <center><MudProgressCircular Color="Color.Primary" Size="Size.Large" Indeterminate="true" /></center>
+                }
+                @if (DialogFor == "ResourceMaster")
+                {
+                    <MudText Typo="Typo.h6">Detail</MudText>
+                    <MudSpacer />
+                    <MudDivider />
+                    <MudGrid class="search-action-block align-items-center">
+                        <MudItem xs="4" sm="4" md="4" lg="4">
+                            <MudSelect xs="4" sm="4" md="4" lg="4" T="string" Label="Type" @bind-Value="oModelDetail.TypeOfResr" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter">
+                                <MudSelectItem Value="@("Dyes")" />
+                                <MudSelectItem Value="@("Mold")" />
+                                <MudSelectItem Value="@("Tools")" />
+                                <MudSelectItem Value="@("Gasoline")" />
+                                <MudSelectItem Value="@("Machine")" />
+                            </MudSelect>
+                        </MudItem>
+                        <MudItem xs="4" sm="4" md="4" lg="4">
+                            <MudTextField InputMode="InputMode.text" MaxLength="200" Counter="200" HelperText="Enter From Resource Description" Immediate="true" Clearable="true" Label="Resource Description" Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" @bind-Value="oModelDetail.ResrDescription" />
+                        </MudItem>
+                        <MudItem xs="3" sm="3" md="3" lg="3">
+                            <MudTextField InputMode="InputMode.text" MaxLength="200" Counter="200" HelperText="Currency Code" Immediate="true" Clearable="true" Label="Currency Code" Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" @bind-Value="oModelDetail.CurrCodeSap" Disabled />
+                        </MudItem>
+                        <MudItem xs="3" sm="3" md="3" lg="3">
+                            <MudTextField InputMode="InputMode.text" MaxLength="200" Counter="200" HelperText="Currency" Immediate="true" Clearable="true" Label="Currency" Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" @bind-Value="oModelDetail.CurrNameSap" Disabled />
+                        </MudItem>
+                        <MudItem xs="1" sm="1" md="1" lg="1" Class="text-right pr-5 pb-4">
+                            <MudIconButton OnClick="@((e) => OpenSAPDataDialog(FullView))" Icon="@Icons.Material.Filled.MenuOpen" Color="Color.Primary" Size="Size.Small" Title="Search Item"></MudIconButton>
+                        </MudItem>
+                        <MudItem xs="4" sm="4" md="4" lg="4">
+                            <MudNumericField InputMode="InputMode.numeric" Min="0" HelperText="Enter From Rate" Immediate="true" Clearable="true" Label="Rate" Variant="Variant.Text"
+                                         Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="oModelDetail.Rate" TextChanged="OnChange"></MudNumericField>
+                        </MudItem>
+                        <MudItem xs="4" sm="4" md="4" lg="4">
+                            <MudNumericField InputMode="InputMode.numeric" Min="0" HelperText="Enter From Price" Immediate="true" Clearable="true" Label="Price" Variant="Variant.Text"
+                                         Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="oModelDetail.Price" TextChanged="OnChange"></MudNumericField>
+                        </MudItem>
+                        <MudItem xs="4" sm="4" md="4" lg="4">
+                            <MudNumericField InputMode="InputMode.numeric" Min="0" HelperText="Enter From Landed Factor" Immediate="true" Clearable="true" Label="Landed Factor" Variant="Variant.Text"
+                                         Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="oModelDetail.LandedFactor" TextChanged="OnChange"></MudNumericField>
+                        </MudItem>
+                        <MudItem xs="4" sm="4" md="4" lg="4">
+                            <MudNumericField InputMode="InputMode.numeric" HelperText="Cost" Immediate="true" Clearable="true" Label="Cost" Variant="Variant.Text"
+                                         Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="oModelDetail.Cost" Disabled></MudNumericField>
+                        </MudItem>
+                    </MudGrid>
+                }
+                @if (DialogFor == "SalePriceList")
+                {
+                    <MudText Typo="Typo.h6">Detail</MudText>
+                    <MudSpacer />
+                    <MudDivider />
+
+                    <MudGrid class="search-action-block align-items-center">
+                        <MudItem xs="4" sm="4" md="4" lg="4">
+                            <MudTextField T="string" @bind-Value="mstSalesPriceListDetail.ProductCode" InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Product Code" Immediate="true" Clearable="true" Label="Product Code" Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" Disabled />
+                        </MudItem>
+                        <MudItem xs="4" sm="4" md="4" lg="4">
+                            <MudTextField T="string" @bind-Value="mstSalesPriceListDetail.ProductDescription" InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Product Description" Immediate="true" Clearable="true" Label="Product Description" Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" Disabled />
+                        </MudItem>
+                        <MudItem xs="1" sm="1" md="1" lg="1" Class="text-right pr-5 pb-4">
+                            <MudIconButton OnClick="@((e) => OpenSapDataDialogFGItemForSalesPriceList(FullView))" Icon="@Icons.Material.Filled.MenuOpen" Color="Color.Primary" Size="Size.Small" Title="Search Item"></MudIconButton>
+                        </MudItem>
+
+                        <MudItem xs="4" sm="4" md="4" lg="4">
+                            <MudTextField  @bind-Value="mstSalesPriceListDetail.PerUnitSalesPrice" InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Per/Unit Sales Price" Immediate="true" Clearable="true" Label="Per/Unit Sales Price" Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                        </MudItem>
+
+
+
+
+                    </MudGrid>
+                }
+                @if (DialogFor == "ItemPriceList")
+                {
+                    <MudText Typo="Typo.h6">Detail</MudText>
+                    <MudSpacer />
+                    <MudDivider />
+
+                    <MudGrid class="search-action-block align-items-center" onscroll="true">
+                        <MudItem xs="3" sm="3" md="3" lg="3">
+                            <MudTextField T="string" @bind-Value="mstItemPriceListDetail.ItemCode" InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Item Code" Immediate="true" Clearable="true" Label="Item Code" Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                        </MudItem>
+                        <MudItem xs="3" sm="3" md="3" lg="3">
+                            <MudTextField T="string" @bind-Value="mstItemPriceListDetail.ItemName" InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Item Description" Immediate="true" Clearable="true" Label="Item Description" Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                        </MudItem>
+                        <MudItem xs="1" sm="1" md="1" lg="1" Class="text-right pr-5 pb-4">
+                            <MudIconButton OnClick="@((e) => OpenSapDataDialogRMItemForItemPriceList(FullView))" Icon="@Icons.Material.Filled.MenuOpen" Color="Color.Primary" Size="Size.Small" Title="Search Item"></MudIconButton>
+                        </MudItem>
+
+                        <MudItem xs="3" sm="3" md="3" lg="3">
+                            <MudTextField T="string" InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From HS Code" Immediate="true" Clearable="true" Label="HS Code" Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" @bind-Value="@mstItemPriceListDetail.Hscode" />
+                        </MudItem>
+                        <MudItem xs="3" sm="3" md="3" lg="3">
+                            <MudAutocomplete ToStringFunc="@(e=> e==null?null : $"{e.Description}")" T="MstGroupSetup" Label="Group Type 1" @bind-Value="oModelMstGroupSetup1" SearchFunc="@SearchGroupType1" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" />
+                        </MudItem>
+                        <MudItem xs="3" sm="3" md="3" lg="3">
+                            <MudAutocomplete ToStringFunc="@(e=> e==null?null : $"{e.Description}")" T="MstGroupSetup" Label="Group Type 2" @bind-Value="oModelMstGroupSetup2" SearchFunc="@SearchGroupType2" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" />
+                        </MudItem>
+                        <MudItem xs="3" sm="3" md="3" lg="3">
+                            <MudAutocomplete ToStringFunc="@(e=> e==null?null : $"{e.Description}")" T="MstGroupSetup" Label="Group Type 3" @bind-Value="oModelMstGroupSetup3" SearchFunc="@SearchGroupType3" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" />
+                        </MudItem>
+                        <MudItem xs="3" sm="3" md="3" lg="3">
+                            <MudAutocomplete ToStringFunc="@(e=> e==null?null : $"{e.Description}")" T="MstGroupSetup" Label="Group Type 4" @bind-Value="oModelMstGroupSetup4" SearchFunc="@SearchGroupType4" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" />
+                        </MudItem>
+                        <MudItem xs="3" sm="3" md="3" lg="3">
+                            <MudTextField @bind-Value="mstItemPriceListDetail.BlanketAgreement" T="string" InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Blanket Agreement" Immediate="true" Clearable="true" Label="Blanket Agreement" Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                        </MudItem>
+                     <MudItem xs="1" sm="1" md="1" lg="1" Class="text-right pr-5 pb-4">
+                        <MudIconButton OnClick="@((e) => OpenSapDataDialogBlanketAgreement(FullView,mstItemPriceListDetail))" Icon="@Icons.Material.Filled.MenuOpen" Color="Color.Primary" Size="Size.Small" Title="Search Item"></MudIconButton>
+                        </MudItem>
+                        <MudItem xs="3" sm="3" md="3" lg="3">
+                            <MudTextField  InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Base Price" Immediate="true" Clearable="true" @bind-Value=mstItemPriceListDetail.BasicPrice Label="Base Price" Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                        </MudItem>
+                        <MudItem xs="3" sm="3" md="3" lg="3">
+                            <MudTextField T="string" InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Currency " Immediate="true" Clearable="true" @bind-Value=mstItemPriceListDetail.Currency Label="Currency " Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                        </MudItem>
+                        <MudItem xs="3" sm="3" md="3" lg="3">
+                            <MudTextField  InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Rate " Immediate="true" Clearable="true" @bind-Value=mstItemPriceListDetail.Rate Label="Rate " Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                        </MudItem>
+                        <MudItem xs="3" sm="3" md="3" lg="3">
+                            <MudTextField  InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Unit Price PKR " TextChanged="OnChangeUnitPrice" Immediate="true" Clearable="true" @bind-Value=mstItemPriceListDetail.UnitPricePkr Label="Unit Price PKR " Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                        </MudItem>
+                        <MudItem xs="3" sm="3" md="3" lg="3">
+                            <MudTextField  InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Insurance Cost% " TextChanged="OnChangeInsuranceCost" Immediate="true" Clearable="true" @bind-Value=mstItemPriceListDetail.InsuranceCostPer Label="Insurance Cost% " Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                        </MudItem>
+                        <MudItem xs="3" sm="3" md="3" lg="3">
+                            <MudTextField  InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Insurance Cost " Immediate="true" Clearable="true" @bind-Value=mstItemPriceListDetail.InsuranceCostValue Label="Insurance Cost " Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" Disabled />
+                        </MudItem>
+                        <MudItem xs="3" sm="3" md="3" lg="3">
+                            <MudNumericField  InputMode="InputMode.numeric" HelperText="Enter From Freight Cost %" TextChanged="OnChangeFreightCost" Immediate="true" Clearable="true" @bind-Value=mstItemPriceListDetail.FreightCostPer Label="Freight Cost %" Variant="Variant.Text"
+                                         Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                        </MudItem>
+                        <MudItem xs="3" sm="3" md="3" lg="3">
+                            <MudTextField  InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Freight Cost " Immediate="true" Clearable="true" @bind-Value=mstItemPriceListDetail.FreightCostValue Label="Freight Cost " Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" Disabled />
+                        </MudItem>
+                        <MudItem xs="3" sm="3" md="3" lg="3">
+                            <MudNumericField  InputMode="InputMode.numeric" HelperText="Enter From Landing Cost %" TextChanged="onChangeLandedCost" Immediate="true" Clearable="true" @bind-Value=mstItemPriceListDetail.LandingCostPer Label="Landing Cost %" Variant="Variant.Text"
+                                         Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                        </MudItem>
+                        <MudItem xs="3" sm="3" md="3" lg="3">
+                            <MudNumericField  InputMode="InputMode.numeric" Immediate="true" Clearable="true" @bind-Value=mstItemPriceListDetail.LandingCostValue Label="Landing Cost Value" Variant="Variant.Text"
+                                         Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" Disabled />
+                        </MudItem>
+                        <MudItem xs="3" sm="3" md="3" lg="3">
+                            <MudNumericField  InputMode="InputMode.email" HelperText="Enter From Warehouse Charges% " TextChanged="onChangeWarehouseCharges" Immediate="true" Clearable="true" @bind-Value=mstItemPriceListDetail.WhchargesPer Label="Warehouse Charges% " Variant="Variant.Text"
+                                         Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                        </MudItem>
+                        <MudItem xs="3" sm="3" md="3" lg="3">
+                            <MudNumericField  InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Warehouse Charges " Immediate="true" Clearable="true" @bind-Value=mstItemPriceListDetail.WhchargesValue Label="Warehouse Charges " Variant="Variant.Text"
+                                         Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" Disabled />
+                        </MudItem>
+                        <MudItem xs="3" sm="3" md="3" lg="3">
+                            <MudNumericField  InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Yard Payment% " TextChanged="onChangeYardPayment" Immediate="true" Clearable="true" @bind-Value=mstItemPriceListDetail.YardPaymentPer Label="Yard Payment% " Variant="Variant.Text"
+                                         Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                        </MudItem>
+                        <MudItem xs="3" sm="3" md="3" lg="3">
+                            <MudNumericField  InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Yard Payment " Immediate="true" Clearable="true" @bind-Value=mstItemPriceListDetail.YardPaymentValue Label="Yard Payment " Variant="Variant.Text"
+                                         Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" Disabled />
+                        </MudItem>
+                        <MudItem xs="3" sm="3" md="3" lg="3">
+                            <MudNumericField  InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Clearing Charges% " TextChanged="onChangeClearingCharges" Immediate="true" Clearable="true" @bind-Value=mstItemPriceListDetail.CleaningChargesPer Label="Clearing Charges% " Variant="Variant.Text"
+                                         Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                        </MudItem>
+                        <MudItem xs="3" sm="3" md="3" lg="3">
+                            <MudNumericField  InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Clearing Charges " Immediate="true" Clearable="true" @bind-Value=mstItemPriceListDetail.CleaningChargesValue Label="Clearing Charges " Variant="Variant.Text"
+                                         Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" Disabled />
+                        </MudItem>
+                        <MudItem xs="3" sm="3" md="3" lg="3">
+                            <MudNumericField  InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Import Value " TextChanged="onChangeImportValue" Immediate="true" Clearable="true" @bind-Value=mstItemPriceListDetail.ImportValue Label="Import Value " Variant="Variant.Text"
+                                         Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                        </MudItem>
+                        <MudItem xs="3" sm="3" md="3" lg="3">
+                            <MudNumericField  InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Custom Duty% " TextChanged="onChangeCustomDuty" Immediate="true" Clearable="true" @bind-Value=mstItemPriceListDetail.CustomDutyPer Label="Custom Duty% " Variant="Variant.Text"
+                                         Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                        </MudItem>
+                        <MudItem xs="3" sm="3" md="3" lg="3">
+                            <MudNumericField  InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Custom Duty " Immediate="true" Clearable="true" @bind-Value=mstItemPriceListDetail.CustomDutyValue Label="Custom Duty " Variant="Variant.Text"
+                                         Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" Disabled />
+                        </MudItem>
+                        <MudItem xs="3" sm="3" md="3" lg="3">
+                            <MudNumericField  InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Regulatory Duty% " TextChanged="onChangeRegulatory" Immediate="true" Clearable="true" @bind-Value=mstItemPriceListDetail.RegulatoryDutyPer Label="Regulatory Duty% " Variant="Variant.Text"
+                                         Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                        </MudItem>
+                        <MudItem xs="3" sm="3" md="3" lg="3">
+                            <MudNumericField  InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Regulatory Duty " Immediate="true" Clearable="true" @bind-Value=mstItemPriceListDetail.RegulatoryDutyValue Label="Regulatory Duty " Variant="Variant.Text"
+                                         Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" Disabled />
+                        </MudItem>
+                        <MudItem xs="3" sm="3" md="3" lg="3">
+                            <MudNumericField  InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Additional Duty% " TextChanged="onChangeAditionalDuty" Immediate="true" Clearable="true" @bind-Value=mstItemPriceListDetail.AdditionalDutyPer Label="Additional Duty% " Variant="Variant.Text"
+                                         Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                        </MudItem>
+                        <MudItem xs="3" sm="3" md="3" lg="3">
+                            <MudNumericField  InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Additional Duty " Immediate="true" Clearable="true" @bind-Value=mstItemPriceListDetail.AdditionalDutyValue Label="Additional Duty " Variant="Variant.Text"
+                                         Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" Disabled />
+                        </MudItem>
+                        <MudItem xs="3" sm="3" md="3" lg="3">
+                            <MudNumericField  InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Excise Duty% " TextChanged="onChangeExciseDuty" Immediate="true" Clearable="true" @bind-Value=mstItemPriceListDetail.ExciseDutyPer Label="Excise Duty% " Variant="Variant.Text"
+                                         Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                        </MudItem>
+                        <MudItem xs="3" sm="3" md="3" lg="3">
+                            <MudNumericField  InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Excise Duty " Immediate="true" Clearable="true" @bind-Value=mstItemPriceListDetail.ExciseDutyValue Label="Excise Duty " Variant="Variant.Text"
+                                         Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" Disabled />
+                        </MudItem>
+                        <MudItem xs="3" sm="3" md="3" lg="3">
+                            <MudNumericField  InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Duties " @onfocusout="onChangeDuties" Immediate="true" Clearable="true" @bind-Value=mstItemPriceListDetail.DutiesValue Label="Duties " Variant="Variant.Text"
+                                         Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                        </MudItem>
+                        <MudItem xs="3" sm="3" md="3" lg="3">
+                            <MudNumericField  InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Sales Tax % " TextChanged="onChangeSalesTax" Immediate="true" Clearable="true" @bind-Value=mstItemPriceListDetail.SalesTaxPer Label="Sales Tax% " Variant="Variant.Text"
+                                         Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                        </MudItem>
+                        <MudItem xs="3" sm="3" md="3" lg="3">
+                            <MudNumericField  InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Sales Tax " Immediate="true" Clearable="true" @bind-Value=mstItemPriceListDetail.SalesTaxValue Label="Sales Tax " Variant="Variant.Text"
+                                         Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" Disabled />
+                        </MudItem>
+                        <MudItem xs="3" sm="3" md="3" lg="3">
+                            <MudNumericField  InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Other " Immediate="true" Clearable="true" @bind-Value=mstItemPriceListDetail.Others Label="Other" Variant="Variant.Text"
+                                         Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                        </MudItem>
+                        <MudItem xs="3" sm="3" md="3" lg="3">
+                            <MudNumericField  InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Income Tax% " TextChanged="onChangeIncomeTax" Immediate="true" Clearable="true" @bind-Value=mstItemPriceListDetail.IncomeTaxPer Label="Income Tax% " Variant="Variant.Text"
+                                         Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                        </MudItem>
+                        <MudItem xs="3" sm="3" md="3" lg="3">
+                            <MudNumericField  InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Income Tax " @onfocusout="onChangeIncomeTax" Immediate="true" Clearable="true" @bind-Value=mstItemPriceListDetail.IncomeTaxValue Label="Income Tax " Variant="Variant.Text"
+                                         Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" Disabled />
+                        </MudItem>
+                        <MudItem xs="3" sm="3" md="3" lg="3">
+                            <MudNumericField  InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Final Item Price List " @onfocusout="onChangeFinalItemPrice" Immediate="true" Clearable="true" @bind-Value=mstItemPriceListDetail.FinalItemPrice Label="Final Item Price" Variant="Variant.Text"
+                                         Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields"  />
+                        </MudItem>
+                    </MudGrid>
+                }
+                @if  (DialogFor  =="LaborRate")
+                {
+                   <MudText Typo="Typo.h6">Detail</MudText>
+                    <MudSpacer />
+                    <MudDivider />
+
+                    <MudGrid class="search-action-block align-items-center">
+                        <MudItem xs="4" sm="4" md="4" lg="4">
+                            <MudTextField T="string" @bind-Value="mstLabourRateList.Description" InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Labor Description" Immediate="true" Clearable="true" Label="Labor Description" Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                        </MudItem>
+                    <MudItem xs="4" sm="4" md="4" lg="4">
+                            <MudNumericField InputMode="InputMode.numeric" HelperText="Cost" Immediate="true" Clearable="true" Label="Wage Rate" Variant="Variant.Text"
+                                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="mstLabourRateList.WageRate"></MudNumericField>
+                        </MudItem>
+
+                    <MudItem xs="4" sm="4" md="4" lg="4">
+
+                    <MudAutocomplete ToStringFunc="@(e=> e==null?null : $"{e.Description}")" T="MstCostType" Label="Cost Type" @bind-Value="oModelCostType" SearchFunc="@SearchCostType" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" />
+                </MudItem>
+                    <MudItem xs="2" sm="2" md="2" lg="2">
+
+
+                        <MudSwitch @bind-Checked="@mstLabourRateList.FlgActive" ThumbIcon="@(mstLabourRateList.FlgActive==true ? Icons.Material.Filled.Done : Icons.Material.Filled.Close)" ThumbIconColor="@(mstLabourRateList.FlgActive==true ? Color.Primary : Color.Error)" Color="@(mstLabourRateList.FlgActive==true ? Color.Info : Color.Error)">
+                                <span>@(mstLabourRateList.FlgActive==true ? "Active" : "In Active")</span>
+                            </MudSwitch>
+                        </MudItem>
+
+
+
+                    </MudGrid>
+
+                }
+                @if (DialogFor == "DirectMaterialRL")
+                {
+                    <MudText Typo="Typo.h6">Detail</MudText>
+                    <MudSpacer />
+                    <MudDivider />
+                    <MudGrid class="search-action-block align-items-center">
+                        <MudItem xs="4" sm="4" md="4" lg="4">
+                            <MudTextField InputMode="InputMode.text" MaxLength="200" Counter="200" HelperText="Enter From Item Code" Immediate="true" Clearable="true" Label="Item Code" Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" @bind-Value="oModelDetailTrns.ItemCode" />
+                        </MudItem>
+                        <MudItem xs="4" sm="4" md="4" lg="4">
+                            <MudTextField InputMode="InputMode.text" MaxLength="200" Counter="200" HelperText="Enter From Item Name" Immediate="true" Clearable="true" Label="Item Name" Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" @bind-Value="oModelDetailTrns.ItemName" />
+                        </MudItem>
+                        <MudItem xs="4" sm="4" md="4" lg="4">
+                            <MudTextField InputMode="InputMode.text" MaxLength="200" Counter="200" HelperText="Enter From UOM. " Immediate="true" Clearable="true" Label="Consumption Qty. " Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" @bind-Value="oModelDetailTrns.ConsQty" />
+                        </MudItem>
+                       <MudItem xs="4" sm="4" md="4" lg="4">
+                            <MudTextField InputMode="InputMode.text" MaxLength="200" Counter="200" HelperText="Enter From UOM " Immediate="true" Clearable="true" Label="Unit of Measure " Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" @bind-Value="oModelDetailTrns.Uom" />
+                        </MudItem>
+                       <MudItem xs="1" sm="1" md="1" lg="1" Class="text-right pr-5 pb-4">
+                            <MudIconButton OnClick="@((e) => OpenSAPDataDialogForItemLevel(FullView,ProductCode))" Icon="@Icons.Material.Filled.MenuOpen" Color="Color.Primary" Size="Size.Small" Title="Search Item"></MudIconButton>
+                        </MudItem>
+                        <MudItem xs="3" sm="3" md="3" lg="3">
+                            <MudTextField InputMode="InputMode.text" MaxLength="200" Counter="200" HelperText="Currency Code" Immediate="true" Clearable="true" Label="Currency Code" Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" @bind-Value="oModelDetailTrns.Currency" Disabled />
+                        </MudItem>
+                       <MudItem xs="3" sm="3" md="3" lg="3">
+                            <MudTextField InputMode="InputMode.text" MaxLength="200" Counter="200" HelperText="Unit Price (FC)" Immediate="true" Clearable="true" Label="Unit Price (FC)" Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" @bind-Value="oModelDetailTrns.UnitPriceFc" Disabled />
+                        </MudItem>
+                        <MudItem xs="3" sm="3" md="3" lg="3">
+                            <MudTextField InputMode="InputMode.text" MaxLength="200" Counter="200" HelperText="LC Factor" Immediate="true" Clearable="true" Label="LC Factor" Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" @bind-Value="oModelDetailTrns.Lcfactor" Disabled />
+                        </MudItem>
+                       <MudItem xs="3" sm="3" md="3" lg="3">
+                            <MudTextField InputMode="InputMode.text" MaxLength="200" Counter="200" HelperText="Unit Price  PKR (Amount) " Immediate="true" Clearable="true" Label="Unit Price PKR (Amount) " Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" @bind-Value="oModelDetailTrns.UnitPricePkr" />
+                        </MudItem>
+                        <MudItem xs="1" sm="1" md="1" lg="1" Class="text-right pr-5 pb-4">
+                            <MudIconButton OnClick="@((e) => OpenSaveDataDialogForItemPriceList(FullView))" Icon="@Icons.Material.Filled.MenuOpen" Color="Color.Primary" Size="Size.Small" Title="Search Item"></MudIconButton>
+                        </MudItem>
+                       <MudItem xs="3" sm="3" md="3" lg="3">
+                           <MudNumericField InputMode="InputMode.numeric" HelperText="Enter From PKR((Amount))" Immediate="true" Clearable="true" Label="PKR(Ammount)" Variant="Variant.Text"
+                                         Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="oModelDetailTrns.AmountPkr" TextChanged="onChangeAmountPKR"></MudNumericField>
+                        </MudItem>
+                        <MudItem xs="3" sm="3" md="3" lg="3">
+                            <MudTextField InputMode="InputMode.text" MaxLength="200" Counter="200" HelperText="Change Consumption (Qty.)" Immediate="true" Clearable="true" Label="Change Consumption (Qty.) " Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" @bind-Value="oModelDetailTrns.ChangeConsQty" />
+                        </MudItem>
+                        <MudItem xs="3" sm="3" md="3" lg="3">
+                            <MudTextField InputMode="InputMode.text" MaxLength="200" Counter="200" HelperText="Change Price (PKR)" Immediate="true" Clearable="true" Label="Change Price (PKR) " Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" @bind-Value="oModelDetailTrns.ChangePricePkr" />
+                        </MudItem>
+                        <MudItem xs="3" sm="3" md="3" lg="3">
+                            <MudTextField InputMode="InputMode.text" MaxLength="200" Counter="200" HelperText="Remarks" Immediate="true" Clearable="true" Label="Remarks " Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" @bind-Value="oModelDetailTrns.Remarks" />
+                        </MudItem>
+
+                                        @*                <MudItem xs="3" sm="3" md="3" lg="3">
+                <MudTextField InputMode="InputMode.text" MaxLength="200" Counter="200" HelperText="Currency" Immediate="true" Clearable="true" Label="Currency" Variant="Variant.Text"
+                Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" @bind-Value="oModelDetailTrns.CurrNameSap" Disabled />
+                </MudItem>
+                <MudItem xs="1" sm="1" md="1" lg="1" Class="text-right pr-5 pb-4">
+                <MudIconButton OnClick="@((e) => OpenSAPDataDialog(FullView))" Icon="@Icons.Material.Filled.MenuOpen" Color="Color.Primary" Size="Size.Small" Title="Search Item"></MudIconButton>
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                <MudNumericField InputMode="InputMode.numeric" HelperText="Enter From Rate" Immediate="true" Clearable="true" Label="Rate" Variant="Variant.Text"
+                Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="oModelDetailTrns.Rate" TextChanged="OnChange"></MudNumericField>
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                <MudNumericField InputMode="InputMode.numeric" HelperText="Enter From Price" Immediate="true" Clearable="true" Label="Price" Variant="Variant.Text"
+                Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="oModelDetailTrns.Price" TextChanged="OnChange"></MudNumericField>
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                <MudNumericField InputMode="InputMode.numeric" HelperText="Enter From Landed Factor" Immediate="true" Clearable="true" Label="Landed Factor" Variant="Variant.Text"
+                Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="oModelDetailTrns.LandedFactor" TextChanged="OnChange"></MudNumericField>
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                <MudNumericField InputMode="InputMode.numeric" HelperText="Cost" Immediate="true" Clearable="true" Label="Cost" Variant="Variant.Text"
+                Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="oModelDetailTrns.Cost" Disabled></MudNumericField>
+                </MudItem>*@
+                    </MudGrid>
+                }
+                @if (DialogFor == "MonthlyFohCostRl")
+                {
+                    <MudText Typo="Typo.h6">Detail</MudText>
+                    <MudSpacer />
+                    <MudDivider />
+                    <MudGrid class="search-action-block align-items-center">
+                        <MudItem xs="4" sm="4" md="4" lg="4">
+                            <MudTextField InputMode="InputMode.text" MaxLength="200" Counter="200" HelperText="Enter From Cost Driver" Immediate="true" Clearable="true" Label="Cost Driver" Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" @bind-Value="oModelCostDriversType.Code" Disabled />
+                        </MudItem>
+                        <MudItem xs="1" sm="1" md="1" lg="1" Class="text-right pr-5 pb-4">
+                            <MudIconButton OnClick="@((e) => OpenSaveDataDialogForCostDriver(FullView))" Icon="@Icons.Material.Filled.MenuOpen" Color="Color.Primary" Size="Size.Small" Title="Search Cost Driver"></MudIconButton>
+                        </MudItem>
+                        <MudItem xs="4" sm="4" md="4" lg="4">
+                            <MudTextField InputMode="InputMode.text" MaxLength="200" Counter="200" HelperText="Enter From Account Code" Immediate="true" Clearable="true" Label="Account Code" Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" @bind-Value="oModelDetailFohcostDetail.AcctCode" Disabled />
+                        </MudItem>
+                        <MudItem xs="4" sm="4" md="4" lg="4">
+                            <MudTextField InputMode="InputMode.text" MaxLength="200" Counter="200" HelperText="Enter From Account Description " Immediate="true" Clearable="true" Label="Account Description " Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" @bind-Value="oModelDetailFohcostDetail.AcctDescription" Disabled />
+                        </MudItem>
+                       <MudItem xs="4" sm="4" md="4" lg="4">
+                            <MudTextField InputMode="InputMode.text" MaxLength="200" Counter="200" HelperText="Enter From Ammount " Immediate="true" Clearable="true" Label="Ammount " Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" @bind-Value="oModelDetailFohcostDetail.Amount" />
+                        </MudItem>
+                        <MudItem xs="1" sm="1" md="1" lg="1" Class="text-right pr-5 pb-4">
+                            <MudIconButton OnClick="@((e) => OpenSAPDataDialogForAccountDetail(FullView))" Icon="@Icons.Material.Filled.MenuOpen" Color="Color.Primary" Size="Size.Small" Title="Search Item"></MudIconButton>
+                        </MudItem>
+                       <MudItem xs="3" sm="3" md="3" lg="3">
+                           <MudNumericField InputMode="InputMode.numeric" HelperText="V.O.H Amount" Immediate="true" Clearable="true" Label="V.O.H Amount" Variant="Variant.Text"
+                                         Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="oModelDetailFohcostDetail.Vohamount" TextChanged="onChangeAmountPKR"></MudNumericField>
+                        </MudItem>
+                        <MudItem xs="3" sm="3" md="3" lg="3">
+                            <MudTextField InputMode="InputMode.text" MaxLength="200" Counter="200" HelperText="F.O.H Amount" Immediate="true" Clearable="true" Label="F.O.H Amount " Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" @bind-Value="oModelDetailFohcostDetail.Fohamount" />
+                        </MudItem>
+
+                    </MudGrid>
+                }
+                @if (DialogFor == "FOHRateCalculationRl")
+                {
+                    <MudText Typo="Typo.h6">Detail</MudText>
+                    <MudSpacer />
+                    <MudDivider />
+                    <MudGrid class="search-action-block align-items-center">
+                        <MudItem xs="4" sm="4" md="4" lg="4">
+                            <MudNumericField InputMode="InputMode.numeric" HelperText="Enter From Rate" Immediate="true" Clearable="true" Label="Rate" Variant="Variant.Text"
+                                         Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="oModelListTrnsFohrate.Rate">
+                        </MudNumericField>
+                        </MudItem>
+                       <MudItem xs="4" sm="4" md="4" lg="4">
+                            <MudAutocomplete ToStringFunc="@(e=> e==null?null : $"{e.Description}")" T="MstCostDriversType" Label="Cost Driver" @bind-Value="oModelCostDriversType" SearchFunc="@SearchCostDriver" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" />
+                        </MudItem>
+                      <MudItem xs="4" sm="4" md="4" lg="4">
+                            <MudNumericField InputMode="InputMode.numeric" HelperText="Enter From Rate" Immediate="true" Clearable="true" Label="FOH RaTE" Variant="Variant.Text"
+                                         Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="oModelTrnsFohrate.Fohrate">
+                        </MudNumericField>
+                        </MudItem>
+
+                    </MudGrid>
+                }
+                @if (DialogFor == "MonthlyFohDriverRatesCalculationRl")
+                {
+                    <MudText Typo="Typo.h6">Detail</MudText>
+                    <MudSpacer />
+                    <MudDivider />
+
+                    <MudGrid class="search-action-block align-items-center">
+                        <MudItem xs="4" sm="4" md="4" lg="4">
+                            <MudTextField T="string" @bind-Value="mstFohdriverRatesDetail.ProductCode" InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Product Code" Immediate="true" Clearable="true" Label="Product Code" Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" Disabled />
+                        </MudItem>
+                        <MudItem xs="4" sm="4" md="4" lg="4">
+                            <MudTextField T="string" @bind-Value="mstFohdriverRatesDetail.ProductName" InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Product Description" Immediate="true" Clearable="true" Label="Product Description" Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" Disabled />
+                        </MudItem>
+                        <MudItem xs="1" sm="1" md="1" lg="1" Class="text-right pr-5 pb-4">
+                            <MudIconButton OnClick="@((e) => OpenSapDataDialogFGItemForMonthlyFOH(FullView))" Icon="@Icons.Material.Filled.MenuOpen" Color="Color.Primary" Size="Size.Small" Title="Search Item">
+
+                            </MudIconButton>
+                        </MudItem>
+
+                        <MudItem xs="4" sm="4" md="4" lg="4">
+                            <MudTextField  @bind-Value="mstFohdriverRatesDetail.DriverValue" InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Driver Value" Immediate="true" Clearable="true" Label="Driver Value" Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                        </MudItem>
+
+
+                    <MudItem xs="4" sm="4" md="4" lg="4">
+                            <MudTextField  @bind-Value="mstFohdriverRatesDetail.FohdistributionCost" InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Foh Distribution Cost" Immediate="true" Clearable="true" Label="Foh Distribution Cost" Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                        </MudItem>
+                                        @*                 <MudItem xs="4" sm="4" md="4" lg="4">
+                <MudTextField  @bind-Value="mstFohdriveRate.TotalCostDc" InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Foh Distribution Cost" Immediate="true" Clearable="true" Label="Foh Distribution Cost" Variant="Variant.Text"
+                Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                <MudTextField  @bind-Value="mstFohdriveRate.TotalDriverValue" InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Foh Distribution Cost" Immediate="true" Clearable="true" Label="Foh Distribution Cost" Variant="Variant.Text"
+                Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                </MudItem>*@
+
+
+
+                    </MudGrid>
+                }
+                @if (DialogFor == "MonthlyVohRlMachineTab")
+                {
+                    <MudText Typo="Typo.h6">Detail</MudText>
+                    <MudSpacer />
+                    <MudDivider />
+
+                    <MudGrid class="search-action-block align-items-center">
+                        <MudItem xs="4" sm="4" md="4" lg="4">
+                            <MudTextField T="string" @bind-Value="mstVohmachineDetail.ProductCode" InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Product Code" Immediate="true" Clearable="true" Label="Product Code" Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" Disabled />
+                        </MudItem>
+                        <MudItem xs="4" sm="4" md="4" lg="4">
+                            <MudTextField T="string" @bind-Value="mstVohmachineDetail.ProductName" InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Product Description" Immediate="true" Clearable="true" Label="Product Description" Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" Disabled />
+                        </MudItem>
+                        <MudItem xs="4" sm="4" md="4" lg="4">
+                            <MudTextField T="string" @bind-Value="mstVohmachineDetail.ProductName" InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Product Quantity" Immediate="true" Clearable="true" Label="Product Quantity" Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" Disabled />
+                        </MudItem>
+                        <MudItem xs="1" sm="1" md="1" lg="1" Class="text-right pr-5 pb-4">
+                            <MudIconButton OnClick="@((e) => OpenSapDataDialogFGItemForMonthlyVOHMachine(FullView,year,month))" Icon="@Icons.Material.Filled.MenuOpen" Color="Color.Primary" Size="Size.Small" Title="Search Item"></MudIconButton>
+                        </MudItem>
+
+                        <MudItem xs="4" sm="4" md="4" lg="4">
+                            <MudTextField  @bind-Value="mstVohmachineDetail.MachineVohrate" InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Machine VOH Rate" Immediate="true" Clearable="true" Label="Machine VOH Rate" Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                        </MudItem>
+
+
+                    <MudItem xs="4" sm="4" md="4" lg="4">
+                            <MudTextField  @bind-Value="mstVohmachineDetail.MachineVohamount" InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Machine VOH Ammount" Immediate="true" Clearable="true" Label="Machine VOH Ammount" Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                        </MudItem>
+                                        @*                 <MudItem xs="4" sm="4" md="4" lg="4">
+                <MudTextField  @bind-Value="mstFohdriveRate.TotalCostDc" InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Foh Distribution Cost" Immediate="true" Clearable="true" Label="Foh Distribution Cost" Variant="Variant.Text"
+                Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                <MudTextField  @bind-Value="mstFohdriveRate.TotalDriverValue" InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Foh Distribution Cost" Immediate="true" Clearable="true" Label="Foh Distribution Cost" Variant="Variant.Text"
+                Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                </MudItem>*@
+
+
+
+                    </MudGrid>
+                }
+                @if (DialogFor == "MonthlyVohRlLaoburTab")
+                {
+                    <MudText Typo="Typo.h6">Detail</MudText>
+                    <MudSpacer />
+                    <MudDivider />
+
+                    <MudGrid class="search-action-block align-items-center">
+                        <MudItem xs="4" sm="4" md="4" lg="4">
+                            <MudTextField T="string" @bind-Value="mstVohLaborDetail.ProductCode" InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Product Code" Immediate="true" Clearable="true" Label="Product Code" Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" Disabled />
+                        </MudItem>
+                        <MudItem xs="4" sm="4" md="4" lg="4">
+                            <MudTextField T="string" @bind-Value="mstVohLaborDetail.ProductName" InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Product Description" Immediate="true" Clearable="true" Label="Product Description" Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" Disabled />
+                        </MudItem>
+                        <MudItem xs="4" sm="4" md="4" lg="4">
+                            <MudTextField T="string" @bind-Value="mstVohLaborDetail.ProductName" InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Product Quantity" Immediate="true" Clearable="true" Label="Product Quantity" Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" Disabled />
+                        </MudItem>
+                        <MudItem xs="1" sm="1" md="1" lg="1" Class="text-right pr-5 pb-4">
+                            <MudIconButton OnClick="@((e) => OpenSapDataDialogFGItemForMonthlyVOHLabor(FullView,year,month))" Icon="@Icons.Material.Filled.MenuOpen" Color="Color.Primary" Size="Size.Small" Title="Search Item"></MudIconButton>
+                        </MudItem>
+
+                        <MudItem xs="4" sm="4" md="4" lg="4">
+                            <MudTextField  @bind-Value="mstVohLaborDetail.LabourVohrate" InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Labour VOH Rate" Immediate="true" Clearable="true" Label="Labour VOH Rate" Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                        </MudItem>
+
+                    <MudItem xs="4" sm="4" md="4" lg="4">
+                            <MudTextField  @bind-Value="mstVohLaborDetail.LabourVohamount" InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Labour VOH Ammount" Immediate="true" Clearable="true" Label="Labour VOH Ammount" Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                        </MudItem>
+                                        @*                 <MudItem xs="4" sm="4" md="4" lg="4">
+                <MudTextField  @bind-Value="mstFohdriveRate.TotalCostDc" InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Foh Distribution Cost" Immediate="true" Clearable="true" Label="Foh Distribution Cost" Variant="Variant.Text"
+                Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                <MudTextField  @bind-Value="mstFohdriveRate.TotalDriverValue" InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Foh Distribution Cost" Immediate="true" Clearable="true" Label="Foh Distribution Cost" Variant="Variant.Text"
+                Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                </MudItem>*@
+
+
+
+                    </MudGrid>
+                }
+                @if (DialogFor == "MonthlyVohRlLElectricityTab")
+                {
+                    <MudText Typo="Typo.h6">Detail</MudText>
+                    <MudSpacer />
+                    <MudDivider />
+
+                    <MudGrid class="search-action-block align-items-center">
+                        <MudItem xs="4" sm="4" md="4" lg="4">
+                            <MudTextField T="string" @bind-Value="mstVohElecticityDetail.ProductCode" InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Product Code" Immediate="true" Clearable="true" Label="Product Code" Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" Disabled />
+                        </MudItem>
+                        <MudItem xs="4" sm="4" md="4" lg="4">
+                            <MudTextField T="string" @bind-Value="mstVohElecticityDetail.ProductName" InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Product Description" Immediate="true" Clearable="true" Label="Product Description" Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" Disabled />
+                        </MudItem>
+                        <MudItem xs="4" sm="4" md="4" lg="4">
+                            <MudTextField T="string" @bind-Value="mstVohElecticityDetail.ProductName" InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Product Quantity" Immediate="true" Clearable="true" Label="Product Quantity" Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" Disabled />
+                        </MudItem>
+                        <MudItem xs="1" sm="1" md="1" lg="1" Class="text-right pr-5 pb-4">
+                            <MudIconButton OnClick="@((e) => OpenSapDataDialogFGItemForMonthlyVOHElectricity(FullView,year,month))" Icon="@Icons.Material.Filled.MenuOpen" Color="Color.Primary" Size="Size.Small" Title="Search Item"></MudIconButton>
+                        </MudItem>
+
+                        <MudItem xs="4" sm="4" md="4" lg="4">
+                            <MudTextField  @bind-Value="mstVohElecticityDetail.ElectricityVohrate" InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Electricity VOH Rate" Immediate="true" Clearable="true" Label="Electricity VOH Rate" Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                        </MudItem>
+
+
+                    <MudItem xs="4" sm="4" md="4" lg="4">
+                            <MudTextField  @bind-Value="mstVohElecticityDetail.ElectricityVohamount" InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Electricity VOH Ammount" Immediate="true" Clearable="true" Label="Electricity VOH Ammount" Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                        </MudItem>
+                                        @*                 <MudItem xs="4" sm="4" md="4" lg="4">
+                <MudTextField  @bind-Value="mstFohdriveRate.TotalCostDc" InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Foh Distribution Cost" Immediate="true" Clearable="true" Label="Foh Distribution Cost" Variant="Variant.Text"
+                Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                <MudTextField  @bind-Value="mstFohdriveRate.TotalDriverValue" InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Foh Distribution Cost" Immediate="true" Clearable="true" Label="Foh Distribution Cost" Variant="Variant.Text"
+                Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                </MudItem>*@
+
+
+
+                    </MudGrid>
+                }
+                @if (DialogFor == "MonthlyVohRlDyesMoldTab")
+                {
+                    <MudText Typo="Typo.h6">Detail</MudText>
+                    <MudSpacer />
+                    <MudDivider />
+
+                    <MudGrid class="search-action-block align-items-center">
+                        <MudItem xs="4" sm="4" md="4" lg="4">
+                            <MudTextField T="string" @bind-Value="mstVohDyesDetail.ProductCode" InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Product Code" Immediate="true" Clearable="true" Label="Product Code" Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" Disabled />
+                        </MudItem>
+                        <MudItem xs="4" sm="4" md="4" lg="4">
+                            <MudTextField T="string" @bind-Value="mstVohDyesDetail.ProductName" InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Product Description" Immediate="true" Clearable="true" Label="Product Description" Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" Disabled />
+                        </MudItem>
+                        <MudItem xs="4" sm="4" md="4" lg="4">
+                            <MudTextField T="string" @bind-Value="mstVohDyesDetail.ProductName" InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Product Quantity" Immediate="true" Clearable="true" Label="Product Quantity" Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" Disabled />
+                        </MudItem>
+                        <MudItem xs="1" sm="1" md="1" lg="1" Class="text-right pr-5 pb-4">
+                            <MudIconButton OnClick="@((e) => OpenSapDataDialogFGItemForMonthlyVOHDyes(FullView,year,month))" Icon="@Icons.Material.Filled.MenuOpen" Color="Color.Primary" Size="Size.Small" Title="Search Item"></MudIconButton>
+                        </MudItem>
+
+                        <MudItem xs="4" sm="4" md="4" lg="4">
+                            <MudTextField  @bind-Value="mstVohDyesDetail.DyesAndMoldVohrate" InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Dyes VOH Rate" Immediate="true" Clearable="true" Label="Machine VOH Rate" Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                        </MudItem>
+
+                    <MudItem xs="4" sm="4" md="4" lg="4">
+                            <MudTextField  @bind-Value="mstVohDyesDetail.DyesAndMoldVohamount" InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Dyes VOH Ammount" Immediate="true" Clearable="true" Label="Labour VOH Ammount" Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                        </MudItem>
+                                        @*                 <MudItem xs="4" sm="4" md="4" lg="4">
+                <MudTextField  @bind-Value="mstFohdriveRate.TotalCostDc" InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Foh Distribution Cost" Immediate="true" Clearable="true" Label="Foh Distribution Cost" Variant="Variant.Text"
+                Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                <MudTextField  @bind-Value="mstFohdriveRate.TotalDriverValue" InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Foh Distribution Cost" Immediate="true" Clearable="true" Label="Foh Distribution Cost" Variant="Variant.Text"
+                Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                </MudItem>*@
+
+
+
+                    </MudGrid>
+                }
+                @if (DialogFor == "MonthlyVohRlToolsTab")
+                {
+                    <MudText Typo="Typo.h6">Detail</MudText>
+                    <MudSpacer />
+                    <MudDivider />
+
+                    <MudGrid class="search-action-block align-items-center">
+                        <MudItem xs="4" sm="4" md="4" lg="4">
+                            <MudTextField T="string" @bind-Value="mstVohToolsDetail.ProductCode" InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Product Code" Immediate="true" Clearable="true" Label="Product Code" Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" Disabled />
+                        </MudItem>
+                        <MudItem xs="4" sm="4" md="4" lg="4">
+                            <MudTextField T="string" @bind-Value="mstVohToolsDetail.ProductName" InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Product Description" Immediate="true" Clearable="true" Label="Product Description" Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" Disabled />
+                        </MudItem>
+                        <MudItem xs="4" sm="4" md="4" lg="4">
+                            <MudTextField T="string" @bind-Value="mstVohToolsDetail.ProductName" InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Product Quantity" Immediate="true" Clearable="true" Label="Product Quantity" Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" Disabled />
+                        </MudItem>
+                        <MudItem xs="1" sm="1" md="1" lg="1" Class="text-right pr-5 pb-4">
+                            <MudIconButton OnClick="@((e) => OpenSapDataDialogFGItemForMonthlyVOHTools(FullView,year,month))" Icon="@Icons.Material.Filled.MenuOpen" Color="Color.Primary" Size="Size.Small" Title="Search Item"></MudIconButton>
+                        </MudItem>
+
+                        <MudItem xs="4" sm="4" md="4" lg="4">
+                            <MudTextField  @bind-Value="mstVohToolsDetail.ToolsVohrate" InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Tools VOH Rate" Immediate="true" Clearable="true" Label="D&M VOH Rate" Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                        </MudItem>
+
+                    <MudItem xs="4" sm="4" md="4" lg="4">
+                            <MudTextField  @bind-Value="mstVohToolsDetail.ToolsVohamount" InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Tools VOH Ammount" Immediate="true" Clearable="true" Label="D&M VOH Ammount" Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                        </MudItem>
+                                        @*                 <MudItem xs="4" sm="4" md="4" lg="4">
+                <MudTextField  @bind-Value="mstFohdriveRate.TotalCostDc" InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Foh Distribution Cost" Immediate="true" Clearable="true" Label="Foh Distribution Cost" Variant="Variant.Text"
+                Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                <MudTextField  @bind-Value="mstFohdriveRate.TotalDriverValue" InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Foh Distribution Cost" Immediate="true" Clearable="true" Label="Foh Distribution Cost" Variant="Variant.Text"
+                Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                </MudItem>*@
+
+
+
+                    </MudGrid>
+                }
+                @if (DialogFor == "MonthlyVohRlGasolineTab")
+                {
+                    <MudText Typo="Typo.h6">Detail</MudText>
+                    <MudSpacer />
+                    <MudDivider />
+
+                    <MudGrid class="search-action-block align-items-center">
+                        <MudItem xs="4" sm="4" md="4" lg="4">
+                            <MudTextField T="string" @bind-Value="mstVohGasolineDetail.ProductCode" InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Product Code" Immediate="true" Clearable="true" Label="Product Code" Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" Disabled />
+                        </MudItem>
+                        <MudItem xs="4" sm="4" md="4" lg="4">
+                            <MudTextField T="string" @bind-Value="mstVohGasolineDetail.ProductName" InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Product Description" Immediate="true" Clearable="true" Label="Product Description" Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" Disabled />
+                        </MudItem>
+                        <MudItem xs="4" sm="4" md="4" lg="4">
+                            <MudTextField T="string" @bind-Value="mstVohGasolineDetail.ProductName" InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Product Quantity" Immediate="true" Clearable="true" Label="Product Quantity" Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" Disabled />
+                        </MudItem>
+                        <MudItem xs="1" sm="1" md="1" lg="1" Class="text-right pr-5 pb-4">
+                            <MudIconButton OnClick="@((e) => OpenSapDataDialogFGItemForMonthlyVOHGasoline(FullView,year,month))" Icon="@Icons.Material.Filled.MenuOpen" Color="Color.Primary" Size="Size.Small" Title="Search Item"></MudIconButton>
+                        </MudItem>
+
+                        <MudItem xs="4" sm="4" md="4" lg="4">
+                            <MudTextField  @bind-Value="mstVohGasolineDetail.GasolineVohrate" InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Gasoline VOH Rate" Immediate="true" Clearable="true" Label="Gasoline VOH Rate" Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                        </MudItem>
+
+
+                    <MudItem xs="4" sm="4" md="4" lg="4">
+                            <MudTextField  @bind-Value="mstVohGasolineDetail.GasolineVohamount" InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Gasoline VOH Ammount" Immediate="true" Clearable="true" Label="Gasoline VOH Ammount" Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                        </MudItem>
+                                        @*                 <MudItem xs="4" sm="4" md="4" lg="4">
+                <MudTextField  @bind-Value="mstFohdriveRate.TotalCostDc" InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Foh Distribution Cost" Immediate="true" Clearable="true" Label="Foh Distribution Cost" Variant="Variant.Text"
+                Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                <MudTextField  @bind-Value="mstFohdriveRate.TotalDriverValue" InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Foh Distribution Cost" Immediate="true" Clearable="true" Label="Foh Distribution Cost" Variant="Variant.Text"
+                Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                </MudItem>*@
+
+
+
+                    </MudGrid>
+                }
+                @if (DialogFor == "VOCActivityTab")
+                {
+                    <MudText Typo="Typo.h6">Activity</MudText>
+                    <MudSpacer />
+                    <MudDivider />
+
+                    <MudGrid class="search-action-block align-items-center">
+                        <MudItem xs="4" sm="4" md="4" lg="4">
+                        <MudAutocomplete ToStringFunc="@(e=> e==null?null : $"{e.Description}")" T="MstActivityType" Label="Activity Type" @bind-Value="oModelActivityType" SearchFunc="@SearchActivityType" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" />
+                        </MudItem>
+                    <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField InputMode="InputMode.numeric" Immediate="true" Clearable="true" Label="Actual Time Cycle" Variant="Variant.Text"
+                                     Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="oModelVOCActivity.ActualTimeCycle"  >
+                     </MudNumericField>
+                    </MudItem>
+                    <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField InputMode="InputMode.numeric" Immediate="true" Clearable="true" Label="IncFactor Time Cycle" Variant="Variant.Text"
+                                     Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="oModelVOCActivity.IncFactor" >
+                     </MudNumericField>
+                    </MudItem>
+                    <MudItem xs="4" sm="4" md="4" lg="4">
+                        <MudNumericField InputMode="InputMode.numeric" Immediate="true" Label="Cycle Time Sec" Variant="Variant.Filled" ReadOnly="true"
+                                     Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="oModelVOCActivity.CycleTimeSec"  TextChanged="onChangeActivityCycleTimeSec">
+                     </MudNumericField>
+                    </MudItem>
+                    </MudGrid>
+                }
+                @if (DialogFor == "VOCMachineTab")
+                {
+                    <MudText Typo="Typo.h6">Row Level Machine Tab</MudText>
+                    <MudSpacer />
+                    <MudDivider />
+                    <MudGrid class="search-action-block align-items-center">
+                        <MudItem xs="4" sm="4" md="4" lg="4">
+                        <MudAutocomplete ToStringFunc="@(e=> e==null?null : $"{e.Description}")" T="MstActivityType" Label="Activity Type" @bind-Value="oModelActivityType"  SearchFunc="@SearchActivityTypeMachine"  AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary"  />
+                        </MudItem>
+                         <MudItem xs="4" sm="4" md="4" lg="4">
+                        <MudAutocomplete ToStringFunc="@(e=> e==null?null : $"{e.ResrDescription}")" T="MstResourceDetail" Label="Machine Type" @bind-Value="oModelResouceType" SearchFunc="@searchResourceDescriptionMachine" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary"  />
+                        </MudItem>
+                         <MudItem xs="4" sm="4" md="4" lg="4">
+                             <MudNumericField InputMode="InputMode.numeric"  Immediate="true" Label="Cost" Variant="Variant.Filled"
+                                     Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="mstVocMachineDetail.Cost" ReadOnly="true" >
+                     </MudNumericField>
+                        </MudItem>
+                    <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField InputMode="InputMode.numeric" Immediate="true" Label="Cycle Time (Sec) Time Cycle" Variant="Variant.Filled"
+                                     Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="mstVocMachineDetail.CycleTimeSec" ReadOnly="true" TextChanged="onChangeVOCMachineTypeNoofWorkerAndNos">
+                     </MudNumericField>
+                    </MudItem>
+                    <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField InputMode="InputMode.numeric" Immediate="true"  Label="No Of Workers" Variant="Variant.Filled"
+                                     Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="mstVocMachineDetail.NoOfWorkers" ReadOnly="true">
+                     </MudNumericField>
+                     </MudItem>
+                     <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField InputMode="InputMode.numeric" Immediate="true"  Label="Nos" Variant="Variant.Filled"
+                                     Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="mstVocMachineDetail.Nos" ReadOnly="true">
+                     </MudNumericField>
+                     </MudItem>
+                    <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField InputMode="InputMode.numeric" Immediate="true" Clearable="true" Label="Life Year" Variant="Variant.Text"
+                                     Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="mstVocMachineDetail.LifeYears" TextChanged="onChangeVOCMachineTabTotal" >
+                     </MudNumericField>
+                    </MudItem>
+                    <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField InputMode="InputMode.numeric" HelperText="Enter From Total " Immediate="true"  Label="Total" Variant="Variant.Filled"
+                                     Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="mstVocMachineDetail.Total" ReadOnly="true"  >
+                     </MudNumericField>
+                    </MudItem>
+                    </MudGrid>
+            }
+             @if (DialogFor == "VOCLaborTab")
+                {
+                    <MudText Typo="Typo.h6">Row Level Labor Tab</MudText>
+                    <MudSpacer />
+                    <MudDivider />
+                    <MudGrid class="search-action-block align-items-center">
+                        <MudItem xs="4" sm="4" md="4" lg="4">
+                        <MudAutocomplete ToStringFunc="@(e=> e==null?null : $"{e.Description}")" T="MstActivityType" Label="Activity Type" @bind-Value="oModelActivityType"  SearchFunc="@SearchActivityTypeMachine"  AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" />
+                        </MudItem>
+                         <MudItem xs="4" sm="4" md="4" lg="4">
+                        <MudAutocomplete ToStringFunc="@(e=> e==null?null : $"{e.Description}")" T="MstLabourRateDetail" Label="Labor Description" @bind-Value="oModelLabourRate" SearchFunc="@searchLabourRateLabor" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" />
+                        </MudItem>
+                         <MudItem xs="4" sm="4" md="4" lg="4">
+                             <MudNumericField InputMode="InputMode.numeric"  Immediate="true" Label="Wage Rate" Variant="Variant.Filled"
+                                     Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="mstVocLaborDetail.WageRate" ReadOnly="true" >
+                     </MudNumericField>
+                        </MudItem>
+                    <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField InputMode="InputMode.numeric" Immediate="true" Label="Cost / Sec" Variant="Variant.Filled"
+                                     Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="mstVocLaborDetail.CostPerSec" ReadOnly="true" TextChanged="onChangeVOCMachineTypeNoofWorkerAndNos">
+                     </MudNumericField>
+                    </MudItem>
+                    <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField InputMode="InputMode.numeric" Immediate="true"  Label="Cycle Time (Sec)" Variant="Variant.Filled"
+                                     Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="mstVocLaborDetail.CycleTimeSec" ReadOnly="true">
+                     </MudNumericField>
+                     </MudItem>
+                     <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField InputMode="InputMode.numeric" Immediate="true"  Label="No. of Workers" Variant="Variant.Filled"
+                                     Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="mstVocLaborDetail.NoOfWorkers" ReadOnly="true">
+                     </MudNumericField>
+                     </MudItem>
+                    <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField InputMode="InputMode.numeric" Immediate="true"  Label="Total" Variant="Variant.Filled"
+                                     Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="mstVocLaborDetail.Total" ReadOnly="true"  >
+                     </MudNumericField>
+                    </MudItem>
+                    </MudGrid>
+            }
+                @if (DialogFor == "MonthlyVocRlElectricityTab")
+                {
+                    <MudText Typo="Typo.h6">Row Level Electricity Tab</MudText>
+                    <MudSpacer />
+                    <MudDivider />
+
+                    <MudGrid class="search-action-block align-items-center">
+                        <MudItem xs="4" sm="4" md="4" lg="4">
+
+
+                        <MudAutocomplete ToStringFunc="@(e=> e==null?null : $"{e.Description}")" T="MstActivityType" Label="Activity Type" @bind-Value="oModelActivityType" OnBlur="@Actvitycost"  SearchFunc="@SearchActivityTypeMachine"  AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" />
+                        </MudItem>
+                         <MudItem xs="4" sm="4" md="4" lg="4">
+
+
+                        <MudAutocomplete ToStringFunc="@(e=> e==null?null : $"{e.ResrDescription}")" T="MstResourceDetail" Label="Machine Type" @bind-Value="oModelResouceType" SearchFunc="@searchResourceDescriptionMachine" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" />
+                        </MudItem>
+
+                        @* <MudItem xs="4" sm="4" md="4" lg="4">
+
+
+                        <MudAutocomplete ToStringFunc="@(e=> e==null?null : $"{e.Cost}")" T="MstResourceDetail" Label="Cost" @bind-Value="oModelResouceType" SearchFunc="@searchResourceCostMachine" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" />
+                        </MudItem>*@
+
+                    <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField InputMode="InputMode.numeric" HelperText="Enter From Cycle Time (Sec)" Immediate="true" Clearable="true" Label="Cycle Time (Sec) Time Cycle" Variant="Variant.Text"
+                                     Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="mstVocElecticcityDetail.CycleTimeSec" TextChanged="onChangeCycleValuforMachine" >
+                     </MudNumericField>
+                    </MudItem>
+                    <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField InputMode="InputMode.numeric" HelperText="Enter From No of Workers" Immediate="true" Clearable="true" Label="No Of Workers" Variant="Variant.Text"
+                                     Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="mstVocElecticcityDetail.NoOfWorkers" TextChanged="noOfworkersElecticity">
+                     </MudNumericField>
+                     </MudItem>
+                     <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField InputMode="InputMode.numeric" HelperText="Enter From No of Workers" Immediate="true" Clearable="true" Label="No Of Machine" Variant="Variant.Text"
+                                     Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="mstVocElecticcityDetail.NoOfMachine" TextChanged="noofmachine">
+                     </MudNumericField>
+                     </MudItem>
+                     <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField InputMode="InputMode.numeric" HelperText="Enter From No of Actual KW/Hour" Immediate="true" Clearable="true" Label="Actual KW/Hour" Variant="Variant.Text"
+                                     Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="mstVocElecticcityDetail.ActualKwperHrs" >
+                     </MudNumericField>
+                     </MudItem>
+                     <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField InputMode="InputMode.numeric" HelperText="Enter From Inc. Factor" Immediate="true" Clearable="true" Label="Inc. Factor" Variant="Variant.Text"
+                                     Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="mstVocElecticcityDetail.IncFactor" >
+                     </MudNumericField>
+                     </MudItem>
+                     <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField InputMode="InputMode.numeric" HelperText="Enter From KW/Hour" Immediate="true" Clearable="true" Label="KW/Hour" Variant="Variant.Text"
+                                     Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="mstVocElecticcityDetail.KwperHrs" TextChanged="KWH" >
+                     </MudNumericField>
+                     </MudItem>
+                     <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField InputMode="InputMode.numeric" HelperText="Enter From Rate / Unit" Immediate="true" Clearable="true" Label="Rate / Unit" Variant="Variant.Text"
+                                     Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="mstVocElecticcityDetail.RatePerUnit"  >
+                     </MudNumericField>
+                     </MudItem>
+                     <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField InputMode="InputMode.numeric" HelperText="Enter From Cost / Sec" Immediate="true" Clearable="true" Label="Cost / Sec" Variant="Variant.Text"
+                                     Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="mstVocElecticcityDetail.CostPerSec" TextChanged="ECperSec"  >
+                     </MudNumericField>
+                     </MudItem>
+                     
+                    <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField InputMode="InputMode.numeric" HelperText="Enter From Total " Immediate="true" Clearable="true" Label="Total" Variant="Variant.Text"
+                                     Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="mstVocElecticcityDetail.Total" TextChanged="totalElectricitytab">
+                     </MudNumericField>
+                    </MudItem>
+                    </MudGrid>
+            }
+                @if (DialogFor == "MonthlyVocRlDyesTab")
+                {
+                    <MudText Typo="Typo.h6">Row Level Dyes Tab</MudText>
+                    <MudSpacer />
+                    <MudDivider />
+
+                    <MudGrid class="search-action-block align-items-center">
+                        <MudItem xs="4" sm="4" md="4" lg="4">
+
+
+                        <MudAutocomplete ToStringFunc="@(e=> e==null?null : $"{e.Description}")" T="MstActivityType" Label="Activity Type" @bind-Value="oModelActivityType" OnBlur="@Actvitycost"  SearchFunc="@SearchActivityTypeMachine"  AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" />
+                        </MudItem>
+                         <MudItem xs="4" sm="4" md="4" lg="4">
+
+
+                        <MudAutocomplete ToStringFunc="@(e=> e==null?null : $"{e.ResrDescription}")" T="MstResourceDetail" Label="Dyes & Mold Description" @bind-Value="oModelResouceType" SearchFunc="@searchResourceDescriptionDyes" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" />
+                        </MudItem>
+
+                         <MudItem xs="4" sm="4" md="4" lg="4">
+
+
+                        <MudAutocomplete ToStringFunc="@(e=> e==null?null : $"{e.Cost}")" T="MstResourceDetail" Label="Cost" @bind-Value="oModelResouceType" SearchFunc="@searchResourceCostTools" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" />
+                        </MudItem>
+
+                    <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField InputMode="InputMode.numeric" HelperText="Enter From Cycle Time (Sec)" Immediate="true" Clearable="true" Label="Cycle Time (Sec) Time Cycle" Variant="Variant.Text"
+                                     Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="mstVocGasolineDetail.CycleTimeSec" TextChanged="onChangeCycleValuforGasoline" >
+                     </MudNumericField>
+                    </MudItem>
+                    <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField InputMode="InputMode.numeric" HelperText="Enter From No of Workers" Immediate="true" Clearable="true" Label="No Of Workers" Variant="Variant.Text"
+                                     Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="mstVocGasolineDetail.NoOfWorkers" TextChanged="noOfworkersGasoline">
+                     </MudNumericField>
+                     </MudItem>
+                     <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField InputMode="InputMode.numeric" HelperText="Enter From Nos " Immediate="true" Clearable="true" Label="Nos" Variant="Variant.Text"
+                                     Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="mstVocGasolineDetail.Nos" TextChanged="nosTools" >
+                     </MudNumericField>
+                     </MudItem>
+                     <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField InputMode="InputMode.numeric" HelperText="Enter From Life Units" Immediate="true" Clearable="true" Label="Life Units" Variant="Variant.Text"
+                                     Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="mstVocGasolineDetail.LifeUnit" >
+                     </MudNumericField>
+                     </MudItem>
+
+                     
+                    <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField InputMode="InputMode.numeric" HelperText="Enter From Total " Immediate="true" Clearable="true" Label="Total" Variant="Variant.Text"
+                                     Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="mstVocGasolineDetail.Total" TextChanged="totalTooltab">
+                     </MudNumericField>
+                    </MudItem>
+                    </MudGrid>
+            }
+                @if (DialogFor == "MonthlyVocRlToolsTab")
+                {
+                    <MudText Typo="Typo.h6">Row Level Tools Tab</MudText>
+                    <MudSpacer />
+                    <MudDivider />
+
+                    <MudGrid class="search-action-block align-items-center">
+                        <MudItem xs="4" sm="4" md="4" lg="4">
+
+
+                        <MudAutocomplete ToStringFunc="@(e=> e==null?null : $"{e.Description}")" T="MstActivityType" Label="Activity Type" @bind-Value="oModelActivityType" OnBlur="@Actvitycost"  SearchFunc="@SearchActivityTypeMachine"  AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" />
+                        </MudItem>
+                         <MudItem xs="4" sm="4" md="4" lg="4">
+
+
+                        <MudAutocomplete ToStringFunc="@(e=> e==null?null : $"{e.ResrDescription}")" T="MstResourceDetail" Label="Dyes & Mold Description" @bind-Value="oModelResouceType" SearchFunc="@searchResourceDescriptionTools" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" />
+                        </MudItem>
+
+                         <MudItem xs="4" sm="4" md="4" lg="4">
+
+
+                        <MudAutocomplete ToStringFunc="@(e=> e==null?null : $"{e.Cost}")" T="MstResourceDetail" Label="Cost" @bind-Value="oModelResouceType" SearchFunc="@searchResourceCostTools" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" />
+                        </MudItem>
+
+                    <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField InputMode="InputMode.numeric" HelperText="Enter From Cycle Time (Sec)" Immediate="true" Clearable="true" Label="Cycle Time (Sec) Time Cycle" Variant="Variant.Text"
+                                     Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="mstVocToolsDetail.CycleTimeSec" TextChanged="onChangeCycleValuforTools" >
+                     </MudNumericField>
+                    </MudItem>
+                    <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField InputMode="InputMode.numeric" HelperText="Enter From No of Workers" Immediate="true" Clearable="true" Label="No Of Workers" Variant="Variant.Text"
+                                     Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="mstVocToolsDetail.NoOfWorkers" TextChanged="noOfworkersTools">
+                     </MudNumericField>
+                     </MudItem>
+                     <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField InputMode="InputMode.numeric" HelperText="Enter From Nos " Immediate="true" Clearable="true" Label="Nos" Variant="Variant.Text"
+                                     Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="mstVocToolsDetail.Nos" TextChanged="nosTools" >
+                     </MudNumericField>
+                     </MudItem>
+                     <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField InputMode="InputMode.numeric" HelperText="Enter From Life Units" Immediate="true" Clearable="true" Label="Life Units" Variant="Variant.Text"
+                                     Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="mstVocToolsDetail.LifeUnit" >
+                     </MudNumericField>
+                     </MudItem>
+
+                     
+                    <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField InputMode="InputMode.numeric" HelperText="Enter From Total " Immediate="true" Clearable="true" Label="Total" Variant="Variant.Text"
+                                     Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="mstVocToolsDetail.Total" TextChanged="totalToolstab">
+                     </MudNumericField>
+                    </MudItem>
+                    </MudGrid>
+            }
+                @if (DialogFor == "MonthlyVocRlGasolineTab")
+                {
+                    <MudText Typo="Typo.h6">Row Level Gasoline Tab</MudText>
+                    <MudSpacer />
+                    <MudDivider />
+
+                    <MudGrid class="search-action-block align-items-center">
+                        <MudItem xs="4" sm="4" md="4" lg="4">
+
+
+                        <MudAutocomplete ToStringFunc="@(e=> e==null?null : $"{e.Description}")" T="MstActivityType" Label="Activity Type" @bind-Value="oModelActivityType" OnBlur="@Actvitycost"  SearchFunc="@SearchActivityTypeMachine"  AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" />
+                        </MudItem>
+                         <MudItem xs="4" sm="4" md="4" lg="4">
+
+
+                        <MudAutocomplete ToStringFunc="@(e=> e==null?null : $"{e.ResrDescription}")" T="MstResourceDetail" Label="Dyes & Mold Description" @bind-Value="oModelResouceType" SearchFunc="@searchResourceDescriptionTools" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" />
+                        </MudItem>
+
+                         <MudItem xs="4" sm="4" md="4" lg="4">
+
+
+                        <MudAutocomplete ToStringFunc="@(e=> e==null?null : $"{e.Cost}")" T="MstResourceDetail" Label="Cost" @bind-Value="oModelResouceType" SearchFunc="@searchResourceCostTools" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" />
+                        </MudItem>
+
+                    <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField InputMode="InputMode.numeric" HelperText="Enter From Cycle Time (Sec)" Immediate="true" Clearable="true" Label="Cycle Time (Sec) Time Cycle" Variant="Variant.Text"
+                                     Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="mstVocGasolineDetail.CycleTimeSec" TextChanged="onChangeCycleValuforTools" >
+                     </MudNumericField>
+                    </MudItem>
+                    <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField InputMode="InputMode.numeric" HelperText="Enter From No of Workers" Immediate="true" Clearable="true" Label="No Of Workers" Variant="Variant.Text"
+                                     Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="mstVocGasolineDetail.NoOfWorkers" TextChanged="noOfworkersTools">
+                     </MudNumericField>
+                     </MudItem>
+                     <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField InputMode="InputMode.numeric" HelperText="Enter From Nos " Immediate="true" Clearable="true" Label="Nos" Variant="Variant.Text"
+                                     Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="mstVocGasolineDetail.Nos" TextChanged="nosTools" >
+                     </MudNumericField>
+                     </MudItem>
+                     <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField InputMode="InputMode.numeric" HelperText="Enter From Life Units" Immediate="true" Clearable="true" Label="Life Units" Variant="Variant.Text"
+                                     Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="mstVocGasolineDetail.LifeUnit" >
+                     </MudNumericField>
+                     </MudItem>
+
+                     
+                    <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField InputMode="InputMode.numeric" HelperText="Enter From Total " Immediate="true" Clearable="true" Label="Total" Variant="Variant.Text"
+                                     Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" @bind-Value="mstVocGasolineDetail.Total" TextChanged="totalToolstab">
+                     </MudNumericField>
+                    </MudItem>
+                    </MudGrid>
+            }
+                @if (DialogFor == "SalesQuotation")
+                {
+                    <MudText Typo="Typo.h6">Detail</MudText>
+                    <MudSpacer />
+                    <MudDivider />
+
+                    <MudGrid class="search-action-block align-items-center">
+                        <MudItem xs="4" sm="4" md="4" lg="4">
+                            <MudTextField T="string" @bind-Value="mstSalesQuatationDetail.ProductCode" InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Product Code" Immediate="true" Clearable="true" Label="Product Code" Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" Disabled />
+                        </MudItem>
+                        <MudItem xs="4" sm="4" md="4" lg="4">
+                            <MudTextField T="string" @bind-Value="mstSalesQuatationDetail.ProductDescription" InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Product Description" Immediate="true" Clearable="true" Label="Product Description" Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" Disabled />
+                        </MudItem>
+                        <MudItem xs="1" sm="1" md="1" lg="1" Class="text-right pr-5 pb-4">
+                            <MudIconButton OnClick="@((e) => OpenSapDataDialogFGItemForSalesPriceList(FullView))" Icon="@Icons.Material.Filled.MenuOpen" Color="Color.Primary" Size="Size.Small" Title="Search Item"></MudIconButton>
+                        </MudItem>
+
+                        <MudItem xs="4" sm="4" md="4" lg="4">
+                            <MudTextField  @bind-Value="mstSalesQuatationDetail.ImportCost" InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Import Cost" Immediate="true" Clearable="true" Label="Import Cost" Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                        </MudItem>
+                        <MudItem xs="4" sm="4" md="4" lg="4">
+                            <MudTextField  @bind-Value="mstSalesQuatationDetail.LocalCost" InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Local Cost" Immediate="true" Clearable="true" Label="Local Cost" Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                        </MudItem>
+                        <MudItem xs="4" sm="4" md="4" lg="4">
+                            <MudTextField  @bind-Value="mstSalesQuatationDetail.TotalRmcost" InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From RM Cost" Immediate="true" Clearable="true" Label="RM Cost" Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                        </MudItem>
+                         <MudItem xs="1" sm="1" md="1" lg="1" Class="text-right pr-5 pb-4">
+                            <MudIconButton OnClick="@((e) => OpenSaveDataDialogDirectMaterial(FullView))" Icon="@Icons.Material.Filled.MenuOpen" Color="Color.Primary" Size="Size.Small" Title="Search Direct Material"></MudIconButton>
+                        </MudItem>
+                        <MudItem xs="1" sm="1" md="1" lg="1" Class="text-right pr-5 pb-4">
+                        <MudIconButton OnClick="@((e) => OpenSaveDataDialogDirectMaterialBom(FullView))" Icon="@Icons.Material.Filled.MenuOpen" Color="Color.Primary" Size="Size.Small" Title="Search Direct Material BOM "></MudIconButton>
+                        </MudItem>
+                            <MudItem xs="4" sm="4" md="4" lg="4">
+                            <MudTextField  @bind-Value="mstSalesQuatationDetail.Machine" InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Machine" Immediate="true" Clearable="true" Label="Machine" Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                        </MudItem>
+                            <MudItem xs="4" sm="4" md="4" lg="4">
+                            <MudTextField  @bind-Value="mstSalesQuatationDetail.Labour" InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Labour" Immediate="true" Clearable="true" Label="Labour" Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                        </MudItem>
+                            <MudItem xs="4" sm="4" md="4" lg="4">
+                            <MudTextField  @bind-Value="mstSalesQuatationDetail.Electricity" InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Electricity" Immediate="true" Clearable="true" Label="Electricity" Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                        </MudItem>
+                        <MudItem xs="4" sm="4" md="4" lg="4">
+                            <MudTextField  @bind-Value="mstSalesQuatationDetail.DiesAndMolds" InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Dies An dMolds" Immediate="true" Clearable="true" Label="Dies And Molds" Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                        </MudItem>
+                        <MudItem xs="4" sm="4" md="4" lg="4">
+                            <MudTextField  @bind-Value="mstSalesQuatationDetail.Tools" InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Tools" Immediate="true" Clearable="true" Label="Tools" Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                        </MudItem>
+                        
+                        <MudItem xs="4" sm="4" md="4" lg="4">
+                            <MudTextField  @bind-Value="mstSalesQuatationDetail.Gasoline" InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Gasoline" Immediate="true" Clearable="true" Label="Gasoline" Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                        </MudItem>
+                        <MudItem xs="4" sm="4" md="4" lg="4">
+                            <MudTextField  @bind-Value="mstSalesQuatationDetail.Packing" InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Packing" Immediate="true" Clearable="true" Label="Packing" Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                        </MudItem>
+                        <MudItem xs="4" sm="4" md="4" lg="4">
+                            <MudTextField  @bind-Value="mstSalesQuatationDetail.Transportation" InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Transportation" Immediate="true" Clearable="true" Label="Transportation" Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                        </MudItem>
+                        <MudItem xs="4" sm="4" md="4" lg="4">
+                            <MudTextField  @bind-Value="mstSalesQuatationDetail.Others" InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Others" Immediate="true" Clearable="true" Label="Others" Variant="Variant.Text"
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                        </MudItem>
+                        <MudItem xs="1" sm="1" md="1" lg="1" Class="text-right pr-5 pb-4">
+                            <MudIconButton OnClick="@((e) => OpenSaveDataDialogVOHMaster(FullView))" Icon="@Icons.Material.Filled.MenuOpen" Color="Color.Primary" Size="Size.Small" Title="Search Direct Material"></MudIconButton>
+                        </MudItem>
+
+
+                    </MudGrid>
+                }
+                @if (DialogFor == "BOMItem")
+            {
+                <MudTable FixedHeader="true" HorizontalScrollbar="true" Height="350px" Dense="true" Bordered="true" Filter="new Func<SAPModels,bool>(FilterFuncBom)" Loading="@Loading" LoadingProgressColor="Color.Primary" @ref="@_table" Items="SAPModelsList" Hover="true" Striped="true" @bind-SelectedItem="oSAPModels" RowClassFunc="@SelectedRowClassFunc" OnRowClick="RowClickEvent" T="SAPModels">
+                    <ToolBarContent>
+                        <MudText Typo="Typo.h6">SAP Bom Item Code</MudText>
+                        <MudSpacer />
+                        <MudTextField @bind-Value="searchString1" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+                    </ToolBarContent>
+                    <HeaderContent>
+                        <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.BOMItemCode)">Item Code</MudTableSortLabel></MudTh>
+                        <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.BOMItemName)">Item Name</MudTableSortLabel></MudTh>
+                        <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.BOMQuantity)">Quantity</MudTableSortLabel></MudTh>
+                        <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.BOMUOM)">UOM</MudTableSortLabel></MudTh>
+                    </HeaderContent>
+                    <RowTemplate>
+                        <MudTd>@context.BOMItemCode</MudTd>
+                        <MudTd>@context.BOMItemName</MudTd>
+                        <MudTd>@context.BOMQuantity</MudTd>
+                        <MudTd>@context.BOMUOM</MudTd>
+                    </RowTemplate>
+                    <PagerContent>
+                        <MudPagination SelectedChanged="PageChanged" Count="@((_table.GetFilteredItemsCount() + _table.RowsPerPage - 1) / _table.RowsPerPage)" Class="pa-4" />
+                    </PagerContent>
+                    <PagerContent>
+                        <MudTablePager />
+                    </PagerContent>
+                </MudTable>
+            }
+
+        </MudContainer>
+    </DialogContent>
+    <DialogActions>
+
+        <MudItem class="text-right custom-btn-design">
+            <MudButton Variant="Variant.Filled" OnClick="Submit" StartIcon="@Icons.Filled.CheckCircle" Color="Color.Info" Size="Size.Small">Ok</MudButton>
+            <MudButton Variant="Variant.Filled" OnClick="Cancel" StartIcon="@Icons.Filled.Cancel" Color="Color.Error">Cancel</MudButton>
+        </MudItem>
+        @*<MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Submit">Ok</MudButton>*@
+    </DialogActions>
+</MudDialog>

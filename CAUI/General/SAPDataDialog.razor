@@ -1,0 +1,586 @@
+﻿@using CA.API.Models
+<MudDialog class="modal-settings">
+    <DialogContent>
+        @if (Loading)
+        {
+            <center><MudProgressCircular Color="Color.Primary" Size="Size.Large" Indeterminate="true" /></center>
+        }
+        @if (DialogFor == "ExchangeRate")
+        {
+            <MudTable FixedHeader="true" HorizontalScrollbar="true" Height="350px" Dense="true" Bordered="true" Filter="new Func<SAPModels,bool>(FilterFunc1)" Loading="@Loading" LoadingProgressColor="Color.Primary" @ref="@_table" Items="SAPModelsList" Hover="true" Striped="true" @bind-SelectedItem="oSAPModels" RowClassFunc="@SelectedRowClassFunc" OnRowClick="RowClickEvent" T="SAPModels">
+                <ToolBarContent>
+                    <MudText Typo="Typo.h6">SAP Exchange Rate</MudText>
+                    <MudSpacer />
+                    <MudTextField @bind-Value="searchString1" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+                </ToolBarContent>
+                <HeaderContent>
+                    <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.Currency)">Currency</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.Rate)">Rate</MudTableSortLabel></MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd>@context.Currency</MudTd>
+                    <MudTd>@context.Rate</MudTd>
+                </RowTemplate>
+                <PagerContent>
+                    <MudPagination SelectedChanged="PageChanged" Count="@((_table.GetFilteredItemsCount() + _table.RowsPerPage - 1) / _table.RowsPerPage)" Class="pa-4" />
+                </PagerContent>
+                <PagerContent>
+                    <MudTablePager />
+                </PagerContent>
+            </MudTable>
+        }
+        @if (DialogFor == "Currency")
+        {
+            <MudTable FixedHeader="true" MultiSelection="true" HorizontalScrollbar="true" Height="350px" Dense="true" Bordered="true" Filter="new Func<SAPModels,bool>(FilterFunc1)" Loading="@Loading" LoadingProgressColor="Color.Primary" @ref="@_table" Items="SAPModelsList" Hover="true" Striped="true" @bind-SelectedItem="oSAPModels" RowClassFunc="@SelectedRowClassFunc" OnRowClick="RowClickEvent" T="SAPModels">
+                <ToolBarContent>
+                    <MudText Typo="Typo.h6">SAP Currency</MudText>
+                    <MudSpacer />
+                    <MudTextField @bind-Value="searchString1" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+                </ToolBarContent>
+                <HeaderContent>
+                    <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.CurrCode)">Currency Code</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.CurrName)">Currency Name</MudTableSortLabel></MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd>@context.CurrCode</MudTd>
+                    <MudTd>@context.CurrName</MudTd>
+                </RowTemplate>
+                <PagerContent>
+                    <MudPagination SelectedChanged="PageChanged" Count="@((_table.GetFilteredItemsCount() + _table.RowsPerPage - 1) / _table.RowsPerPage)" Class="pa-4" />
+                </PagerContent>
+                <PagerContent>
+                    <MudTablePager />
+                </PagerContent>
+            </MudTable>
+        }
+        @if (DialogFor == "Product")
+        {
+            <MudTable FixedHeader="true" HorizontalScrollbar="true" Height="350px" Dense="true" Bordered="true" Filter="new Func<SAPModels,bool>(FilterFunc1)" Loading="@Loading" LoadingProgressColor="Color.Primary" @ref="@_table" Items="SAPModelsList" Hover="true" Striped="true" @bind-SelectedItem="oSAPModels" RowClassFunc="@SelectedRowClassFunc" OnRowClick="RowClickEvent" T="SAPModels">
+                <ToolBarContent>
+                    <MudText Typo="Typo.h6">SAP Products</MudText>
+                    <MudSpacer />
+                    <MudTextField @bind-Value="searchString1" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+                </ToolBarContent>
+                <HeaderContent>
+                    <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.Code)">Product Code</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.Name)">Product Name</MudTableSortLabel></MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd>@context.Code</MudTd>
+                    <MudTd>@context.Name</MudTd>
+                </RowTemplate>
+                <PagerContent>
+                    <MudPagination SelectedChanged="PageChanged" Count="@((_table.GetFilteredItemsCount() + _table.RowsPerPage - 1) / _table.RowsPerPage)" Class="pa-4" />
+                </PagerContent>
+                <PagerContent>
+                    <MudTablePager />
+                </PagerContent>
+            </MudTable>
+        }
+        @if (DialogFor == "DirectMaterialProduct")
+        {
+            <MudTable FixedHeader="true" HorizontalScrollbar="true" Height="350px" Dense="true" Bordered="true" Filter="new Func<SAPModels,bool>(FilterFunc1)" Loading="@Loading" LoadingProgressColor="Color.Primary" @ref="@_table" Items="SAPModelsList" Hover="true" Striped="true" @bind-SelectedItem="oSAPModels" RowClassFunc="@SelectedRowClassFunc" OnRowClick="RowClickEvent" T="SAPModels">
+                <ToolBarContent>
+                    <MudText Typo="Typo.h6">SAP Products</MudText>
+                    <MudSpacer />
+                    <MudTextField @bind-Value="searchString1" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+                </ToolBarContent>
+                <HeaderContent>
+                    <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.Code)">Product Code</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.Name)">Product Name</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.U_Dept)">Product Department</MudTableSortLabel></MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd>@context.Code</MudTd>
+                    <MudTd>@context.Name</MudTd>
+                    <MudTd>@context.U_Dept</MudTd>
+                </RowTemplate>
+                <PagerContent>
+                    <MudPagination SelectedChanged="PageChanged" Count="@((_table.GetFilteredItemsCount() + _table.RowsPerPage - 1) / _table.RowsPerPage)" Class="pa-4" />
+                </PagerContent>
+                <PagerContent>
+                    <MudTablePager />
+                </PagerContent>
+            </MudTable>
+        }
+        @if (DialogFor == "Customer")
+        {
+            <MudTable FixedHeader="true"  HorizontalScrollbar="true" Height="350px" Dense="true" Bordered="true" Filter="new Func<SAPModels,bool>(FilterFunc1)" Loading="@Loading" LoadingProgressColor="Color.Primary" @ref="@_table" Items="SAPModelsList" Hover="true" Striped="true" @bind-SelectedItem="oSAPModels" RowClassFunc="@SelectedRowClassFunc"  OnRowClick="RowClickEvent"  T="SAPModels">
+                <ToolBarContent>
+                    <MudText Typo="Typo.h6">SAP Customers</MudText>
+                    <MudSpacer />
+                    <MudTextField @bind-Value="searchString1" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+                </ToolBarContent>
+                <HeaderContent>
+                    <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.CardCode)">Customer Code</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.CardName)">Customer Name</MudTableSortLabel></MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd>@context.CardCode</MudTd>
+                    <MudTd>@context.CardName</MudTd>
+                </RowTemplate>
+                <PagerContent>
+                    <MudPagination SelectedChanged="PageChanged" Count="@((_table.GetFilteredItemsCount() + _table.RowsPerPage - 1) / _table.RowsPerPage)" Class="pa-4" />
+                </PagerContent>
+                <PagerContent>
+                    <MudTablePager />
+                </PagerContent>
+            </MudTable>
+        }
+        @if (DialogFor == "SalesItems")
+        {
+            <MudTable FixedHeader="true" HorizontalScrollbar="true" Height="350px" Dense="true" Bordered="true" Filter="new Func<SAPModels,bool>(FilterFunc1)" Loading="@Loading" LoadingProgressColor="Color.Primary" @ref="@_table" Items="SAPModelsList" Hover="true" Striped="true" @bind-SelectedItem="oSAPModels" RowClassFunc="@SelectedRowClassFunc" OnRowClick="RowClickEvent" T="SAPModels">
+                <ToolBarContent>
+                    <MudText Typo="Typo.h6">SAP Product</MudText>
+                    <MudSpacer />
+                    <MudTextField @bind-Value="searchString1" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+                </ToolBarContent>
+                <HeaderContent>
+                    <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.ItemCode)">Product Code</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.ItemName)">Product Name</MudTableSortLabel></MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd>@context.ItemCode</MudTd>
+                    <MudTd>@context.ItemName</MudTd>
+                </RowTemplate>
+                <PagerContent>
+                    <MudPagination SelectedChanged="PageChanged" Count="@((_table.GetFilteredItemsCount() + _table.RowsPerPage - 1) / _table.RowsPerPage)" Class="pa-4" />
+                </PagerContent>
+                <PagerContent>
+                    <MudTablePager />
+                </PagerContent>
+            </MudTable>
+        }
+        @if (DialogFor == "SalesQuotation")
+        {
+            <MudTable FixedHeader="true" HorizontalScrollbar="true" Height="350px" Dense="true" Bordered="true" Filter="new Func<SAPModels,bool>(FilterFunc1)" Loading="@Loading" LoadingProgressColor="Color.Primary" @ref="@_table" Items="SAPModelsList" Hover="true" Striped="true" @bind-SelectedItem="oSAPModels" RowClassFunc="@SelectedRowClassFunc" OnRowClick="RowClickEvent" T="SAPModels">
+                <ToolBarContent>
+                    <MudText Typo="Typo.h6">SAP Product</MudText>
+                    <MudSpacer />
+                    <MudTextField @bind-Value="searchString1" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+                </ToolBarContent>
+                <HeaderContent>
+                    <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.ItemCode)">Product Code</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.ItemName)">Product Name</MudTableSortLabel></MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd>@context.ItemCode</MudTd>
+                    <MudTd>@context.ItemName</MudTd>
+                </RowTemplate>
+                <PagerContent>
+                    <MudPagination SelectedChanged="PageChanged" Count="@((_table.GetFilteredItemsCount() + _table.RowsPerPage - 1) / _table.RowsPerPage)" Class="pa-4" />
+                </PagerContent>
+                <PagerContent>
+                    <MudTablePager />
+                </PagerContent>
+            </MudTable>
+        }
+        @if (DialogFor == "RMItemPriceList")
+        {
+            <MudTable FixedHeader="true" HorizontalScrollbar="true" Height="350px" Dense="true" Bordered="true" Filter="new Func<SAPModels,bool>(FilterFunc1)" Loading="@Loading" LoadingProgressColor="Color.Primary" @ref="@_table" Items="SAPModelsList" Hover="true" Striped="true" @bind-SelectedItem="oSAPModels" RowClassFunc="@SelectedRowClassFunc" OnRowClick="RowClickEvent" T="SAPModels">
+                <ToolBarContent>
+                    <MudText Typo="Typo.h6">SAP Items</MudText>
+                    <MudSpacer />
+                    <MudTextField @bind-Value="searchString1" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+                </ToolBarContent>
+                <HeaderContent>
+                    <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.ItemCode)">Item Code</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.ItemName)">Item Description</MudTableSortLabel></MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd>@context.ItemCode</MudTd>
+                    <MudTd>@context.ItemName</MudTd>
+                </RowTemplate>
+                <PagerContent>
+                    <MudPagination SelectedChanged="PageChanged" Count="@((_table.GetFilteredItemsCount() + _table.RowsPerPage - 1) / _table.RowsPerPage)" Class="pa-4" />
+                </PagerContent>
+                <PagerContent>
+                    <MudTablePager />
+                </PagerContent>
+            </MudTable>
+        }
+         @*@if (DialogFor == "RMItemPriceList")
+        {
+            <MudTable FixedHeader="true" HorizontalScrollbar="true" Height="350px" Dense="true" Bordered="true" Filter="new Func<SAPModels,bool>(FilterFunc1)" Loading="@Loading" LoadingProgressColor="Color.Primary" @ref="@_table" Items="SAPModelsList" Hover="true" Striped="true" @bind-SelectedItem="oSAPModels" RowClassFunc="@SelectedRowClassFunc" OnRowClick="RowClickEvent" T="SAPModels">
+                <ToolBarContent>
+                    <MudText Typo="Typo.h6">SAP Items</MudText>
+                    <MudSpacer />
+                    <MudTextField @bind-Value="searchString1" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+                </ToolBarContent>
+                <HeaderContent>
+                    <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.ItemCode)">Item Code</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.ItemName)">Item Description</MudTableSortLabel></MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd>@context.ItemCode</MudTd>
+                    <MudTd>@context.ItemName</MudTd>
+                </RowTemplate>
+                <PagerContent>
+                    <MudPagination SelectedChanged="PageChanged" Count="@((_table.GetFilteredItemsCount() + _table.RowsPerPage - 1) / _table.RowsPerPage)" Class="pa-4" />
+                </PagerContent>
+                <PagerContent>
+                    <MudTablePager />
+                </PagerContent>
+            </MudTable>
+        }*@
+        @if (DialogFor == "VOCFinishedGoodsItem")
+        {
+            <MudTable FixedHeader="true" HorizontalScrollbar="true" Height="350px" Dense="true" Bordered="true" Filter="new Func<SAPModels,bool>(FilterFunc1)" Loading="@Loading" LoadingProgressColor="Color.Primary" @ref="@_table" Items="SAPModelsList" Hover="true" Striped="true" @bind-SelectedItem="oSAPModels" RowClassFunc="@SelectedRowClassFunc" OnRowClick="RowClickEvent" T="SAPModels">
+                <ToolBarContent>
+                    <MudText Typo="Typo.h6">SAP Finished Goods Items</MudText>
+                    <MudSpacer />
+                    <MudTextField @bind-Value="searchString1" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+                </ToolBarContent>
+                <HeaderContent>
+                    <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.ItemCode)">Item Code</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.ItemName)">Item Description</MudTableSortLabel></MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd>@context.ItemCode</MudTd>
+                    <MudTd>@context.ItemName</MudTd>
+                </RowTemplate>
+                <PagerContent>
+                    <MudPagination SelectedChanged="PageChanged" Count="@((_table.GetFilteredItemsCount() + _table.RowsPerPage - 1) / _table.RowsPerPage)" Class="pa-4" />
+                </PagerContent>
+                <PagerContent>
+                    <MudTablePager />
+                </PagerContent>
+            </MudTable>
+        }
+        @if (DialogFor == "RawMaterialItemPriceList")
+        {
+            <MudTable FixedHeader="true" HorizontalScrollbar="true" Height="350px" Dense="true" Bordered="true" Filter="new Func<SAPModels,bool>(FilterFunc1)" Loading="@Loading" LoadingProgressColor="Color.Primary" @ref="@_table" Items="SAPModelsList" Hover="true" Striped="true" @bind-SelectedItem="oSAPModels" RowClassFunc="@SelectedRowClassFunc" OnRowClick="RowClickEvent" T="SAPModels">
+                <ToolBarContent>
+                    <MudText Typo="Typo.h6">SAP Items</MudText>
+                    <MudSpacer />
+                    <MudTextField @bind-Value="searchString1" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+                </ToolBarContent>
+                <HeaderContent>
+                    <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.ItemCode)">Item Code</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.ItemName)">Item Description</MudTableSortLabel></MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd>@context.ItemCode</MudTd>
+                    <MudTd>@context.ItemName</MudTd>
+                </RowTemplate>
+                <PagerContent>
+                    <MudPagination SelectedChanged="PageChanged" Count="@((_table.GetFilteredItemsCount() + _table.RowsPerPage - 1) / _table.RowsPerPage)" Class="pa-4" />
+                </PagerContent>
+                <PagerContent>
+                    <MudTablePager />
+                </PagerContent>
+            </MudTable>
+        }
+        @if (DialogFor == "BomItemCode")
+        {
+            <MudTable   FixedHeader="true" MultiSelection="true" @bind-SelectedItems="selectedItems1" HorizontalScrollbar="true" Height="350px" Dense="true" Bordered="true" Filter="new Func<SAPModels,bool>(FilterFuncBom)" Loading="@Loading" LoadingProgressColor="Color.Primary" @ref="@_table" Items="SAPModelsList" Hover="true" Striped="true" @bind-SelectedItem="oSAPModels" RowClassFunc="@SelectedRowClassFunc" OnRowClick="RowClickEvent" T="SAPModels">
+                <ToolBarContent>
+                    <MudText Typo="Typo.h6">SAP Bom Item Code</MudText>
+                    <MudSpacer />
+                    <MudTextField @bind-Value="searchString1" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+                </ToolBarContent>
+                <HeaderContent>
+                    <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.BOMItemCode)">Item Code</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.BOMItemName)">Item Name</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.BOMQuantity)">Quantity</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.BOMUOM)">UOM</MudTableSortLabel></MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd>@context.BOMItemCode</MudTd>
+                    <MudTd>@context.BOMItemName</MudTd>
+                    <MudTd>@context.BOMQuantity</MudTd>
+                    <MudTd>@context.BOMUOM</MudTd>
+                </RowTemplate>
+                <PagerContent>
+                    <MudPagination SelectedChanged="PageChanged" Count="@((_table.GetFilteredItemsCount() + _table.RowsPerPage - 1) / _table.RowsPerPage)" Class="pa-4" />
+                </PagerContent>
+
+                <PagerContent>
+                    <MudTablePager />
+                </PagerContent>
+            </MudTable>
+                
+                    
+                
+           
+        }
+        @if (DialogFor == "FOHDriverRateItems")
+        {
+            <MudTable FixedHeader="true" MultiSelection="true" @bind-SelectedItems="selectedItems1" HorizontalScrollbar="true" Height="350px" Dense="true" Bordered="true" Filter="new Func<SAPModels,bool>(FilterFunc1)" Loading="@Loading" LoadingProgressColor="Color.Primary" @ref="@_table" Items="SAPModelsList" Hover="true" Striped="true" @bind-SelectedItem="oSAPModels" RowClassFunc="@SelectedRowClassFunc" OnRowClick="RowClickEvent" T="SAPModels">
+                <ToolBarContent>
+                    <MudText Typo="Typo.h6">SAP Product</MudText>
+                    <MudSpacer />
+                    <MudTextField @bind-Value="searchString1" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+                </ToolBarContent>
+                <HeaderContent>
+                    <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.ItemCode)">Product Code</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.ItemName)">Product Name</MudTableSortLabel></MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd>@context.ItemCode</MudTd>
+                    <MudTd>@context.ItemName</MudTd>
+                </RowTemplate>
+                <PagerContent>
+                    <MudPagination SelectedChanged="PageChanged" Count="@((_table.GetFilteredItemsCount() + _table.RowsPerPage - 1) / _table.RowsPerPage)" Class="pa-4" />
+                </PagerContent>
+                <PagerContent>
+                    <MudTablePager />
+                </PagerContent>
+            </MudTable>
+        }
+          @if (DialogFor == "BlanketAgreement")
+        {
+            <MudTable FixedHeader="true" HorizontalScrollbar="true" Height="350px" Dense="true" Bordered="true" Filter="new Func<SAPModels,bool>(FilterFunc1)" Loading="@Loading" LoadingProgressColor="Color.Primary" @ref="@_table" Items="SAPModelsList" Hover="true" Striped="true" @bind-SelectedItem="oSAPModels" RowClassFunc="@SelectedRowClassFunc" OnRowClick="RowClickEvent" T="SAPModels">
+                <ToolBarContent>
+                    <MudText Typo="Typo.h6">SAP Blanket Agreement Rate</MudText>
+                    <MudSpacer />
+                    <MudTextField @bind-Value="searchString1" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+                </ToolBarContent>
+                <HeaderContent>
+                    <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.bpName)">Blanket Name</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.bpCode)">Blanket Code</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.bitemCode)">Blanket Item Code</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.bitemName)">Blanket Item Name</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.BlUnitPrice)">Blanket Item Unit Price</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.BLCurrency)">Blanket Item Currency</MudTableSortLabel></MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd>@context.bpName</MudTd>
+                    <MudTd>@context.bpCode</MudTd>
+                    <MudTd>@context.bitemCode</MudTd>
+                    <MudTd>@context.bitemName</MudTd>
+                    <MudTd>@context.BlUnitPrice</MudTd>
+                    <MudTd>@context.BLCurrency</MudTd>
+                </RowTemplate>
+                <PagerContent>
+                    <MudPagination SelectedChanged="PageChanged" Count="@((_table.GetFilteredItemsCount() + _table.RowsPerPage - 1) / _table.RowsPerPage)" Class="pa-4" />
+                </PagerContent>
+                <PagerContent>
+                    <MudTablePager />
+                </PagerContent>
+            </MudTable>
+        }
+        @if (DialogFor == "DirectMaterialItem")
+        {
+            <MudTable   FixedHeader="true" MultiSelection="true" @bind-SelectedItems="selectedItems1" HorizontalScrollbar="true" Height="350px" Dense="true" Bordered="true" Filter="new Func<SAPModels,bool>(FilterFuncBom)" Loading="@Loading" LoadingProgressColor="Color.Primary" @ref="@_table" Items="SAPModelsList" Hover="true" Striped="true" @bind-SelectedItem="oSAPModels" RowClassFunc="@SelectedRowClassFunc" OnRowClick="RowClickEvent" T="SAPModels">
+                <ToolBarContent>
+                    <MudText Typo="Typo.h6">SAP BOM Item</MudText>
+                    <MudSpacer />
+                    <MudTextField @bind-Value="searchString1" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+                </ToolBarContent>
+                <HeaderContent>
+                    <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.BOMItemCode)">Item Code</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.BOMItemName)">Item Name</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.BOMQuantity)">Consumption Qty</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.BOMUOM)">Unit of Measure</MudTableSortLabel></MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd>@context.BOMItemCode</MudTd>
+                    <MudTd>@context.BOMItemName</MudTd>
+                    <MudTd>@context.BOMQuantity</MudTd>
+                    <MudTd>@context.BOMUOM</MudTd>
+                </RowTemplate>
+                <PagerContent>
+                    <MudPagination SelectedChanged="PageChanged" Count="@((_table.GetFilteredItemsCount() + _table.RowsPerPage - 1) / _table.RowsPerPage)" Class="pa-4" />
+                </PagerContent>
+
+                <PagerContent>
+                    <MudTablePager />
+                </PagerContent>
+            </MudTable>
+                
+                    
+                
+           
+        }
+        @if (DialogFor == "AccountExpenseList")
+        {
+            <MudTable FixedHeader="true" HorizontalScrollbar="true" Height="350px" Dense="true" Bordered="true" Filter="new Func<SAPModels,bool>(FilterFuncBom)" Loading="@Loading" LoadingProgressColor="Color.Primary" @ref="@_table" Items="SAPModelsList" Hover="true" Striped="true" @bind-SelectedItem="oSAPModels" RowClassFunc="@SelectedRowClassFunc" OnRowClick="RowClickEvent" T="SAPModels">
+                <ToolBarContent>
+                    <MudText Typo="Typo.h6">SAP Expense Accounts</MudText>
+                    <MudSpacer />
+                    <MudTextField @bind-Value="searchString1" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+                </ToolBarContent>
+                <HeaderContent>
+                    <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.AcctCode)">Account Code</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.AcctName)">Account Name</MudTableSortLabel></MudTh>
+                                    </HeaderContent>
+                <RowTemplate>
+                    <MudTd>@context.AcctCode</MudTd>
+                    <MudTd>@context.AcctName</MudTd>                   
+                </RowTemplate>
+                <PagerContent>
+                    <MudPagination SelectedChanged="PageChanged" Count="@((_table.GetFilteredItemsCount() + _table.RowsPerPage - 1) / _table.RowsPerPage)" Class="pa-4" />
+                </PagerContent>
+                <PagerContent>
+                    <MudTablePager />
+                </PagerContent>
+            </MudTable>
+        }
+        @if (DialogFor == "VOHMachineRateItems")
+        {
+            <MudTable FixedHeader="true" MultiSelection="true" @bind-SelectedItems="selectedItems1" HorizontalScrollbar="true" Height="350px" Dense="true" Bordered="true" Filter="new Func<SAPModels,bool>(FilterFuncVohMachine)" Loading="@Loading" LoadingProgressColor="Color.Primary" @ref="@_tableVohMachine" Items="SAPModelsList" Hover="true" Striped="true" @bind-SelectedItem="oSAPModels" RowClassFunc="@SelectedRowClassFuncVohMachine" OnRowClick="RowClickEventVohMachine" T="SAPModels">
+                <ToolBarContent>
+                    <MudText Typo="Typo.h6">SAP Product</MudText>
+                    <MudSpacer />
+                    <MudTextField @bind-Value="searchString1" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+                </ToolBarContent>
+                <HeaderContent>
+                    <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.ItemCodeVOH)">Product Code</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.ItemNameVOH)">Product Name</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.ItemQuantityVOH)">Product Quantity</MudTableSortLabel></MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd>@context.ItemCodeVOH</MudTd>
+                    <MudTd>@context.ItemNameVOH</MudTd>
+                    <MudTd>@context.ItemQuantityVOH</MudTd>
+                </RowTemplate>
+                <PagerContent>
+                    <MudPagination SelectedChanged="PageChanged" Count="@((_table.GetFilteredItemsCount() + _table.RowsPerPage - 1) / _table.RowsPerPage)" Class="pa-4" />
+                </PagerContent>
+                <PagerContent>
+                    <MudTablePager />
+                </PagerContent>
+            </MudTable>
+        }
+        @if (DialogFor == "VOHLaborRateItems")
+        {
+            <MudTable FixedHeader="true" MultiSelection="true" @bind-SelectedItems="selectedItems1" HorizontalScrollbar="true" Height="350px" Dense="true" Bordered="true" Filter="new Func<SAPModels,bool>(FilterFuncVohLabor)" Loading="@Loading" LoadingProgressColor="Color.Primary" @ref="@_tableVohLabor" Items="SAPModelsList" Hover="true" Striped="true" @bind-SelectedItem="oSAPModels" RowClassFunc="@SelectedRowClassFuncVohLabor" OnRowClick="RowClickEventVohLabor" T="SAPModels">
+                <ToolBarContent>
+                    <MudText Typo="Typo.h6">SAP Product</MudText>
+                    <MudSpacer />
+                    <MudTextField @bind-Value="searchString1" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+                </ToolBarContent>
+                <HeaderContent>
+                    <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.ItemCodeVOH)">Product Code</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.ItemNameVOH)">Product Name</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.ItemQuantityVOH)">Product Name</MudTableSortLabel></MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd>@context.ItemCodeVOH</MudTd>
+                    <MudTd>@context.ItemNameVOH</MudTd>
+                    <MudTd>@context.ItemQuantityVOH</MudTd>
+                </RowTemplate>
+                <PagerContent>
+                    <MudPagination SelectedChanged="PageChanged" Count="@((_table.GetFilteredItemsCount() + _table.RowsPerPage - 1) / _table.RowsPerPage)" Class="pa-4" />
+                </PagerContent>
+                <PagerContent>
+                    <MudTablePager />
+                </PagerContent>
+            </MudTable>
+        }
+        @if (DialogFor == "VOHElectricityRateItems")
+        {
+            <MudTable FixedHeader="true" MultiSelection="true" @bind-SelectedItems="selectedItems1" HorizontalScrollbar="true" Height="350px" Dense="true" Bordered="true" Filter="new Func<SAPModels,bool>(FilterFuncVohElectricity)" Loading="@Loading" LoadingProgressColor="Color.Primary" @ref="@_tableVohElectricity" Items="SAPModelsList" Hover="true" Striped="true" @bind-SelectedItem="oSAPModels" RowClassFunc="@SelectedRowClassFuncVohElectricity" OnRowClick="RowClickEventVohElectricity" T="SAPModels">
+                <ToolBarContent>
+                    <MudText Typo="Typo.h6">SAP Product</MudText>
+                    <MudSpacer />
+                    <MudTextField @bind-Value="searchString1" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+                </ToolBarContent>
+                <HeaderContent>
+                    <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.ItemCodeVOH)">Product Code</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.ItemNameVOH)">Product Name</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.ItemQuantityVOH)">Product Name</MudTableSortLabel></MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd>@context.ItemCodeVOH</MudTd>
+                    <MudTd>@context.ItemNameVOH</MudTd>
+                    <MudTd>@context.ItemQuantityVOH</MudTd>
+                </RowTemplate>
+                <PagerContent>
+                    <MudPagination SelectedChanged="PageChanged" Count="@((_table.GetFilteredItemsCount() + _table.RowsPerPage - 1) / _table.RowsPerPage)" Class="pa-4" />
+                </PagerContent>
+                <PagerContent>
+                    <MudTablePager />
+                </PagerContent>
+            </MudTable>
+        }
+        @if (DialogFor == "VOHDyesRateItems")
+        {
+            <MudTable FixedHeader="true" MultiSelection="true" @bind-SelectedItems="selectedItems1" HorizontalScrollbar="true" Height="350px" Dense="true" Bordered="true" Filter="new Func<SAPModels,bool>(FilterFuncVohDyes)" Loading="@Loading" LoadingProgressColor="Color.Primary" @ref="@_tableVohDyes" Items="SAPModelsList" Hover="true" Striped="true" @bind-SelectedItem="oSAPModels" RowClassFunc="@SelectedRowClassFuncVohDyes" OnRowClick="RowClickEventVohDyes" T="SAPModels">
+                <ToolBarContent>
+                    <MudText Typo="Typo.h6">SAP Product</MudText>
+                    <MudSpacer />
+                    <MudTextField @bind-Value="searchString1" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+                </ToolBarContent>
+                <HeaderContent>
+                    <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.ItemCodeVOH)">Product Code</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.ItemNameVOH)">Product Name</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.ItemQuantityVOH)">Product Name</MudTableSortLabel></MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd>@context.ItemCodeVOH</MudTd>
+                    <MudTd>@context.ItemNameVOH</MudTd>
+                    <MudTd>@context.ItemQuantityVOH</MudTd>
+                </RowTemplate>
+                <PagerContent>
+                    <MudPagination SelectedChanged="PageChanged" Count="@((_table.GetFilteredItemsCount() + _table.RowsPerPage - 1) / _table.RowsPerPage)" Class="pa-4" />
+                </PagerContent>
+                <PagerContent>
+                    <MudTablePager />
+                </PagerContent>
+            </MudTable>
+        }
+        @if (DialogFor == "VOHToolsRateItems")
+        {
+            <MudTable FixedHeader="true" MultiSelection="true" @bind-SelectedItems="selectedItems1" HorizontalScrollbar="true" Height="350px" Dense="true" Bordered="true" Filter="new Func<SAPModels,bool>(FilterFuncVohTools)" Loading="@Loading" LoadingProgressColor="Color.Primary" @ref="@_tableTools" Items="SAPModelsList" Hover="true" Striped="true" @bind-SelectedItem="oSAPModels" RowClassFunc="@SelectedRowClassFuncVohTools" OnRowClick="RowClickEventVohTools" T="SAPModels">
+                <ToolBarContent>
+                    <MudText Typo="Typo.h6">SAP Product</MudText>
+                    <MudSpacer />
+                    <MudTextField @bind-Value="searchString1" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+                </ToolBarContent>
+                <HeaderContent>
+                    <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.ItemCodeVOH)">Product Code</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.ItemNameVOH)">Product Name</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.ItemQuantityVOH)">Product Name</MudTableSortLabel></MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd>@context.ItemCodeVOH</MudTd>
+                    <MudTd>@context.ItemNameVOH</MudTd>
+                    <MudTd>@context.ItemQuantityVOH</MudTd>
+                </RowTemplate>
+                <PagerContent>
+                    <MudPagination SelectedChanged="PageChanged" Count="@((_table.GetFilteredItemsCount() + _table.RowsPerPage - 1) / _table.RowsPerPage)" Class="pa-4" />
+                </PagerContent>
+                <PagerContent>
+                    <MudTablePager />
+                </PagerContent>
+            </MudTable>
+        }
+        @if (DialogFor == "VOHGasolineRateItems")
+        {
+            <MudTable FixedHeader="true" MultiSelection="true" @bind-SelectedItems="selectedItems1" HorizontalScrollbar="true" Height="350px" Dense="true" Bordered="true" Filter="new Func<SAPModels,bool>(FilterFuncVohGasoline)" Loading="@Loading" LoadingProgressColor="Color.Primary" @ref="@_tableGasoline" Items="SAPModelsList" Hover="true" Striped="true" @bind-SelectedItem="oSAPModels" RowClassFunc="@SelectedRowClassFuncVohGasoline" OnRowClick="RowClickEventVohGasoline" T="SAPModels">
+                <ToolBarContent>
+                    <MudText Typo="Typo.h6">SAP Product</MudText>
+                    <MudSpacer />
+                    <MudTextField @bind-Value="searchString1" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+                </ToolBarContent>
+                <HeaderContent>
+                    <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.ItemCodeVOH)">Product Code</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.ItemNameVOH)">Product Name</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.ItemQuantityVOH)">Product Name</MudTableSortLabel></MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd>@context.ItemCodeVOH</MudTd>
+                    <MudTd>@context.ItemNameVOH</MudTd>
+                    <MudTd>@context.ItemQuantityVOH</MudTd>
+                </RowTemplate>
+                <PagerContent>
+                    <MudPagination SelectedChanged="PageChanged" Count="@((_table.GetFilteredItemsCount() + _table.RowsPerPage - 1) / _table.RowsPerPage)" Class="pa-4" />
+                </PagerContent>
+                <PagerContent>
+                    <MudTablePager />
+                </PagerContent>
+            </MudTable>
+        }
+          </DialogContent>
+    <DialogActions>
+        <MudItem class="text-right custom-btn-design">
+            <MudButton Variant="Variant.Filled" OnClick="Submit" StartIcon="@Icons.Filled.CheckCircle" Color="Color.Info" Size="Size.Small">Ok</MudButton>
+            <MudButton Variant="Variant.Filled" OnClick="Cancel" StartIcon="@Icons.Filled.Cancel" Color="Color.Error">Cancel</MudButton>
+        </MudItem>
+
+        @*<MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Submit">Ok</MudButton>*@
+    </DialogActions>
+</MudDialog>

@@ -1,0 +1,165 @@
+﻿@page "/SalesQuotation"
+@inject NavigationManager NavManager
+@using CA.API.Models
+@using CA.UI.General
+<PageTitle>WBC || Sales Quotation</PageTitle>
+<div class="container-fluid page-content-setting">
+    <div class="row">
+        <div class="col-sm-8">
+            <h3>Sales Quotation</h3>
+            <MudDivider />
+        </div>
+        <div class="col-sm-2 custom-btn-design text-right">
+            <MudButton Variant="Variant.Filled" OnClick="Reset" StartIcon="@Icons.Material.Filled.Refresh" Color="Color.Error">Reset</MudButton>
+            @*<MudFab Color="Color.Info" OnClick="Reset" StartIcon="@Icons.Material.Filled.Refresh" Title="Refresh" Size="Size.Small" />*@
+        </div>
+        <div class="col-sm-2 custom-btn-design">
+            <MudButton Variant="Variant.Filled" OnClick="@((e) => OpenSaveDataDialog(FullView))" StartIcon="@Icons.Filled.RemoveRedEye" Color="Color.Info" Size="Size.Small">View All</MudButton>
+            @*<MudFab Color="Color.Primary" OnClick="@((e) => OpenSaveDataDialog(FullView))" StartIcon="@Icons.Material.Filled.List" Title="View All" Size="Size.Small" />*@
+        </div>
+    </div>
+    <div class="row mt-5">
+        <div class="col-sm-12">
+            <MudGrid class="block-design">
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudTextField Style="font-weight:bold" @bind-Value="oModel.DocStatus" InputMode="InputMode.text" Immediate="true" Label="Document Status" Variant="Variant.Filled"
+                                  Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" ReadOnly="true" />
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudTextField Style="font-weight:bold" @bind-Value="oModel.DocNum" InputMode="InputMode.text" Immediate="true" Label="Document Number" Variant="Variant.Filled"
+                                  Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" ReadOnly="true" />
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudDatePicker @bind-Date="oModel.DocDate" PickerVariant="PickerVariant.Dialog" Label="Doc Date"
+                                   DateFormat="dd/MM/yyyy" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.CalendarMonth" />
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudTextField Style="font-weight:bold" @bind-Value="oModel.CustomerCode" InputMode="InputMode.text" Immediate="true" Label="Customer Code" Variant="Variant.Filled"
+                                  Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.AddToPhotos" AdornmentColor="Color.Info" OnAdornmentClick="@((e) => OpenSapDataDialogCustomer(FullView))" ReadOnly="true" />
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudTextField Style="font-weight:bold" @bind-Value="oModel.CustomerName" InputMode="InputMode.text" Immediate="true" Label="Customer Name" Variant="Variant.Filled"
+                                  Adornment="Adornment.Start" AdornmentIcon="@Icons.Filled.TextFields" ReadOnly="true" />
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudTextField Style="font-weight:bold" @bind-Value="oModel.SalesPriceList" InputMode="InputMode.text" Immediate="true" Label="Sales Price List" Variant="Variant.Filled"
+                                  Adornment="Adornment.Start" AdornmentIcon="@Icons.Filled.AddToPhotos" AdornmentColor="Color.Info" OnAdornmentClick="@((e) => OpenSalesPriceListDialog(FullView))" ReadOnly="true" />
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudAutocomplete ToStringFunc="@(e=> e==null?null : $"{e.Description}")" T="MstCostType" Label="Quotation Type" @bind-Value="oModelCostType" SearchFunc="@SearchCostType" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" />
+                </MudItem>
+            </MudGrid>
+            <div class="row mt-5">
+                <div class="col-sm-12">
+                    <MudCard Elevation="5">
+                        <MudCardContent>
+                            <MudGrid class="search-action-block align-items-center">
+                                <MudItem xs="10" sm="10" md="10" lg="10" Class=" pb-4">
+                                    <MudText Typo="Typo.h6">Row Level</MudText>
+                                </MudItem>
+                                <MudSpacer />
+                                <MudItem xs="2" sm="2" md="2" lg="2" Class="text-right custom-btn-design" style="justify-content: flex-end;">
+                                    <MudButton Variant="Variant.Filled" OnClick="@((e) => OpenAddRowDialog(FullView))" StartIcon="@Icons.Material.Filled.Add" Color="Color.Success" Size="Size.Small">Add Details</MudButton>
+                                    @*<MudFab Color="Color.Primary" OnClick="@((e) => OpenAddRowDialog(FullView))" StartIcon="@Icons.Material.Filled.Add" Title="Add Details" Size="Size.Small" />*@
+                                </MudItem>
+                                <MudItem xs="2" sm="2" md="2" lg="2"  Class="text-right custom-btn-design" style="justify-content: flex-end;">
+                                    <MudButton Variant="Variant.Filled" OnClick="@((e) => OpenDialogCopyFrom(FullView))" StartIcon="@Icons.Material.Filled.Add" Color="Color.Success" Size="Size.Small">Copy Row</MudButton>
+                                    @*<MudFab Color="Color.Primary" OnClick="@((e) => OpenDialogCopyFrom(FullView))" StartIcon="@Icons.Material.Filled.List" Title="Copy from Row" IconSize="Size.Small" />*@
+                                </MudItem>
+                            </MudGrid>
+                            <MudTable Items="@oSalesQuatationDetailList" Class="table-setting" Dense="true" Hover="true" Bordered="true" Striped="true">
+                                <HeaderContent>
+                                    <MudTh>Product Code</MudTh>
+                                    <MudTh>Product Description</MudTh>
+                                    <MudTh>Product Department</MudTh>
+                                    <MudTh>D.M</MudTh>
+                                    <MudTh>V.O.H</MudTh>
+                                    <MudTh>F.O.H</MudTh>
+                                    <MudTh>RM Analysis</MudTh>
+                                    <MudTh>Import Cost</MudTh>
+                                    <MudTh>Local Cost</MudTh>
+                                    <MudTh>Total RM Cost</MudTh>
+                                    <MudTh>V.O.H Analysis</MudTh>
+                                    <MudTh>Machine</MudTh>
+                                    <MudTh>Labor </MudTh>
+                                    <MudTh>Electricity</MudTh>
+                                    <MudTh>Dies & Molds</MudTh>
+                                    <MudTh>Tools</MudTh>
+                                    <MudTh>Gasoline</MudTh>
+                                    <MudTh>Packing</MudTh>
+                                    <MudTh>Transportation</MudTh>
+                                    <MudTh>Others</MudTh>
+                                    <MudTh>Total VOH Cost</MudTh>
+                                    <MudTh>Total Direct Cost</MudTh>
+                                    <MudTh>F.O.H Rate %</MudTh>
+                                    <MudTh>F.O.H Amount </MudTh>
+                                    <MudTh>Other FOH </MudTh>
+                                    <MudTh>Total FOH  </MudTh>
+                                    <MudTh>Total Unit Cost </MudTh>
+                                    <MudTh>Selling Price </MudTh>
+                                    <MudTh>Margin</MudTh>
+                                    <MudTh>Margin %</MudTh>
+                                    <MudTh>Action</MudTh>
+                                </HeaderContent>
+                                <RowTemplate>
+                                    <MudTd DataLabel="ProductCode">@context.ProductCode</MudTd>
+                                    <MudTd DataLabel="ProductDescription">@context.ProductDescription</MudTd>
+                                    <MudTd DataLabel="ProductDepartment">@context.ProductDepartment</MudTd>
+                                    <MudTd DataLabel="FkdirectMaterialDocNum">@context.FkdirectMaterialDocNum</MudTd>
+                                    <MudTd DataLabel="FkvohdocNum">@context.FkvohdocNum</MudTd>
+                                    <MudTd DataLabel="FkfohdocNum">@context.FkfohdocNum</MudTd>
+                                    <MudTd DataLabel="ImportCost">@context.Rmanalysis</MudTd>
+                                    <MudTd DataLabel="ImportCost">@context.ImportCost</MudTd>
+                                    <MudTd DataLabel="LocalCost">@context.LocalCost</MudTd>
+                                    <MudTd DataLabel="TotalRmcost">@context.TotalRmcost</MudTd>
+                                    <MudTd DataLabel="TotalRmcost">@context.Vohanalysis</MudTd>
+                                    <MudTd DataLabel="Machine">@context.Machine</MudTd>
+                                    <MudTd DataLabel="Labour">@context.Labour</MudTd>
+                                    <MudTd DataLabel="Electricity">@context.Electricity</MudTd>
+                                    <MudTd DataLabel="DiesAndMolds">@context.DiesAndMolds</MudTd>
+                                    <MudTd DataLabel="Tools">@context.Tools</MudTd>
+                                    <MudTd DataLabel="Gasoline">@context.Gasoline</MudTd>
+                                    <MudTd DataLabel="Packing">@context.Packing</MudTd>
+                                    <MudTd DataLabel="Transportation">@context.Transportation</MudTd>
+                                    <MudTd DataLabel="Others">@context.Others</MudTd>
+                                    <MudTd DataLabel="TotalVohcost">@context.TotalVohcost</MudTd>
+                                    <MudTd DataLabel="TotalDirectCost">@context.TotalDirectCost</MudTd>
+                                    <MudTd DataLabel="FohratePer">@context.FohratePer</MudTd>
+                                    <MudTd DataLabel="Fohamount">@context.Fohamount</MudTd>
+                                    <MudTd DataLabel="OtherFoh">@context.OtherFoh</MudTd>
+                                    <MudTd DataLabel="TotalFoh">@context.TotalFoh</MudTd>
+                                    <MudTd DataLabel="TotalUnitCost">@context.TotalUnitCost</MudTd>
+                                    <MudTd DataLabel="SellingPrice">@context.SellingPrice</MudTd>
+                                    <MudTd DataLabel="Margin">@context.Margin</MudTd>
+                                    <MudTd DataLabel="MarginPer">@context.MarginPer</MudTd>
+                                    <MudTd DataLabel="Action">
+                                        <MudIconButton Color="Color.Primary" Variant="Variant.Outlined" Icon="@Icons.Material.Filled.Delete" OnClick="@((e) => RemoveRecord(context.ProductCode))" Title="Remove"></MudIconButton>
+                                    </MudTd>
+                                </RowTemplate>
+                                <PagerContent>
+                                    <MudTablePager />
+                                </PagerContent>
+                            </MudTable>
+                        </MudCardContent>
+                    </MudCard>
+                </div>
+            </div>
+            <div class="row mt-5 justify-content-start">
+                <div class="col-md-2 text-left">
+                    <MudButton Variant="Variant.Filled" Disabled="@Loading" ButtonType="ButtonType.Submit" Size="Size.Medium" @onclick="@Save"
+                               Class="ma-2 w-100 mud-fab mud-fab-primary" EndIcon="@Icons.Material.Sharp.Save" Style="border-radius:25px;">
+                        @if (Loading)
+                        {
+                            <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
+                            <MudText Class="ms-2">Loading</MudText>
+                        }
+                        else
+                        {
+                            <MudText>Save</MudText>
+                        }
+                    </MudButton>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

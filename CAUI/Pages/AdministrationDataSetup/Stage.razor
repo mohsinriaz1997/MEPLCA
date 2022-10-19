@@ -1,0 +1,76 @@
+﻿@page "/Stage"
+@using CA.API.Models
+
+<div class="container-fluid page-content-setting">
+<div class="input-field-setting custom-helper-text">
+    <div class="row">
+        <div class="col-md-10">
+            <h3>Stages</h3>
+        </div>
+        <div class="col-md-2 custom-btn-design text-right">
+            <MudButton Variant="Variant.Filled" OnClick="@((e) => OpenDialog(FullView))" StartIcon="@Icons.Filled.RemoveRedEye" Color="Color.Info" Size="Size.Small">View All</MudButton>
+        @*<MudFab Color="Color.Primary" OnClick="@((e) => OpenDialog(FullView))" StartIcon="@Icons.Material.Filled.List" Title="View All" />*@
+        </div>
+    </div>
+    <MudDivider />
+    @if (Loading)
+    {
+        <MudProgressLinear Color="Color.Primary" Indeterminate="true" Class="my-7" />
+    }
+    <div class="row mt-5 block-design">
+        <div class="col-md-4 col-sm-4">
+            <MudTextField Required="true" @bind-Value="oModel.StageName" InputMode="InputMode.text" MaxLength="100" Counter="100" HelperText="Enter Stage Name" Immediate="true" Clearable="true" Label="Stage Name" Variant="Variant.Text"
+                          Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+        </div>
+        <div class="col-md-4 col-sm-4">
+            <MudNumericField Required="true" @bind-Value="oModel.NoOfApproval" HelperText="No. of Approval" Immediate="true" Clearable="true" Label="No. of Approval"
+                             Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" Variant="Variant.Text" Min="0"> </MudNumericField>
+        </div>
+        <div class="col-md-4 col-sm-4">
+            <MudNumericField Required="true" @bind-Value="oModel.NoOfRejection" HelperText="No. of Rejection" Immediate="true" Clearable="true" Label="No. of Rejection"
+                             Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" Variant="Variant.Text" Min="0"> </MudNumericField>
+        </div>
+    </div>
+    <div class="row mt-5">
+        <div class="col-md-12">
+            <MudTabs Border="true" Elevation="5" Rounded="true" ApplyEffectsToContainer="true" PanelClass="pa-6" Centered="true">
+                <MudTabPanel Icon="@Icons.Sharp.Person" Text="Authorizers">
+                    <MudSelect Required="true" RequiredError="Required!" MultiSelectionTextFunc="@(new Func<List<string>, string>(GetAuthorizersSelection))" T="MstUserProfile" @bind-SelectedValues="AuthorizerNames" @bind-Value="oUser" MultiSelection="true" Label="Select Authorizer" Variant="Variant.Outlined" OffsetY="true" Margin="Margin.Dense">
+                        @foreach (MstUserProfile item in oUserList)
+                        {
+                            <MudSelectItem Value="@item">@item.UserName</MudSelectItem>
+                        }
+                    </MudSelect>
+                    <MudDivider Class="mt-5" />
+                    @if (AuthorizerNames != null)
+                    {
+                        @foreach (var item in AuthorizerNames)
+                        {
+                            <MudChip Icon="@Icons.Material.Filled.Person" Class="mt-5" Variant="Variant.Text" Color="Color.Primary">@item.UserName</MudChip>
+                        }
+                    }
+                </MudTabPanel>
+            </MudTabs>
+        </div>
+    </div>
+    <div class="row mt-5 justify-content-start">
+        <div class="col-md-2 text-left">
+            <MudButton Variant="Variant.Filled" Disabled="@Loading" ButtonType="ButtonType.Submit" Size="Size.Medium"
+                       Class="ma-2 w-100 mud-fab mud-fab-primary" EndIcon="@Icons.Material.Sharp.Save" @onclick="@Save" Style="border-radius:25px;">
+                @if (Loading)
+                {
+                    <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
+                    <MudText Class="ms-2">Loading</MudText>
+                }
+                else
+                {
+                    <MudText>Save</MudText>
+                }
+            </MudButton>
+            @*<MudFab OnClick="SaveStages" Color="Color.Primary" Size="Size.Medium" Label="Save" Class="ma-2 w-100" Icon="@Icons.Material.Sharp.Save" />*@
+        </div>
+    </div>
+</div>
+
+
+</div>

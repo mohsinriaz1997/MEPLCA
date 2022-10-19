@@ -1,0 +1,120 @@
+﻿@page "/FOHRateCalculation"
+@using CA.API.Models
+<div class="container-fluid page-content-setting">
+    <div class="row">
+        <div class="col-sm-10">
+            <h3>FOH RATES CALCULATION </h3>
+            <MudDivider />
+        </div>
+        <div class="col-sm-2 custom-btn-design text-right">
+             <MudButton Variant="Variant.Filled" OnClick="@((e) => OpenDialog(FullView))" StartIcon="@Icons.Filled.RemoveRedEye" Color="Color.Info" Size="Size.Small">View All</MudButton>
+            @*<MudFab Color="Color.Primary" OnClick="@((e) => OpenDialog(FullView))" StartIcon="@Icons.Material.Filled.List" Title="View All" />*@
+        </div>
+    </div>
+    <div class="row mt-5">
+        <div class="col-sm-12">
+            <MudGrid class="block-design">
+                 <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudTextField @bind-Value="oModel.DocNum" InputMode="InputMode.text" Immediate="true" Clearable="true" Label="Doc Number" Variant="Variant.Text"
+                                  Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" disabled />
+                </MudItem>
+
+                  <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudDatePicker @bind-Date="oModel.DocDate" PickerVariant="PickerVariant.Dialog" Label="Doc Date" HelperText="Doc Date"
+                                   DateFormat="dd/MM/yyyy" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.CalendarMonth" PickerClosed="OnDateChange" />
+                </MudItem>
+                   <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudTextField @bind-Value="oModel.DocName" InputMode="InputMode.text" Immediate="true" Clearable="true" Label="Document Name" Variant="Variant.Text"
+                                  Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudTextField @bind-Value="oModel.ProductCode" InputMode="InputMode.text" Immediate="true" Clearable="true" Label="Product Code" Variant="Variant.Text"
+                                  Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" disabled />
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudTextField @bind-Value="oModel.ProductName" InputMode="InputMode.text" Immediate="true" Clearable="true" Label="Product Name" Variant="Variant.Text"
+                                  Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" disabled />
+                </MudItem>                
+                <MudItem xs="1" sm="1" md="1" lg="1" Class="text-right pr-5 pb-4">
+                    <MudIconButton OnClick="@((e) => OpenSapDataDialogRMItemForItemPriceList(FullView))" Icon="@Icons.Material.Filled.MenuOpen" Color="Color.Primary" Size="Size.Small" Title="Search Item"></MudIconButton>
+                </MudItem>
+              
+             
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudAutocomplete ToStringFunc="@(e=> e==null?null : $"{e.Description}")" T="MstCostType" Label="Cost Type" @bind-Value="oModelCostType" SearchFunc="@SearchCostType" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" />
+                </MudItem>
+                <MudItem xs="12" sm="12" md="12" lg="12">
+                @if (Loading)
+                {
+                    <MudItem xs="2" sm="2" md="2" lg="2" class="text-right">
+                        <MudText>Loading...</MudText>
+                        <MudProgressLinear Color="Color.Primary" Indeterminate="true" Class="my-7" />
+                    </MudItem>
+                }
+                else
+                {
+                    <MudItem xs="12" sm="12" md="12" lg="12" class="text-right custom-btn-design">
+                            <MudButton Variant="Variant.Filled" OnClick="Save" StartIcon="@Icons.Material.Filled.Save" Color="Color.Info" Size="Size.Small">Save</MudButton>
+                            <MudButton Variant="Variant.Filled" OnClick="Reset" StartIcon="@Icons.Material.Filled.Refresh" Color="Color.Error">Reset</MudButton>
+
+                        @*<MudFab Color="Color.Primary" OnClick="Save" StartIcon="@Icons.Material.Filled.Save" Title="Save" IconSize="Size.Small" />
+                        <MudFab Color="Color.Info" OnClick="Reset" StartIcon="@Icons.Material.Filled.Refresh" Title="Refresh" IconSize="Size.Small" />*@
+                        
+                    </MudItem>
+                }
+                </MudItem>
+            </MudGrid>
+            <div class="row mt-5">
+                <div class="col-sm-12">
+                    <MudCard Elevation="5">
+                        <MudCardContent>
+                            <MudGrid class="search-action-block align-items-center">
+                                <MudItem xs="10" sm="10" md="10" lg="10" Class="pb-4">
+                                    <MudText Typo="Typo.h6">FOH Rate Calcu Row Level</MudText>
+                                </MudItem>
+                                <MudSpacer />
+                                <MudItem xs="2" sm="2" md="2" lg="2" Class="text-right custom-btn-design" style="justify-content: flex-end;">
+                                    <MudButton Variant="Variant.Filled" OnClick="@((e) => OpenAddDialog(FullView))" StartIcon="@Icons.Material.Filled.Add" Color="Color.Success" Size="Size.Small">Add Details</MudButton>
+                                    @*<MudFab Color="Color.Primary" OnClick="@((e) => OpenAddDialog(FullView))" StartIcon="@Icons.Material.Filled.Add" Title="Add Details" IconSize="Size.Small" />*@
+                                </MudItem>
+                            </MudGrid>
+                            <MudTable Items="@oDetailList" Class="table-setting" Dense="true" Hover="true" Bordered="true" Striped="true">
+                                <HeaderContent>
+                                    <MudTh>Cost Driver</MudTh>
+                                    <MudTh>Rate</MudTh>                                    
+                                    <MudTh>Action</MudTh>
+                                </HeaderContent>
+                                <RowTemplate>
+                                    <MudTd DataLabel="CostDriver">@context.FkcostDrivesTypeDescription</MudTd>
+                                    <MudTd DataLabel="Rate">@context.Rate</MudTd>
+                                    <MudTd DataLabel="Action">
+                                        <MudIconButton Color="Color.Primary" Variant="Variant.Outlined" Icon="@Icons.Material.Filled.Edit" OnClick="@((e) => OpenEditDialog(FullView, context))" Title="Edit"></MudIconButton>
+                                        @*<MudIconButton Color="Color.Primary" Variant="Variant.Outlined" Icon="@Icons.Material.Filled.Delete" OnClick="@((e) => RemoveRecord(context.TypeOfResr,context.ResrDescription,context.CurrCodeSap,context.CurrNameSap,context.Rate,context.Price,context.Cost))" Title="Delete"></MudIconButton>*@
+                                    </MudTd>
+                                </RowTemplate>
+                                <PagerContent>
+                                    <MudTablePager />
+                                </PagerContent>
+                            </MudTable>
+                        </MudCardContent>
+                    </MudCard>
+                </div>
+            </div>
+            <div class="row mt-5">
+                <div class="col-sm-12">
+                    <MudGrid class="block-design">
+                        <MudItem xs="10" sm="10" md="10" lg="10" Class="pl-5 pb-4">
+                            <MudText Typo="Typo.h6">Footer Level</MudText>
+                        </MudItem>
+                        <MudItem xs="4" sm="4" md="4" lg="4">
+                            <MudTextField Style="font-weight:bold" @bind-Value="oModel.Fohrate" InputMode="InputMode.numeric" Immediate="true" Label="Total FOH Rate" Variant="Variant.Filled" Margin="Margin.Dense"
+                                          Adornment="Adornment.Start" AdornmentIcon="@Icons.Filled.Numbers" ReadOnly="true" />
+                        </MudItem>
+                        
+                    </MudGrid>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>

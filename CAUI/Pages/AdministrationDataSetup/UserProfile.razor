@@ -1,0 +1,100 @@
+﻿@page "/UserProfile"
+@using CA.API.Models
+@using System.Globalization
+<div class="container-fluid page-content-setting">
+    <div class="row">
+        <div class="col-sm-12">
+            <h3>User Profile Config</h3>
+            <MudDivider/>
+        </div>
+    </div>
+     <div class="row mt-5">
+     <div class="col-sm-12">
+          <MudGrid class="block-design">
+                 <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudTextField T="string" @bind-Value="oModelUserProfile.UserCode" Required="true" RequiredError="User Code is required!" InputMode="InputMode.text" MaxLength="10" Counter="200" HelperText="Enter From User Code" Immediate="true" Clearable="true" Label="User Code" Variant="Variant.Text"
+                                  Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                </MudItem>
+                
+                <MudTextField style="margin: 18px 0 0;" xs="4" sm="4" md="4" lg="4" T="string" Label="Password" HelperText="Choose a strong password" @ref="pwField1"
+                              InputType="InputType.Password" @bind-Value="oModelUserProfile.Password" OnAdornmentClick="ShowPassword"
+                 Validation="@(new Func<string, IEnumerable<string>>(PasswordStrength))" Required="true"
+                 RequiredError="Password is required!"/>
+                 <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudTextField T="string" @bind-Value="oModelUserProfile.UserName" Required="true" RequiredError="User Name is required!" InputMode="InputMode.text" MaxLength="200" Counter="200" HelperText="Enter From User Name" Immediate="true" Clearable="true" Label="User Name" Variant="Variant.Text"
+                                  Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                </MudItem>  
+                    
+                     <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudAutocomplete ToStringFunc="@(e=> e==null?null : $"{e.Description}")" T="MstDesignation" Label="Designation Type" @bind-Value="oModelDesignation" SearchFunc="@SearchCostType" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" />
+                    </MudItem>
+                    <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudAutocomplete ToStringFunc="@(e=> e==null?null : $"{e.Description}")" T="MstDepartment" Label="Department Type" @bind-Value="oModel" SearchFunc="@SearchDepartment" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" />
+                    </MudItem>                              
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudTextField T="string"  @bind-Value="oModelUserProfile.EmailId" Required="true" RequiredError="Email is required!"  InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Email Address" Immediate="true" Clearable="true" Label="Email Address" Variant="Variant.Text" 
+                    Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                </MudItem>
+                <MudItem xs="2" sm="2" md="2" lg="2">                        
+                    <MudSwitch @bind-Checked="@oModelUserProfile.FlgActive" ThumbIcon="@(oModelUserProfile.FlgActive==true ? Icons.Material.Filled.Done : Icons.Material.Filled.Close)" ThumbIconColor="@(oModelUserProfile.FlgActive==true ? Color.Primary : Color.Error)" Color="@(oModelUserProfile.FlgActive==true ? Color.Info : Color.Error)">
+                        <span>@(oModelUserProfile.FlgActive==true ? "Active" : "In Active")</span>
+                    </MudSwitch>
+                    </MudItem>
+                      <MudItem xs="4" sm="4" md="4" lg="4">                        
+                    <MudSwitch @bind-Checked="@oModelUserProfile.FlgSuper" ThumbIcon="@(oModelUserProfile.FlgSuper==true ? Icons.Material.Filled.Done : Icons.Material.Filled.Close)" ThumbIconColor="@(oModelUserProfile.FlgSuper==true ? Color.Primary : Color.Error)" Color="@(oModelUserProfile.FlgSuper==true ? Color.Info : Color.Error)">
+                        <span>@(oModelUserProfile.FlgSuper==true ? "Super" : "Not Super")</span>
+                    </MudSwitch>
+                    </MudItem>
+                    <MudItem xs="12" sm="12" md="12" lg="12" class="text-right custom-btn-design">
+
+                     <MudButton Variant="Variant.Filled" OnClick="Save" StartIcon="@Icons.Material.Filled.Save" Color="Color.Info" Size="Size.Small">Save</MudButton>
+
+                    @*<MudFab Color="Color.Primary" OnClick="Save" StartIcon="@Icons.Material.Filled.Save" Title="Save" IconSize="Size.Small" />*@
+                    </MudItem>
+                </MudGrid>
+     </div>
+     </div>
+     <div class="row mt-5">
+        <div class="col-sm-12">
+            <MudCard Elevation="5">
+                <MudCardContent>
+                    <MudTable Items="@oUserProfileList" class="table-setting" Dense="true" Hover="true" Bordered="true" Striped="true" Filter="new Func<MstUserProfile,bool>(FilterFunc)">
+                        <ToolBarContent>
+                            <MudText Typo="Typo.h6">User Profile </MudText>
+                            <MudSpacer />
+                            <MudTextField T="string" @bind-Value="searchString1" Placeholder="Search" Variant="Variant.Text" Clearable="true" Immediate="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" />
+                        </ToolBarContent>
+                        <HeaderContent>
+                            <MudTh>User Code</MudTh>
+                            <MudTh>User Name</MudTh>
+                            <MudTh>Active</MudTh>
+                            <MudTh>Super User</MudTh>
+                            <MudTh>Action</MudTh>
+                        </HeaderContent>
+                        <RowTemplate>
+                            <MudTd DataLabel="UserCode">@context.UserCode</MudTd>
+                            <MudTd DataLabel="UserName">@context.UserName</MudTd>
+                            <MudTd DataLabel="FlgActive">@context.FlgActive</MudTd>
+                            <MudTd DataLabel="FlgSuper">@context.FlgSuper</MudTd>
+                            <MudTd DataLabel="Action">
+
+                            
+                            <MudIconButton Color="Color.Primary" Variant="Variant.Outlined" Icon="@Icons.Material.Filled.Edit" OnClick="@(() => EditRecord(context.Id) )" Title="Edit">
+
+                            </MudIconButton>
+                            <MudIconButton Color="Color.Primary" Variant="Variant.Outlined" Icon="@Icons.Material.Filled.Delete" OnClick="@(() => RemoveRecord(context.Id) )" Title="Delete">
+
+                            </MudIconButton>
+                            </MudTd>
+                            </RowTemplate>
+                        <PagerContent>
+                            <MudTablePager />
+                        </PagerContent>
+                    </MudTable>
+                </MudCardContent>
+            </MudCard>
+        </div>
+    </div>
+</div>
+
+

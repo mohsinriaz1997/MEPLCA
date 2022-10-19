@@ -1,0 +1,57 @@
+﻿@using CA.UI.Interfaces.AdministrationData
+@inherits LayoutComponentBase
+
+<MudThemeProvider />
+<MudDialogProvider DisableBackdropClick="true"/>
+<MudSnackbarProvider />
+
+<MudLayout>
+    <MudAppBar Elevation="0" Class="header-bar">
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+        <MudSpacer />
+        <MudIconButton Icon="@Icons.Material.Filled.Logout" Color="Color.Error" OnClick="LogOut" Title="Logout" />
+    </MudAppBar>
+   
+    <MudDrawer @bind-Open="_drawerOpen" Elevation="1" Class="main-sidebar-nav">
+        <MudDrawerHeader>
+
+            <MudImage Src="img/logo.png" Alt="mepl logo" Elevation="25" Class=""/><MudText Typo="Typo.h6">Web-Based Costing</MudText>
+            <MudDivider/>
+        </MudDrawerHeader>
+        <NavMenu />
+    </MudDrawer>
+
+    <MudMainContent>
+        <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="my-3 pt-3">
+            @Body
+        </MudContainer>
+    </MudMainContent>
+    <MudThemeProvider Theme="_currentTheme" />
+</MudLayout>
+
+
+@code {
+
+    [Inject]
+        public IUserProfile _userProfileService { get; set; }
+
+        
+        [Inject]
+        public NavigationManager navigation { get; set; }
+
+    bool _drawerOpen = true;
+
+    void DrawerToggle()
+    {
+        _drawerOpen = !_drawerOpen;
+    }
+
+    private MudTheme _currentTheme = new MudTheme();
+
+       public async Task LogOut()
+        {
+            await _userProfileService.Logout();
+            navigation.NavigateTo("/login");
+        }
+
+}

@@ -1,0 +1,201 @@
+﻿@page "/ItemPriceList"
+@using CA.API.Models
+<div class="container-fluid page-content-setting">
+    <div class="row">
+        <div class="col-sm-10">
+            <h3>Item Price List Master Data</h3>
+            </div>
+            <MudDivider />
+            <div class="col-sm-2 custom-btn-design text-right">
+                <MudButton Variant="Variant.Filled" OnClick="@((e) => OpenDialog(FullView))" StartIcon="@Icons.Filled.RemoveRedEye" Color="Color.Info" Size="Size.Small">View All</MudButton>
+                @*<MudFab Color="Color.Primary" OnClick="@((e) => OpenDialog(FullView))" StartIcon="@Icons.Material.Filled.List" Title="View All" />*@
+            </div>
+    </div>
+    
+    <div class="row mt-5">
+        <div class="col-sm-12">
+            <MudGrid Class="block-design">
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudTextField @bind-Value="mstItemPriceList.DocNum" InputMode="InputMode.text" Immediate="true" Clearable="true" Label="Document Number" Variant="Variant.Text"
+                                  Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" disabled />
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudDatePicker @bind-Date="mstItemPriceList.DocDate" PickerVariant="PickerVariant.Dialog" Label="Doc Date" HelperText="Doc Date"
+                                   DateFormat="dd/MM/yyyy" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.CalendarMonth" PickerClosed="OnDateChange" />
+                </MudItem>                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudTextField T="string" @bind-Value="mstItemPriceList.Plname" InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Price List Name" Immediate="true" Clearable="true" Label="Price List Name" Variant="Variant.Text"
+                                  Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                </MudItem>
+                 <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudTextField T="decimal" @bind-Value="mstItemPriceList.ExchangeRate" InputMode="InputMode.email" MaxLength="200" Counter="200" HelperText="Enter From Exchange Rate" Immediate="true" Clearable="true" Label="Exchange Rate" Variant="Variant.Text"
+                                  Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                </MudItem>
+                
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudSelect xs="4" sm="4" md="4" lg="4" @bind-Value="mstItemPriceList.PriceBase" T="string" Label="Price Base" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter">
+                        <MudSelectItem Value="@("Moving Average")" />
+                        <MudSelectItem Value="@("Last Purchase")" />
+                        <MudSelectItem Value="@("Blanket Agreement")" />
+                    </MudSelect>
+                </MudItem>
+               <MudItem xs="3" sm="3" md="3" lg="3">
+                    <MudSwitch @bind-Checked="mstItemPriceList.FlgDefaultPl" Label="Default Price List" Color="Color.Info" />
+                </MudItem>
+                <MudItem xs="1" sm="1" md="1" lg="1" Class="text-right pr-5 pb-4">
+                    <MudIconButton OnClick="@((e) => OpenSAPDataDialog(FullView, mstItemPriceList.DocDate))" Icon="@Icons.Material.Filled.MenuOpen" Color="Color.Primary" Size="Size.Small" Title="Search Excahnge Rate"></MudIconButton>
+                </MudItem>
+                <MudItem xs="12" sm="12" md="12" lg="12">
+                @if (Loading)
+                {
+                    <MudItem xs="2" sm="2" md="2" lg="2" class="text-right">
+                        <MudText>Loading...</MudText>
+                        <MudProgressLinear Color="Color.Primary" Indeterminate="true" Class="my-7" />
+                    </MudItem>
+                }
+                else
+                {
+                    <MudItem xs="12" sm="12" md="12" lg="12" class="text-right custom-btn-design">
+                            <MudButton Variant="Variant.Filled" OnClick="Save" StartIcon="@Icons.Material.Filled.Save" Color="Color.Info" Size="Size.Small">Save</MudButton>
+                            <MudButton Variant="Variant.Filled" OnClick="Reset" StartIcon="@Icons.Material.Filled.Refresh" Color="Color.Error">Reset</MudButton>
+
+                        @*<MudFab Color="Color.Primary" OnClick="Save" StartIcon="@Icons.Material.Filled.Save" Title="Save" IconSize="Size.Small" />
+                        <MudFab Color="Color.Info" OnClick="Reset" StartIcon="@Icons.Material.Filled.Refresh" Title="Refresh" IconSize="Size.Small" />*@
+                    </MudItem>
+                }
+                </MudItem>
+            </MudGrid>
+            <h5 style="padding:10px 0;">Item Price List Master Details </h5>
+            <div class="row mt-2">
+                <div class="col-sm-12">
+                    <MudCard Elevation="5">
+                        <MudCardContent>
+                            <MudGrid class="search-action-block align-items-center block-design">
+                                <MudItem xs="10" sm="10" md="10" lg="10" Class="pb-4">
+                                    <MudText Typo="Typo.h6">Detail</MudText>
+                                </MudItem>
+                                <MudSpacer />
+                                <MudItem xs="2" sm="2" md="2" lg="2" Class="text-right custom-btn-design" style="justify-content: flex-end;">
+                                    <MudButton Variant="Variant.Filled" OnClick="@((e) => OpenAddDialog(FullView))" StartIcon="@Icons.Material.Filled.Add" Color="Color.Success" Size="Size.Small">Add Details</MudButton>
+                                    @*<MudFab Color="Color.Primary" OnClick="@((e) => OpenAddDialog(FullView))" StartIcon="@Icons.Material.Filled.Add" Title="Add Details" IconSize="Size.Small" />*@
+                                </MudItem>
+                                <MudItem xs="12" sm="12" md="12" lg="12" Class="text-right custom-btn-design" style="justify-content: flex-end;">
+                                    <MudButton Variant="Variant.Filled" OnClick="@((e) => OpenDialogCopyFrom(FullView))" StartIcon="@Icons.Material.Filled.RemoveRedEye" Color="Color.Info" Size="Size.Small">Fetch Row Details</MudButton>
+                                    
+                                </MudItem>
+                           @*     <div class="col-sm-2 custom-btn-design text-right">
+                                    <MudButton Variant="Variant.Filled" OnClick="@((e) => OpenDialogCopyFrom(FullView))" StartIcon="@Icons.Filled.RemoveRedEye" Color="Color.Info" Size="Size.Small">View All</MudButton>
+                                    
+                                </div>*@
+                            </MudGrid>
+                            @*<MudTable @ref="@_table" Items="oList" Hover="true" Striped="true" @bind-SelectedItem="mstDriverMasterData" OnRowClick="RowClickEvent" T="MstDriverMasterData">*@
+                            <MudTable Items="@oDetailList" Class="table-setting" Dense="true" Hover="true" Bordered="true" Striped="true">
+
+
+                                <HeaderContent>
+                                    <MudTh>Item Code</MudTh>
+                                    <MudTh>Item Name</MudTh>
+                                    <MudTh>Hs code</MudTh>
+                                    <MudTh>Group Setup 1</MudTh>
+                                    <MudTh>Group Setup 2</MudTh>
+                                    <MudTh>Group Setup 3</MudTh>
+                                    <MudTh>Group Setup 4</MudTh>
+                                    <MudTh>Blanket Agreement</MudTh>
+                                    <MudTh>Basic Price</MudTh>
+                                    <MudTh>Currency</MudTh>
+                                    <MudTh>Rate</MudTh>
+                                    <MudTh>Unit Price </MudTh>
+                                    <MudTh>Insurance Cost % </MudTh>
+                                    <MudTh>Insurance Cost Value</MudTh>
+                                    <MudTh>Landing Cost %</MudTh>
+                                    <MudTh>Landing Cost Value</MudTh>
+                                    <MudTh>Freight Cost %</MudTh>
+                                    <MudTh>Freight Cost  Value</MudTh>
+                                    <MudTh>Ware house charges %</MudTh>
+                                    <MudTh>Ware house charges Value</MudTh>
+                                    <MudTh>Yard Payment % </MudTh>
+                                    <MudTh>Yard Payment Value </MudTh>
+                                    <MudTh>Cleaning Charges % </MudTh>
+                                    <MudTh>Cleaning Charges Value </MudTh>
+                                    <MudTh>Import Value</MudTh>
+                                    <MudTh>Custom Duty %</MudTh>
+                                    <MudTh>Custom Duty Value </MudTh>
+                                    <MudTh>Regulatory Duty %</MudTh>
+                                    <MudTh>Regulatory Duty Value </MudTh>
+                                    <MudTh>Additional Duty %</MudTh>
+                                    <MudTh>Additional Duty Value</MudTh>
+                                    <MudTh>Excise Duty %</MudTh>
+                                    <MudTh>Excise Duty Value </MudTh>
+                                    <MudTh>Duties % </MudTh>
+                                    <MudTh>Duties Value </MudTh>
+                                    <MudTh>Sales Tax %</MudTh>
+                                    <MudTh>Sales Tax  Value</MudTh>
+                                    <MudTh>Income Tax %</MudTh>
+                                    <MudTh>Income Tax Value </MudTh>
+                                    <MudTh>Value</MudTh>
+                                    <MudTh>Other</MudTh>
+                                    <MudTh>Final Item Price</MudTh>
+                                    <MudTh>Actions</MudTh>
+
+                                </HeaderContent>
+                                <RowTemplate>
+                                    <MudTd DataLabel="ItemCode">@context.ItemCode</MudTd>
+                                    <MudTd DataLabel="ItemName">@context.ItemName</MudTd>
+                                    <MudTd DataLabel="Hscode">@context.Hscode</MudTd>
+                                    <MudTd DataLabel="FkgroupSetup1">@context.FkgroupSetup1</MudTd>
+                                    <MudTd DataLabel="FkgroupSetup2">@context.FkgroupSetup2</MudTd>
+                                    <MudTd DataLabel="FkgroupSetup3">@context.FkgroupSetup3</MudTd>
+                                    <MudTd DataLabel="FkgroupSetup4">@context.FkgroupSetup4</MudTd>
+                                    <MudTd DataLabel="BlanketAgreement">@context.BlanketAgreement</MudTd>
+                                    <MudTd DataLabel="BasicPrice">@context.BasicPrice</MudTd>
+                                    <MudTd DataLabel="Currency">@context.Currency</MudTd>
+                                    <MudTd DataLabel="Rate">@context.Rate</MudTd>
+                                    <MudTd DataLabel="UnitPricePkr">@context.UnitPricePkr</MudTd>
+                                    <MudTd DataLabel="InsuranceCostPer">@context.InsuranceCostPer</MudTd>
+                                    <MudTd DataLabel="InsuranceCostValue">@context.InsuranceCostValue</MudTd>
+                                    <MudTd DataLabel="FreightCostPer">@context.FreightCostPer</MudTd>
+                                    <MudTd DataLabel="FreightCostValue">@context.FreightCostValue</MudTd>
+                                    <MudTd DataLabel="LandingCostPer">@context.LandingCostPer</MudTd>
+                                    <MudTd DataLabel="LandingCostValue">@context.LandingCostValue</MudTd>
+                                    <MudTd DataLabel="WhchargesPer">@context.WhchargesPer</MudTd>
+                                    <MudTd DataLabel="WhchargesValue">@context.WhchargesValue</MudTd>
+                                    <MudTd DataLabel="YardPaymentPer">@context.YardPaymentPer</MudTd>
+                                    <MudTd DataLabel="YardPaymentValue">@context.YardPaymentValue</MudTd>
+                                    <MudTd DataLabel="CleaningChargesPer">@context.CleaningChargesPer</MudTd>
+                                    <MudTd DataLabel="CleaningChargesValue">@context.CleaningChargesValue</MudTd>
+                                    <MudTd DataLabel="ImportValue">@context.ImportValue</MudTd>
+                                    <MudTd DataLabel="CustomDutyPer">@context.CustomDutyPer</MudTd>
+                                    <MudTd DataLabel="CustomDutyValue">@context.CustomDutyValue</MudTd>
+                                    <MudTd DataLabel="RegulatoryDutyPer">@context.RegulatoryDutyPer</MudTd>
+                                    <MudTd DataLabel="RegulatoryDutyValue">@context.RegulatoryDutyValue</MudTd>
+                                    <MudTd DataLabel="AdditionalDutyPer">@context.AdditionalDutyPer</MudTd>
+                                    <MudTd DataLabel="AdditionalDutyValue">@context.AdditionalDutyValue</MudTd>
+                                    <MudTd DataLabel="ExciseDutyPer">@context.ExciseDutyPer</MudTd>
+                                    <MudTd DataLabel="ExciseDutyValue">@context.ExciseDutyValue</MudTd>
+                                    <MudTd DataLabel="DutiesValue">@context.DutiesPer</MudTd>
+                                    <MudTd DataLabel="DutiesValue">@context.DutiesValue</MudTd>
+                                    <MudTd DataLabel="SalesTaxPer">@context.SalesTaxPer</MudTd>
+                                    <MudTd DataLabel="SalesTaxValue">@context.SalesTaxValue</MudTd>
+                                    <MudTd DataLabel="IncomeTaxPer">@context.IncomeTaxPer</MudTd>
+                                    <MudTd DataLabel="IncomeTaxValue">@context.IncomeTaxValue</MudTd>
+                                    <MudTd DataLabel="Value">@context.Value</MudTd>
+                                    <MudTd DataLabel="Others">@context.Others</MudTd>
+                                    <MudTd DataLabel="FinalItemPrice">@context.FinalItemPrice</MudTd>
+
+                                    <MudTd DataLabel="Action">
+                                        <MudIconButton Color="Color.Primary" Variant="Variant.Outlined" Icon="@Icons.Material.Filled.Edit" OnClick="@((e) => OpenEditDialog(FullView, context))" Title="Edit"></MudIconButton>
+                                        <MudIconButton Color="Color.Primary" Variant="Variant.Outlined" Icon="@Icons.Material.Filled.Delete" OnClick="@((e) => RemoveRecord(context.ItemCode, context.ItemName, context.Hscode, context.FkgroupSetup1, context.FkgroupSetup2, context. FkgroupSetup3, context. FkgroupSetup4, context. BlanketAgreement, context. BasicPrice, context. Currency, context. Rate, context. UnitPricePkr, context. InsuranceCostPer, context. InsuranceCostValue, context. FreightCostPer, context. FreightCostValue, context. LandingCostPer, context.LandingCostValue, context. WhchargesPer, context. WhchargesValue, context. YardPaymentPer, context. YardPaymentValue, context. CleaningChargesPer, context. CleaningChargesValue, context. ImportPer, context. ImportValue, context. CustomDutyPer, context. CustomDutyValue, context. RegulatoryDutyPer, context. RegulatoryDutyValue, context. AdditionalDutyPer, context. AdditionalDutyValue, context.ExciseDutyPer, context. ExciseDutyValue, context. DutiesPer, context. DutiesValue, context. SalesTaxPer, context. SalesTaxValue, context. IncomeTaxPer, context. IncomeTaxValue, context. Value, context.Others, context.FinalItemPrice))" Title="Delete"></MudIconButton>
+                                    </MudTd>
+                                </RowTemplate>
+
+                                <PagerContent>
+                                    <MudTablePager />
+                                </PagerContent>
+                            </MudTable>
+
+                        </MudCardContent>
+                    </MudCard>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

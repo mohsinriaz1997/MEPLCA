@@ -1,0 +1,169 @@
+﻿@using CA.API.Models
+<MudDialog>
+    <DialogContent>
+        <MudContainer Style="max-height: 300px; overflow-y: scroll">
+            @if (Loading)
+            {
+                <center><MudProgressCircular Color="Color.Primary" Size="Size.Large" Indeterminate="true" /></center>
+            }
+            else
+            {
+                @if (DialogFor == "DirectMaterialProduct")
+                {
+                    <MudTable FixedHeader="true" HorizontalScrollbar="true" Height="350px" Dense="true" Bordered="true" Filter="new Func<SAPModels,bool>(FilterFunc1)" Loading="@Loading" LoadingProgressColor="Color.Primary" @ref="@_table" Items="SAPModelsList" Hover="true" Striped="true" @bind-SelectedItem="oSAPModels" RowClassFunc="@SelectedRowClassFunc" OnRowClick="RowClickEvent" T="SAPModels">
+                        <ToolBarContent>
+                            <MudText Typo="Typo.h6">SAP Products</MudText>
+                            <MudSpacer />
+                            <MudTextField @bind-Value="searchString1" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+                        </ToolBarContent>
+                        <HeaderContent>
+                            <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.Code)">Product Code</MudTableSortLabel></MudTh>
+                            <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.Name)">Product Name</MudTableSortLabel></MudTh>
+                            <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.U_Dept)">Product Department</MudTableSortLabel></MudTh>
+                        </HeaderContent>
+                        <RowTemplate>
+                            <MudTd>@context.Code</MudTd>
+                            <MudTd>@context.Name</MudTd>
+                            <MudTd>@context.U_Dept</MudTd>
+                        </RowTemplate>
+                        <PagerContent>
+                            <MudPagination SelectedChanged="PageChanged" Count="@((_table.GetFilteredItemsCount() + _table.RowsPerPage - 1) / _table.RowsPerPage)" Class="pa-4" />
+                        </PagerContent>
+                        <PagerContent>
+                            <MudTablePager />
+                        </PagerContent>
+                    </MudTable>
+                }
+                @if (DialogFor == "ExchangeRate")
+                {
+                    <MudTable FixedHeader="true" HorizontalScrollbar="true" Height="350px" Dense="true" Bordered="true" Filter="new Func<SAPModels,bool>(FilterFunc1)" Loading="@Loading" LoadingProgressColor="Color.Primary" @ref="@_table" Items="SAPModelsList" Hover="true" Striped="true" @bind-SelectedItem="oSAPModels" RowClassFunc="@SelectedRowClassFunc" OnRowClick="RowClickEvent" T="SAPModels">
+                        <ToolBarContent>
+                            <MudText Typo="Typo.h6">SAP Exchange Rate</MudText>
+                            <MudSpacer />
+                            <MudTextField @bind-Value="searchString1" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+                        </ToolBarContent>
+                        <HeaderContent>
+                            <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.Currency)">Currency</MudTableSortLabel></MudTh>
+                            <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.Rate)">Rate</MudTableSortLabel></MudTh>
+                        </HeaderContent>
+                        <RowTemplate>
+                            <MudTd>@context.Currency</MudTd>
+                            <MudTd>@context.Rate</MudTd>
+                        </RowTemplate>
+                        <PagerContent>
+                            <MudPagination SelectedChanged="PageChanged" Count="@((_table.GetFilteredItemsCount() + _table.RowsPerPage - 1) / _table.RowsPerPage)" Class="pa-4" />
+                        </PagerContent>
+                        <PagerContent>
+                            <MudTablePager />
+                        </PagerContent>
+                    </MudTable>
+                }
+                @if (oListItem?.Count > 0 && DialogFor == "DirectMaterialItemPriceList")
+                {
+                    <MudTable Items="@oListItem" Class="table-setting" Dense="true" Hover="true" Bordered="true" Striped="true" Filter="new Func<MstItemPriceList,bool>(FilterFunc2)" @ref="@_table1"
+                      Loading="@Loading" LoadingProgressColor="Color.Primary" T="MstItemPriceList" @bind-SelectedItem="oModelItem" RowClassFunc="@SelectedRowClassFuncItem" OnRowClick="RowClickEventItem">
+                        <ToolBarContent>
+                            <MudText Typo="Typo.h6">Item Price List</MudText>
+                            <MudSpacer />
+                            <MudTextField T="string" @bind-Value="searchString1" Placeholder="Search" Variant="Variant.Text" Clearable="true" Immediate="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" />
+                        </ToolBarContent>
+                        <HeaderContent>
+                            <MudTh>Doc Num</MudTh>
+                            <MudTh>Doc Date</MudTh>
+                            <MudTh>Price List Name</MudTh>
+                            <MudTh>Default Price List</MudTh>
+                        </HeaderContent>
+                        <RowTemplate>
+                            <MudTd DataLabel="Code">@context.DocNum</MudTd>
+                            <MudTd DataLabel="Code">@context.DocDate</MudTd>
+                            <MudTd DataLabel="Code">@context.Plname</MudTd>
+                            <MudTd DataLabel="Code">@context.FlgDefaultPl</MudTd>
+                        </RowTemplate>
+                        <PagerContent>
+                            <MudPagination SelectedChanged="PageChanged" Count="@((_table.GetFilteredItemsCount() + _table.RowsPerPage - 1) / _table.RowsPerPage)" Class="pa-4" />
+                        </PagerContent>
+                        <PagerContent>
+                            <MudTablePager />
+                        </PagerContent>
+                    </MudTable>
+                }
+                @if (DialogFor == "DirectMaterialItem")
+                {
+                    <MudTable FixedHeader="true" MultiSelection="true" @bind-SelectedItems="selectedItems1" HorizontalScrollbar="true" Height="350px" Dense="true" Bordered="true" Filter="new Func<SAPModels,bool>(FilterFuncBom)" Loading="@Loading" LoadingProgressColor="Color.Primary" @ref="@_table" Items="SAPModelsList" Hover="true" Striped="true" @bind-SelectedItem="oSAPModels" RowClassFunc="@SelectedRowClassFunc" OnRowClick="RowClickEvent" T="SAPModels">
+                        <ToolBarContent>
+                            <MudText Typo="Typo.h6">SAP BOM Item</MudText>
+                            <MudSpacer />
+                            <MudTextField @bind-Value="searchString1" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+                        </ToolBarContent>
+                        <HeaderContent>
+                            <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.BOMItemCode)">Item Code</MudTableSortLabel></MudTh>
+                            <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.BOMItemName)">Item Name</MudTableSortLabel></MudTh>
+                            <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.BOMQuantity)">Consumption Qty</MudTableSortLabel></MudTh>
+                            <MudTh><MudTableSortLabel SortBy="new Func<SAPModels, object>(x=>x.BOMUOM)">Unit of Measure</MudTableSortLabel></MudTh>
+                        </HeaderContent>
+                        <RowTemplate>
+                            <MudTd>@context.BOMItemCode</MudTd>
+                            <MudTd>@context.BOMItemName</MudTd>
+                            <MudTd>@context.BOMQuantity</MudTd>
+                            <MudTd>@context.BOMUOM</MudTd>
+                        </RowTemplate>
+                        <PagerContent>
+                            <MudPagination SelectedChanged="PageChanged" Count="@((_table.GetFilteredItemsCount() + _table.RowsPerPage - 1) / _table.RowsPerPage)" Class="pa-4" />
+                        </PagerContent>
+
+                        <PagerContent>
+                            <MudTablePager />
+                        </PagerContent>
+                    </MudTable>
+                }
+                @if (oTrnsDirectMaterial?.Count > 0 && DialogFor == "DirectMaterialMaster")
+                {
+                    <MudTable Items="@oTrnsDirectMaterial" Class="table-setting" Dense="true" Hover="true" Bordered="true" Striped="true" Filter="new Func<TrnsDirectMaterial,bool>(FilterFuncDirectMaterial)" @ref="@_tableDirect"
+                      Loading="@Loading" LoadingProgressColor="Color.Primary" T="TrnsDirectMaterial" @bind-SelectedItem="oModelTrnsDirectMaterial" RowClassFunc="@SelectedRowClassFuncDirectMaterial" OnRowClick="RowClickEventDirectMaterial">
+                        <ToolBarContent>
+                            <MudText Typo="Typo.h6">Direct Material Master Data</MudText>
+                            <MudSpacer />
+                            <MudTextField T="string" @bind-Value="searchString8" Placeholder="Search" Variant="Variant.Text" Clearable="true" Immediate="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" />
+                        </ToolBarContent>
+                        <HeaderContent>
+                            <MudTh>Product Code</MudTh>
+                            <MudTh>Product Name</MudTh>
+                            <MudTh>Product Department</MudTh>
+                            <MudTh>Doc Number</MudTh>
+                            <MudTh>Doc Date</MudTh>
+                            <MudTh>Doc Name</MudTh>
+                            <MudTh>Cost Type</MudTh>
+                            <MudTh>Exchange Rate Currency</MudTh>
+                            <MudTh>Exchange Rate</MudTh>
+                            <MudTh>IPL Doc Num</MudTh>
+                            <MudTh>For Analysis</MudTh>
+                        </HeaderContent>
+                        <RowTemplate>
+                            <MudTd DataLabel="Code">@context.ProductCode</MudTd>
+                            <MudTd DataLabel="Code">@context.ProductDescription</MudTd>
+                            <MudTd DataLabel="Code">@context.ProductDept</MudTd>
+                            <MudTd DataLabel="Code">@context.DocNum</MudTd>
+                            <MudTd DataLabel="Code">@context.DocDate</MudTd>
+                            <MudTd DataLabel="Code">@context.DocName</MudTd>
+                            <MudTd DataLabel="Code">@context.CostTypeDesc</MudTd>
+                            <MudTd DataLabel="Code">@context.CurrencyEr</MudTd>
+                            <MudTd DataLabel="Code">@context.ExchangeRate</MudTd>
+                            <MudTd DataLabel="Code">@context.FkitemPriceListDocNum</MudTd>
+                            <MudTd DataLabel="Code">@context.ForAnalysis</MudTd>
+                        </RowTemplate>
+                        <PagerContent>
+                            <MudPagination SelectedChanged="PageChanged" Count="@((_tableDirect.GetFilteredItemsCount() + _tableDirect.RowsPerPage - 1) / _tableSales.RowsPerPage)" Class="pa-4" />
+                        </PagerContent>
+                        <PagerContent>
+                            <MudTablePager />
+                        </PagerContent>
+                    </MudTable>
+                }
+            }
+        </MudContainer>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Submit">Ok</MudButton>
+    </DialogActions>
+</MudDialog>

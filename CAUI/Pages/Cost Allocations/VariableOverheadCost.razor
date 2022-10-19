@@ -1,0 +1,385 @@
+﻿@page "/VariableOverheadCost"
+@using CA.API.Models
+<PageTitle>WBC || Variable Overhead Costl</PageTitle>
+<div class="container-fluid page-content-setting">
+    <div class="row">
+        <div class="col-sm-8">
+            <h3>Variable Overhead Cost</h3>
+            <MudDivider />
+        </div>
+
+        <div class="col-sm-2 custom-btn-design text-right">
+            <MudButton Variant="Variant.Filled" OnClick="Reset" StartIcon="@Icons.Material.Filled.Refresh" Color="Color.Error">Reset</MudButton>
+            @*<MudFab Color="Color.Info" OnClick="Reset" StartIcon="@Icons.Material.Filled.Refresh" Title="Refresh" Size="Size.Small" />*@
+        </div>
+        <div class="col-sm-2 custom-btn-design">
+            <MudButton Variant="Variant.Filled" OnClick="@((e) => OpenDialog(FullView))" StartIcon="@Icons.Filled.RemoveRedEye" Color="Color.Info" Size="Size.Small">View All</MudButton>
+            @*<MudFab Color="Color.Primary" OnClick="@((e) => OpenDialog(FullView))" StartIcon="@Icons.Material.Filled.List" Title="View All" Size="Size.Small" />*@
+        </div>
+    </div>
+    <div class="row mt-5">
+        <div class="col-sm-12">
+            <MudGrid Class="block-design">
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudTextField Style="font-weight:bold" @bind-Value="oModel.DocStatus" InputMode="InputMode.text" Immediate="true" Label="Document Status" Variant="Variant.Filled"
+                                  Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" ReadOnly="true" />
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudTextField Style="font-weight:bold" @bind-Value="oModel.DocNum" InputMode="InputMode.text" Immediate="true" Label="Document Number" Variant="Variant.Filled"
+                                  Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" ReadOnly="true" />
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudDatePicker @bind-Date="oModel.DocDate" PickerVariant="PickerVariant.Dialog" Label="Doc Date"
+                                   DateFormat="dd/MM/yyyy" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.CalendarMonth" />
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudTextField @bind-Value="oModel.DocName" InputMode="InputMode.text" Immediate="true" Clearable="true" Label="Document Name" Variant="Variant.Text"
+                                  Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudTextField Style="font-weight:bold" @bind-Value="oModel.ProductCode" InputMode="InputMode.text" Immediate="true" Label="Product Code" Variant="Variant.Filled"
+                                  Adornment="Adornment.Start" AdornmentIcon="@Icons.Filled.AddToPhotos" AdornmentColor="Color.Info" OnAdornmentClick="@((e) => OpenSAPDataDialogFinishedGoodsItem(FullView))" ReadOnly=" true" />
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudTextField Style="font-weight:bold" @bind-Value="oModel.ProductName" InputMode="InputMode.text" Immediate="true" Label="Product Name" Variant="Variant.Filled"
+                                  Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" ReadOnly="true" />
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField @bind-Value="oModel.PerDayShiftHrs" InputMode="InputMode.numeric" Immediate="true" Clearable="true" Label="Per Day Shift Hour" Variant="Variant.Text"
+                                     Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" />
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField @bind-Value="oModel.WorkingDays" InputMode="InputMode.numeric" Immediate="true" Clearable="true" Label="Working Days" Variant="Variant.Text"
+                                     Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" />
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField @bind-Value="oModel.NoOfShift" InputMode="InputMode.text" Immediate="true" Clearable="true" Label="Number of Shifts" Variant="Variant.Text"
+                                     Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" />
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudNumericField @bind-Value="oModel.MonthlyVolume" InputMode="InputMode.text" Immediate="true" Clearable="true" Label="Monthly Volume" Variant="Variant.Text"
+                                     Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Numbers" />
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudTextField Style="font-weight:bold" @bind-Value="oModel.FkresourceDocNum" InputMode="InputMode.text" Immediate="true" Label="Resource Data" Variant="Variant.Filled"
+                                  Adornment="Adornment.Start" AdornmentIcon="@Icons.Filled.AddToPhotos" AdornmentColor="Color.Info" OnAdornmentClick="@((e) => OpenSaveDataDialogForResourceMasterData(FullView))" ReadOnly="true" />
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudAutocomplete ToStringFunc="@(e=> e==null?null : $"{e.Description}")" T="MstCostType" Label="Cost Type" @bind-Value="oModelCostType" SearchFunc="@SearchCostType" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" />
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudSwitch @bind-Checked="oModel.FlgDefault" Label="Default" Color="Color.Success" />
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudSwitch @bind-Checked="@ForAnalysis" Label="For Analysis" Color="Color.Success" />
+                </MudItem>
+                <MudItem xs="4" sm="4" md="4" lg="4">
+                    <MudButton Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Send" Color="Color.Primary">Add For Analysis</MudButton>
+                </MudItem>
+            </MudGrid>
+        </div>
+        <div class="row mt-5">
+            <div class="col-sm-12">
+                <MudTabs Border="true" Elevation="4" Rounded="true" ApplyEffectsToContainer="true" class="custom-tab-design">
+                    <MudTabPanel Icon="@Icons.Sharp.Description" Text="Activity">
+                        <MudGrid class="search-action-block align-items-center">
+                            <MudItem xs="8" sm="8" md="8" lg="8" Class=" pb-4">
+                            </MudItem>
+                            <MudSpacer />
+                            <MudItem xs="4" sm="4" md="4" lg="4" Class="text-right custom-btn-design" style="justify-content: flex-end; padding: 20px 30px;">
+                                <MudButton Variant="Variant.Filled" OnClick="@((e) => OpenAddDialogActivity(FullView))" StartIcon="@Icons.Material.Filled.Add" Color="Color.Success" Size="Size.Small">Add Activity Details</MudButton>
+                                @*<MudFab Color="Color.Primary" OnClick="@((e) => OpenAddDialogActivity(FullView))" Icon="@Icons.Material.Filled.Add" Title="Add Activity Details" Size="Size.Small" />*@
+                            </MudItem>
+                        </MudGrid>
+                        <MudTable Items="@oActivityDetailList" Class="table-setting" Dense="true" Hover="true" Bordered="true" Striped="true">
+                            <HeaderContent>
+                                <MudTh>Activity Type ID</MudTh>
+                                <MudTh>Activity Type</MudTh>
+                                <MudTh>Actual time Cycle</MudTh>
+                                <MudTh>Inc. Factor</MudTh>
+                                <MudTh>Cycle Time (Sec</MudTh>
+                                <MudTh>Action</MudTh>
+                            </HeaderContent>
+                            <RowTemplate>
+                                <MudTd DataLabel="FkactivityDescription">@context.FkactivityTypeId</MudTd>
+                                <MudTd DataLabel="FkactivityDescription">@context.FkactivityDescription</MudTd>
+                                <MudTd DataLabel="ActualTimeCycle">@context.ActualTimeCycle</MudTd>
+                                <MudTd DataLabel="IncFactor">@context.IncFactor</MudTd>
+                                <MudTd DataLabel="CycleTimeSec">@context.CycleTimeSec</MudTd>
+                                <MudTd DataLabel="Action">
+                                    <MudIconButton Color="Color.Primary" Variant="Variant.Outlined" Icon="@Icons.Material.Filled.Delete" OnClick="@((e) => RemoveRecordActivity((int)context.FkactivityTypeId))" Title="Remove"></MudIconButton>
+                                </MudTd>
+                            </RowTemplate>
+                            <PagerContent>
+                                <MudTablePager />
+                            </PagerContent>
+                        </MudTable>
+                    </MudTabPanel>
+                    <MudTabPanel Icon="@Icons.Sharp.Description" Text="Machine">
+                        <MudGrid class="search-action-block align-items-center">
+                            <MudItem xs="10" sm="10" md="10" lg="10" Class="pl-5 pb-4">
+                            </MudItem>
+                            <MudSpacer />
+                            <MudItem xs="1" sm="1" md="1" lg="1" Class="text-right pr-5 pb-4">
+                                <MudFab Color="Color.Primary" OnClick="@((e) => OpenAddDialogMachine(FullView, oActivityDetailList,oModel,oModelResource))" Icon="@Icons.Material.Filled.Add" Title="Add Machine Details" Size="Size.Small" />
+                            </MudItem>
+                        </MudGrid>
+                        <MudTable Items="@oDetailMachineDetailList" Class="table-setting" Dense="true" Hover="true" Bordered="true" Striped="true">
+                            <HeaderContent>
+                                <MudTh>Activity Type ID</MudTh>
+                                <MudTh>Activity Type</MudTh>
+                                <MudTh>Machine Type</MudTh>
+                                <MudTh>Cost </MudTh>
+                                <MudTh>Cycle Time (Sec)</MudTh>
+                                <MudTh>No of Workers </MudTh>
+                                <MudTh>Nos.</MudTh>
+                                <MudTh>Life Years</MudTh>
+                                <MudTh>Total</MudTh>
+                                <MudTh>Action</MudTh>
+                            </HeaderContent>
+                            <RowTemplate>
+                                <MudTd DataLabel="FkactivityTypeId">@context.FkactivityTypeId</MudTd>
+                                <MudTd DataLabel="FkactivityDescription">@context.FkactivityDescription</MudTd>
+                                <MudTd DataLabel="MachineType">@context.MachineType</MudTd>
+                                <MudTd DataLabel="Cost">@context.Cost</MudTd>
+                                <MudTd DataLabel="CycleTimeSec">@context.CycleTimeSec</MudTd>
+                                <MudTd DataLabel="NoOfWorkers">@context.NoOfWorkers</MudTd>
+                                <MudTd DataLabel="Nos">@context.Nos</MudTd>
+                                <MudTd DataLabel="LifeYears">@context.LifeYears</MudTd>
+                                <MudTd DataLabel="Total">@context.Total</MudTd>
+                                <MudTd DataLabel="Action">
+                                    <MudIconButton Color="Color.Primary" Variant="Variant.Outlined" Icon="@Icons.Material.Filled.Delete" OnClick="@((e) => RemoveRecordMachine((int)context.FkactivityTypeId))" Title="Remove"></MudIconButton>
+                                </MudTd>
+                            </RowTemplate>
+                            <PagerContent>
+                                <MudTablePager />
+                            </PagerContent>
+                        </MudTable>
+                    </MudTabPanel>
+                    <MudTabPanel Icon="@Icons.Sharp.Description" Text="Labor">
+                        <MudGrid class="search-action-block align-items-center">
+                            <MudItem xs="10" sm="10" md="10" lg="10" Class="pl-5 pb-4">
+                            </MudItem>
+                            <MudSpacer />
+                            <MudItem xs="1" sm="1" md="1" lg="1" Class="text-right pr-5 pb-4">
+                                <MudFab Color="Color.Primary" OnClick="@((e) => OpenAddDialogLabor(FullView, oActivityDetailList,oModel))" Icon="@Icons.Material.Filled.Add" Title="Add Labor Details" Size="Size.Small" />
+                            </MudItem>
+                        </MudGrid>
+                        <MudTable Items="@oDetailLaborDetailList" Class="table-setting" Dense="true" Hover="true" Bordered="true" Striped="true">
+                            <HeaderContent>
+                                <MudTh>Activity Type ID</MudTh>
+                                <MudTh>Activity Type</MudTh>
+                                <MudTh>Labor Rate ID</MudTh>
+                                <MudTh>Labor Description</MudTh>
+                                <MudTh>Wage Rate</MudTh>
+                                <MudTh>Cost/Sec</MudTh>
+                                <MudTh>No of Workers </MudTh>
+                                <MudTh>Total</MudTh>
+                                <MudTh>Action</MudTh>
+                            </HeaderContent>
+                            <RowTemplate>
+                                <MudTd DataLabel="FkactivityTypeId">@context.FkactivityTypeId</MudTd>
+                                <MudTd DataLabel="FkactivityDescription">@context.FkactivityDescription</MudTd>
+                                <MudTd DataLabel="FklaborRateId">@context.FklaborRateId</MudTd>
+                                <MudTd DataLabel="MachineType">@context.LaborDescription</MudTd>
+                                <MudTd DataLabel="Cost">@context.WageRate</MudTd>
+                                <MudTd DataLabel="CycleTimeSec">@context.CostPerSec</MudTd>
+                                <MudTd DataLabel="NoOfWorkers">@context.NoOfWorkers</MudTd>
+                                <MudTd DataLabel="Total">@context.Total</MudTd>
+                                <MudTd DataLabel="Action">
+                                    <MudIconButton Color="Color.Primary" Variant="Variant.Outlined" Icon="@Icons.Material.Filled.Delete" OnClick="@((e) => RemoveRecordLabor((int)context.FkactivityTypeId))" Title="Remove"></MudIconButton>
+                                </MudTd>
+                            </RowTemplate>
+                            <PagerContent>
+                                <MudTablePager />
+                            </PagerContent>
+                        </MudTable>
+                    </MudTabPanel>
+                    <MudTabPanel Icon="@Icons.Sharp.Description" Text="Electricity">
+                        <MudGrid class="search-action-block align-items-center">
+                            <MudItem xs="10" sm="10" md="10" lg="10" Class="pl-5 pb-4">
+                            </MudItem>
+                            <MudSpacer />
+                            <MudItem xs="1" sm="1" md="1" lg="1" Class="text-right pr-5 pb-4">
+                                <MudFab Color="Color.Primary" OnClick="@((e) => OpenAddDialogElectricity(FullView, oActivityDetailList,oModel,oModelResource))" Icon="@Icons.Material.Filled.Add" Title="Add Electricity Details" Size="Size.Small" />
+                            </MudItem>
+                        </MudGrid>
+                        <MudTable Items="@oDetailElecticityDetailList" Class="table-setting" Dense="true" Hover="true" Bordered="true" Striped="true">
+                            <HeaderContent>
+                                <MudTh>Activity Type ID</MudTh>
+                                <MudTh>Activity Type</MudTh>
+                                <MudTh>Machine Type</MudTh>
+                                <MudTh>No. of Machine </MudTh>
+                                <MudTh>Actual KW/Hour</MudTh>
+                                <MudTh>Inc. Factor </MudTh>
+                                <MudTh>KW/Hour</MudTh>
+                                <MudTh>Rate/Unit Years</MudTh>
+                                <MudTh>Cost/Sec</MudTh>
+                                <MudTh>Cycle Time (Sec) </MudTh>
+                                <MudTh>Total</MudTh>
+                                <MudTh>Action</MudTh>
+                            </HeaderContent>
+                            <RowTemplate>
+                                <MudTd DataLabel="FkactivityTypeId">@context.FkactivityTypeId</MudTd>
+                                <MudTd DataLabel="FkactivityTypeId">@context.FkactivityDescription</MudTd>
+                                <MudTd DataLabel="MachineType">@context.MachineType</MudTd>
+                                <MudTd DataLabel="NoOfMachine">@context.NoOfMachine</MudTd>
+                                <MudTd DataLabel="ActualKwperHrs">@context.ActualKwperHrs</MudTd>
+                                <MudTd DataLabel="IncFactor">@context.IncFactor</MudTd>
+                                <MudTd DataLabel="KwperHrs">@context.KwperHrs</MudTd>
+                                <MudTd DataLabel="RatePerUnit">@context.RatePerUnit</MudTd>
+                                <MudTd DataLabel="CostPerSec">@context.CostPerSec</MudTd>
+                                <MudTd DataLabel="CycleTimeSec">@context.CycleTimeSec</MudTd>
+                                <MudTd DataLabel="Action">
+                                    <MudIconButton Color="Color.Primary" Variant="Variant.Outlined" Icon="@Icons.Material.Filled.Delete" OnClick="@((e) => RemoveRecordElectricity((int)context.FkactivityTypeId))" Title="Remove"></MudIconButton>
+                                </MudTd>
+                            </RowTemplate>
+                            <PagerContent>
+                                <MudTablePager />
+                            </PagerContent>
+                        </MudTable>
+                    </MudTabPanel>
+                    <MudTabPanel Icon="@Icons.Sharp.Description" Text="Dyes & Mold">
+                        <MudGrid class="search-action-block align-items-center">
+                            <MudItem xs="10" sm="10" md="10" lg="10" Class="pl-5 pb-4">
+                            </MudItem>
+                            <MudSpacer />
+                            <MudItem xs="1" sm="1" md="1" lg="1" Class="text-right pr-5 pb-4">
+                                <MudFab Color="Color.Primary" OnClick="@((e) => OpenAddDialogDyes(FullView, oActivityDetailList,oModel,oModelResource))" StartIcon="@Icons.Material.Filled.Add" Title="Add Dyes & Mold Details" Size="Size.Small" />
+                            </MudItem>
+                        </MudGrid>
+                        <MudTable Items="@oDetailDyesDetailList" Class="table-setting" Dense="true" Hover="true" Bordered="true" Striped="true">
+                            <HeaderContent>
+                                <MudTh>Activity Type ID</MudTh>
+                                <MudTh>Activity Type</MudTh>
+                                <MudTh>Dyes & Mold Description</MudTh>
+                                <MudTh>Cost</MudTh>
+                                <MudTh>Cycle Time (Sec) </MudTh>
+                                <MudTh>No. of Workers </MudTh>
+                                <MudTh>Nos.</MudTh>
+                                <MudTh>Life (Unit) </MudTh>
+                                <MudTh>Total</MudTh>
+                                <MudTh>Action</MudTh>
+                            </HeaderContent>
+                            <RowTemplate>
+                                <MudTd DataLabel="FkactivityTypeId">@context.FkactivityTypeId</MudTd>
+                                <MudTd DataLabel="FkactivityTypeId">@context.FkactivityDescription</MudTd>
+                                <MudTd DataLabel="DyesAndMold">@context.DyesAndMold</MudTd>
+                                <MudTd DataLabel="Cost">@context.Cost</MudTd>
+                                <MudTd DataLabel="CycleTimeSec">@context.CycleTimeSec</MudTd>
+                                <MudTd DataLabel="NoOfWorkers">@context.NoOfWorkers</MudTd>
+                                <MudTd DataLabel="Nos">@context.Nos</MudTd>
+                                <MudTd DataLabel="LifeUnit">@context.LifeUnit</MudTd>
+                                <MudTd DataLabel="Total">@context.Total</MudTd>
+                                <MudTd DataLabel="Action">
+                                    <MudIconButton Color="Color.Primary" Variant="Variant.Outlined" Icon="@Icons.Material.Filled.Delete" OnClick="@((e) => RemoveRecordDyesAndMold((int)context.FkactivityTypeId))" Title="Remove"></MudIconButton>
+                                </MudTd>
+                            </RowTemplate>
+                            <PagerContent>
+                                <MudTablePager />
+                            </PagerContent>
+                        </MudTable>
+                    </MudTabPanel>
+                    <MudTabPanel Icon="@Icons.Sharp.Description" Text="Tools">
+                        <MudGrid class="search-action-block align-items-center">
+                            <MudItem xs="10" sm="10" md="10" lg="10" Class="pl-5 pb-4">
+                            </MudItem>
+                            <MudSpacer />
+                            <MudItem xs="1" sm="1" md="1" lg="1" Class="text-right pr-5 pb-4">
+                                <MudFab Color="Color.Primary" OnClick="@((e) => OpenAddDialogTools(FullView, oActivityDetailList,oModel,oModelResource))" StartIcon="@Icons.Material.Filled.Add" Title="Add Tools Details" Size="Size.Small" />
+                            </MudItem>
+                        </MudGrid>
+                        <MudTable Items="@oDetailToolsDetailList" Class="table-setting" Dense="true" Hover="true" Bordered="true" Striped="true">
+                            <HeaderContent>
+                                <MudTh>Activity Type ID</MudTh>
+                                <MudTh>Activity Type</MudTh>
+                                <MudTh>Tools Type Description</MudTh>
+                                <MudTh>Cost  </MudTh>
+                                <MudTh>Cycle Time (Sec) </MudTh>
+                                <MudTh>No. of Workers </MudTh>
+                                <MudTh>Nos</MudTh>
+                                <MudTh>Life (Unit) </MudTh>
+                                <MudTh>Total</MudTh>
+                                <MudTh>Action</MudTh>
+                            </HeaderContent>
+                            <RowTemplate>
+                                <MudTd DataLabel="FkactivityTypeId">@context.FkactivityTypeId</MudTd>
+                                <MudTd DataLabel="FkactivityTypeId">@context.FkactivityDescription</MudTd>
+                                <MudTd DataLabel="ToolsType">@context.ToolsType</MudTd>
+                                <MudTd DataLabel="Cost">@context.Cost</MudTd>
+                                <MudTd DataLabel="CycleTimeSec">@context.CycleTimeSec</MudTd>
+                                <MudTd DataLabel="NoOfWorkers">@context.NoOfWorkers</MudTd>
+                                <MudTd DataLabel="Nos">@context.Nos</MudTd>
+                                <MudTd DataLabel="LifeUnit">@context.LifeUnit</MudTd>
+                                <MudTd DataLabel="Total">@context.Total</MudTd>
+                                <MudTd DataLabel="Action">
+                                    <MudIconButton Color="Color.Primary" Variant="Variant.Outlined" Icon="@Icons.Material.Filled.Delete" OnClick="@((e) => RemoveRecordTools((int)context.FkactivityTypeId))" Title="Remove"></MudIconButton>
+                                </MudTd>
+                            </RowTemplate>
+                            <PagerContent>
+                                <MudTablePager />
+                            </PagerContent>
+                        </MudTable>
+                    </MudTabPanel>
+                    <MudTabPanel Icon="@Icons.Sharp.Description" Text="Gasoline">
+                        <MudGrid class="search-action-block align-items-center">
+                            <MudItem xs="10" sm="10" md="10" lg="10" Class="pl-5 pb-4">
+                            </MudItem>
+                            <MudSpacer />
+                            <MudItem xs="1" sm="1" md="1" lg="1" Class="text-right pr-5 pb-4">
+                                <MudFab Color="Color.Primary" OnClick="@((e) => OpenAddDialogGasoline(FullView, oActivityDetailList,oModel,oModelResource))" Icon="@Icons.Material.Filled.Add" Title="Add Gasoline Details" Size="Size.Small" />
+                            </MudItem>
+                        </MudGrid>
+                        <MudTable Items="@oDetailGasolineDetailList" Class="table-setting" Dense="true" Hover="true" Bordered="true" Striped="true">
+                            <HeaderContent>
+                                <MudTh>Activity Type ID</MudTh>
+                                <MudTh>Activity Type</MudTh>
+                                <MudTh>Gasoline Type Description</MudTh>
+                                <MudTh>Cost  </MudTh>
+                                <MudTh>Cycle Time (Sec) </MudTh>
+                                <MudTh>No. of Workers </MudTh>
+                                <MudTh>Nos.</MudTh>
+                                <MudTh>Life (Unit) </MudTh>
+                                <MudTh>Total</MudTh>
+                                <MudTh>Action</MudTh>
+                            </HeaderContent>
+                            <RowTemplate>
+                                <MudTd DataLabel="FkactivityTypeId">@context.FkactivityTypeId</MudTd>
+                                <MudTd DataLabel="FkactivityDescription">@context.FkactivityDescription</MudTd>
+                                <MudTd DataLabel="GasolineType">@context.GasolineType</MudTd>
+                                <MudTd DataLabel="Cost">@context.Cost</MudTd>
+                                <MudTd DataLabel="CycleTimeSec">@context.CycleTimeSec</MudTd>
+                                <MudTd DataLabel="NoOfWorkers">@context.NoOfWorkers</MudTd>
+                                <MudTd DataLabel="Nos">@context.Nos</MudTd>
+                                <MudTd DataLabel="LifeUnit">@context.LifeUnit</MudTd>
+                                <MudTd DataLabel="Total">@context.Total</MudTd>
+                                <MudTd DataLabel="Action">
+                                    <MudIconButton Color="Color.Primary" Variant="Variant.Outlined" Icon="@Icons.Material.Filled.Delete" OnClick="@((e) => RemoveRecordGasoline((int)context.FkactivityTypeId))" Title="Remove"></MudIconButton>
+                                </MudTd>
+                            </RowTemplate>
+                            <PagerContent>
+                                <MudTablePager />
+                            </PagerContent>
+                        </MudTable>
+                    </MudTabPanel>
+                </MudTabs>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-5 justify-content-start">
+        <div class="col-md-2 text-left">
+            <MudButton Variant="Variant.Filled" Disabled="@Loading" ButtonType="ButtonType.Submit" Size="Size.Medium" @onclick="@Save"
+                       Class="ma-2 w-100 mud-fab mud-fab-primary" EndIcon="@Icons.Material.Sharp.Save" Style="border-radius:25px;">
+                @if (Loading)
+                {
+                    <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
+                    <MudText Class="ms-2">Loading</MudText>
+                }
+                else
+                {
+                    <MudText>Save</MudText>
+                }
+            </MudButton>
+        </div>
+    </div>
+</div>
