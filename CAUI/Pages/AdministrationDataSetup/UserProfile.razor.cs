@@ -5,6 +5,7 @@ using CA.UI.Interfaces.AdministrationData;
 using CA.UI.Interfaces.MasterData;
 using DocumentFormat.OpenXml.Drawing;
 using Microsoft.AspNetCore.Components;
+using Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal;
 using MudBlazor;
 using System.ComponentModel.DataAnnotations;
 using System.Text.RegularExpressions;
@@ -176,18 +177,23 @@ namespace CA.UI.Pages.AdministrationDataSetup
             try
             {
                 await Task.Delay(1);
-                if (string.IsNullOrWhiteSpace(value))
-                    return oDesignationtList.Select(o => new MstDesignation
-                    {
-                        Id = o.Id,
-                        Description = o.Description
-                    }).ToList();
-                var res = oDesignationtList.Where(x => x.FlgActive == true && x.Description.ToUpper().Contains(value.ToUpper())).ToList();
-                return res.Select(x => new MstDesignation
-                {
-                    Id = x.Id,
-                    Description = x.Description
-                }).ToList();
+                //if (string.IsNullOrWhiteSpace(value))
+                //    return oDesignationtList.Select(o => new MstDesignation
+                //    {
+                //        Id = o.Id,
+                //        Description = o.Description
+                //    }).ToList();
+                //var res = oDesignationtList.Where(x => x.FlgActive == true && x.Description.ToUpper().Contains(value.ToUpper())).ToList();
+                //return res.Select(x => new MstDesignation
+                //{
+                //    Id = x.Id,
+                //    Description = x.Description
+                //}).ToList();
+                var designationList = (from a in oDesignationtList
+                               where a.FlgActive == true
+                               select a
+             ).ToList();
+                return designationList;
             }
             catch (Exception ex)
             {
@@ -200,18 +206,27 @@ namespace CA.UI.Pages.AdministrationDataSetup
             try
             {
                 await Task.Delay(1);
-                if (string.IsNullOrWhiteSpace(value))
-                    return oDepartList.Select(o => new MstDepartment
-                    {
-                        Id = o.Id,
-                        Description = o.Description
-                    }).ToList();
-                var res = oDepartList.Where(x => x.FlgActive == true && x.Description.ToUpper().Contains(value.ToUpper())).ToList();
-                return res.Select(x => new MstDepartment
-                {
-                    Id = x.Id,
-                    Description = x.Description
-                }).ToList();
+                //if (string.IsNullOrWhiteSpace(value))
+
+                //    return oDepartList.Where(o=>o.FlgActive==true).Select(o => new MstDepartment
+                //    {
+                //        Id = o.Id,
+                //        Description = o.Description,
+                //        FlgActive = true
+
+
+                //    }).ToList();
+                //var res = oDepartList.Where(x => x.FlgActive == true && x.Description.ToUpper().Contains(value.ToUpper())).ToList();
+                //return res.Where(x=>x.FlgActive=true).Select(x => new MstDepartment
+                //{
+                //    Id = x.Id,
+                //    Description = x.Description
+                //}).ToList();
+                var dptlist = (from a in oDepartList
+                               where a.FlgActive == true
+                               select a
+                             ).ToList();
+                return dptlist;
             }
             catch (Exception ex)
             {
