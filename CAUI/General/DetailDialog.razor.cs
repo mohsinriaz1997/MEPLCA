@@ -626,20 +626,25 @@ namespace CA.UI.General
             try
             {
                 await Task.Delay(1);
-                if (string.IsNullOrWhiteSpace(value))
-                    return oActivityTypeList.Select(o => new MstActivityType
-                    {
-                        Id = o.Id,
-                        Description = o.Description
-                    }).ToList();
-                //var query= oActivityTypeList.Select(x=>x.Description).Join(oDetailActivity., r => r.EmpId, p => p.EmpId, (r, p) => new { r.FirstName, r.LastName, p.DepartmentName });
-                var res = oActivityTypeList.Where(x => x.Description.ToUpper().Contains(value.ToUpper())).ToList();
+                //if (string.IsNullOrWhiteSpace(value))
+                //    return oActivityTypeList.Select(o => new MstActivityType
+                //    {
+                //        Id = o.Id,
+                //        Description = o.Description
+                //    }).ToList();
+                ////var query= oActivityTypeList.Select(x=>x.Description).Join(oDetailActivity., r => r.EmpId, p => p.EmpId, (r, p) => new { r.FirstName, r.LastName, p.DepartmentName });
+                //var res = oActivityTypeList.Where(x => x.Description.ToUpper().Contains(value.ToUpper())).ToList();
 
-                return res.Select(x => new MstActivityType
-                {
-                    Id = x.Id,
-                    Description = x.Description
-                }).ToList();
+                //return res.Select(x => new MstActivityType
+                //{
+                //    Id = x.Id,
+                //    Description = x.Description
+                //}).ToList();
+                var activityTypes = (from a in oActivityTypeList
+                               where a.FlgActive == true
+                               select a
+                             ).ToList();
+                return activityTypes;
             }
             catch (Exception ex)
             {
@@ -679,18 +684,23 @@ namespace CA.UI.General
             try
             {
                 await Task.Delay(1);
-                if (string.IsNullOrWhiteSpace(value))
-                    return oMstGroupSetupList1.Where(t => t.Type == "Group Type 1").Select(o => new MstGroupSetup
-                    {
-                        Id = o.Id,
-                        Description = o.Description
-                    }).ToList();
-                var res = oMstGroupSetupList1.Where(x => x.Description.ToUpper().Contains(value.ToUpper()) && x.Type == "Group Type 1").ToList();
-                return res.Select(x => new MstGroupSetup
-                {
-                    Id = x.Id,
-                    Description = x.Description
-                }).ToList();
+                //if (string.IsNullOrWhiteSpace(value))
+                //    return oMstGroupSetupList1.Where(t => t.Type == "Group Type 1").Select(o => new MstGroupSetup
+                //    {
+                //        Id = o.Id,
+                //        Description = o.Description
+                //    }).ToList();
+                //var res = oMstGroupSetupList1.Where(x => x.Description.ToUpper().Contains(value.ToUpper()) && x.Type == "Group Type 1").ToList();
+                //return res.Select(x => new MstGroupSetup
+                //{
+                //    Id = x.Id,
+                //    Description = x.Description
+                //}).ToList();
+                var activeGroupTypeList = (from a in oMstGroupSetupList1
+                                     where a.FlgActive == true
+                                     select a
+             ).ToList();
+                return activeGroupTypeList;
             }
             catch (Exception ex)
             {

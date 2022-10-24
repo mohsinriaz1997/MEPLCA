@@ -128,7 +128,7 @@ namespace CA.UI.Pages.AdministrationDataSetup
                             Loading = false;
                             return null;
                         }
-                        if (oList.Where(x => x.StageName.ToLower() == oModel.StageName.ToLower()).Count() > 0)
+                        if (oList.Where(x => x.StageName.ToLower()  == oModel.StageName.ToLower()).Count() > 0 )
                         {
                             Snackbar.Add("Stage Name already exist", Severity.Error, (options) => { options.Icon = Icons.Sharp.Error; });
                             Loading = false;

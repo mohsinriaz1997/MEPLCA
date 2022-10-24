@@ -5,6 +5,8 @@ using CA.UI.Interfaces.AdministrationData;
 using CA.UI.Interfaces.MasterData;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
+using static System.Net.WebRequestMethods;
+using System.Net.Http.Headers;
 
 namespace CA.UI.Pages.MasterDataSetup
 {
@@ -214,14 +216,42 @@ namespace CA.UI.Pages.MasterDataSetup
             try
             {
                 Loading = true;
-                oModel.FlgActive = true;
-                await GetAllDepartments();
+                //var Session = await _localStorageService.GetItemAsync<MstUserProfile>("User");
+                //if (Session != null)
+                //{
+                    oModel.FlgActive = true;
+                    await GetAllDepartments();
+                //}
                 Loading = false;
             }
             catch (Exception ex)
             {
                 Logs.GenerateLogs(ex);
                 Loading = false;
+            }
+        }
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            if (firstRender)
+            {
+                try
+                {
+                    Loading = true;
+                    var Session = await _localStorageService.GetItemAsync<MstUserProfile>("User");
+                    if (Session != null)
+                    {
+
+                    }
+                    Loading = false;
+
+                    StateHasChanged();
+                }
+                catch (Exception ex)
+                {
+                    Logs.GenerateLogs(ex);
+                    Loading = false;
+                }
+
             }
         }
 

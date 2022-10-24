@@ -405,24 +405,52 @@ namespace CA.UI.Pages.MasterDataSetup
         {
             Loading = true;
 
-            var Session = await _localStorageService.GetItemAsync<MstUserProfile>("User");
-            if (Session != null)
-            {
+            //var Session = await _localStorageService.GetItemAsync<MstUserProfile>("User");
+            //if (Session != null)
+            //{
                 //    var res = await _mstUserProfile.FetchUserAuth(Session.Id);
                 //    if (res.Where(x => x.MenuName == "Resource Master Data" && x.UserRights != 1).ToList().Count > 0)
                 //    {
-                LoginUserCode = Session.UserCode;
+                //LoginUserCode = Session.UserCode;
                 oModel.FlgActive = true;
                 oModel.FlgDefaultResrMst = true;
                 oModel.DocDate = DateTime.Today;
                 await GetAllCostType();
-            }
+            //}
             //}
             //else
             //{
             //    Navigation.NavigateTo("/Login", forceLoad: true);
             //}
             Loading = false;
+        }
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            if (firstRender)
+            {
+                try
+                {
+                    Loading = true;
+                    var Session = await _localStorageService.GetItemAsync<MstUserProfile>("User");
+                    if (Session != null)
+                    {
+                        LoginUserCode = Session.UserCode;
+                        oModel.FlgActive = true;
+                        oModel.FlgDefaultResrMst = true;
+                        oModel.DocDate = DateTime.Today;
+                        await GetAllCostType();
+                    }
+                    Loading = false;
+
+                    StateHasChanged();
+                }
+                catch (Exception ex)
+                {
+                    Logs.GenerateLogs(ex);
+                    Loading = false;
+                }
+
+            }
         }
         //protected override async Task OnAfterRenderAsync(bool firstRender)
         //{
