@@ -1,0 +1,1630 @@
+USE [WBC]
+GO
+/****** Object:  Table [dbo].[DocApproval]    Script Date: 19/10/2022 4:01:55 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[DocApproval](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[FKUserId] [int] NULL,
+	[FKFormID] [int] NULL,
+	[FKStageID] [int] NULL,
+	[FKApprovalID] [int] NULL,
+	[FKDocNum] [int] NULL,
+	[DocStatus] [varchar](50) NULL,
+	[Remarks] [varchar](200) NULL,
+	[flgActive] [bit] NULL,
+	[CreatedBy] [varchar](100) NULL,
+	[CreatedDate] [datetime] NULL,
+	[CAppStamp] [varchar](100) NULL,
+	[UpdatedBy] [varchar](100) NULL,
+	[UpdatedDate] [datetime] NULL,
+	[UAppStamp] [varchar](100) NULL,
+	[FKFormName] [varchar](150) NULL,
+ CONSTRAINT [PK_DocApproval] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[LogMstActivityType]    Script Date: 19/10/2022 4:01:55 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[LogMstActivityType](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[Code] [varchar](50) NOT NULL,
+	[Description] [varchar](100) NOT NULL,
+	[flgActive] [bit] NOT NULL,
+	[LogUser] [varchar](100) NOT NULL,
+	[LogDate] [datetime] NOT NULL,
+	[SourceID] [int] NOT NULL,
+ CONSTRAINT [PK_LogMstActivityType] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[LogMstCostDriversType]    Script Date: 19/10/2022 4:01:55 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[LogMstCostDriversType](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[Code] [varchar](50) NOT NULL,
+	[Description] [varchar](100) NOT NULL,
+	[flgActive] [bit] NOT NULL,
+	[LogUser] [varchar](100) NOT NULL,
+	[LogDate] [datetime] NOT NULL,
+	[SourceID] [int] NOT NULL,
+ CONSTRAINT [PK_LogMstCostDriversType] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[LogMstCostType]    Script Date: 19/10/2022 4:01:55 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[LogMstCostType](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[Code] [varchar](50) NOT NULL,
+	[Description] [varchar](100) NOT NULL,
+	[flgActive] [bit] NOT NULL,
+	[LogUser] [varchar](100) NOT NULL,
+	[LogDate] [datetime] NOT NULL,
+	[SourceID] [int] NOT NULL,
+ CONSTRAINT [PK_LogMstCostType] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[LogMstDepartment]    Script Date: 19/10/2022 4:01:55 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[LogMstDepartment](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[Code] [varchar](50) NOT NULL,
+	[Description] [varchar](100) NOT NULL,
+	[flgActive] [bit] NOT NULL,
+	[LogUser] [varchar](100) NOT NULL,
+	[LogDate] [datetime] NOT NULL,
+	[SourceID] [int] NOT NULL,
+ CONSTRAINT [PK_LogMstDepartment] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[LogMstDesignation]    Script Date: 19/10/2022 4:01:55 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[LogMstDesignation](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[Code] [varchar](50) NOT NULL,
+	[Description] [varchar](100) NOT NULL,
+	[flgActive] [bit] NOT NULL,
+	[LogUser] [varchar](100) NOT NULL,
+	[LogDate] [datetime] NOT NULL,
+	[SourceID] [int] NOT NULL,
+ CONSTRAINT [PK_LogMstDesignation] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[LogMstGroupSetup]    Script Date: 19/10/2022 4:01:55 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[LogMstGroupSetup](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[Code] [varchar](50) NOT NULL,
+	[Description] [varchar](100) NOT NULL,
+	[Type] [varchar](50) NOT NULL,
+	[flgActive] [bit] NOT NULL,
+	[LogUser] [varchar](100) NOT NULL,
+	[LogDate] [datetime] NOT NULL,
+	[SourceID] [int] NOT NULL,
+ CONSTRAINT [PK_LogMstGroupSetup] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[LogMstItemPriceList]    Script Date: 19/10/2022 4:01:55 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[LogMstItemPriceList](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[DocNum] [int] NOT NULL,
+	[DocDate] [date] NOT NULL,
+	[PLName] [varchar](100) NOT NULL,
+	[flgDefaultPL] [bit] NOT NULL,
+	[PriceBase] [varchar](50) NOT NULL,
+	[ExchangeRate] [numeric](18, 6) NOT NULL,
+	[LogUser] [varchar](100) NULL,
+	[LogDate] [datetime] NULL,
+	[SourceID] [int] NULL,
+ CONSTRAINT [PK_LogMstItemPriceList] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[LogMstItemPriceListDetail]    Script Date: 19/10/2022 4:01:55 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[LogMstItemPriceListDetail](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[FKID] [int] NULL,
+	[ItemCode] [varchar](50) NULL,
+	[ItemName] [varchar](250) NULL,
+	[HSCode] [varchar](50) NULL,
+	[FKGroupSetup1] [int] NULL,
+	[FKGroupSetup2] [int] NULL,
+	[FKGroupSetup3] [int] NULL,
+	[FKGroupSetup4] [int] NULL,
+	[BlanketAgreement] [varchar](50) NULL,
+	[BasicPrice] [numeric](18, 6) NULL,
+	[Currency] [varchar](50) NULL,
+	[Rate] [numeric](18, 6) NULL,
+	[UnitPricePKR] [numeric](18, 6) NULL,
+	[InsuranceCostPer] [numeric](18, 6) NULL,
+	[InsuranceCostValue] [numeric](18, 6) NULL,
+	[FreightCostPer] [numeric](18, 6) NULL,
+	[FreightCostValue] [numeric](18, 6) NULL,
+	[LandingCostPer] [numeric](18, 6) NULL,
+	[LandingCostValue] [numeric](18, 6) NULL,
+	[WHChargesPer] [numeric](18, 6) NULL,
+	[WHChargesValue] [numeric](18, 6) NULL,
+	[YardPaymentPer] [numeric](18, 6) NULL,
+	[YardPaymentValue] [numeric](18, 6) NULL,
+	[CleaningChargesPer] [numeric](18, 6) NULL,
+	[CleaningChargesValue] [numeric](18, 6) NULL,
+	[ImportPer] [numeric](18, 6) NULL,
+	[ImportValue] [numeric](18, 6) NULL,
+	[CustomDutyPer] [numeric](18, 6) NULL,
+	[CustomDutyValue] [numeric](18, 6) NULL,
+	[RegulatoryDutyPer] [numeric](18, 6) NULL,
+	[RegulatoryDutyValue] [numeric](18, 6) NULL,
+	[AdditionalDutyPer] [numeric](18, 6) NULL,
+	[AdditionalDutyValue] [numeric](18, 6) NULL,
+	[ExciseDutyPer] [numeric](18, 6) NOT NULL,
+	[ExciseDutyValue] [numeric](18, 6) NOT NULL,
+	[DutiesPer] [numeric](18, 6) NULL,
+	[DutiesValue] [numeric](18, 6) NULL,
+	[SalesTaxPer] [numeric](18, 6) NULL,
+	[SalesTaxValue] [numeric](18, 6) NULL,
+	[IncomeTaxPer] [numeric](18, 6) NULL,
+	[IncomeTaxValue] [numeric](18, 6) NULL,
+	[Value] [numeric](18, 6) NULL,
+	[Others] [numeric](18, 6) NULL,
+	[FinalItemPrice] [numeric](18, 6) NULL,
+	[LogUser] [varchar](100) NULL,
+	[LogDate] [datetime] NULL,
+	[FKSourceID] [int] NULL,
+ CONSTRAINT [PK_LogMstItemPriceListDetail] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[LogMstLabourRate]    Script Date: 19/10/2022 4:01:55 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[LogMstLabourRate](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[DocNum] [int] NOT NULL,
+	[FromDate] [date] NOT NULL,
+	[ToDate] [date] NOT NULL,
+	[LogUser] [varchar](100) NOT NULL,
+	[LogDate] [datetime] NOT NULL,
+	[SourceID] [int] NOT NULL,
+ CONSTRAINT [PK_LogMstLaborRate] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[LogMstLabourRateDetail]    Script Date: 19/10/2022 4:01:55 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[LogMstLabourRateDetail](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[FKID] [int] NOT NULL,
+	[Description] [varchar](100) NOT NULL,
+	[WageRate] [numeric](18, 6) NOT NULL,
+	[FKCostTypeID] [int] NOT NULL,
+	[flgActive] [bit] NOT NULL,
+	[LogUser] [varchar](100) NOT NULL,
+	[LogDate] [datetime] NOT NULL,
+	[FKSourceID] [int] NOT NULL,
+ CONSTRAINT [PK_LogMstLaborRateDetail] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[LogMstResource]    Script Date: 19/10/2022 4:01:55 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[LogMstResource](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[DocNum] [int] NOT NULL,
+	[ResrListName] [varchar](100) NOT NULL,
+	[DocDate] [date] NOT NULL,
+	[ExchangeRate] [numeric](18, 6) NOT NULL,
+	[FKCostTypeID] [int] NOT NULL,
+	[flgDefaultResrMst] [bit] NOT NULL,
+	[flgActive] [bit] NOT NULL,
+	[LogUser] [varchar](100) NOT NULL,
+	[LogDate] [datetime] NOT NULL,
+	[SourceID] [int] NOT NULL,
+ CONSTRAINT [PK_LogMstResource] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[LogMstResourceDetail]    Script Date: 19/10/2022 4:01:55 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[LogMstResourceDetail](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[FKID] [int] NOT NULL,
+	[TypeOfResr] [varchar](50) NOT NULL,
+	[ResrDescription] [varchar](100) NOT NULL,
+	[Currency] [varchar](50) NOT NULL,
+	[Rate] [numeric](18, 6) NOT NULL,
+	[Price] [numeric](18, 6) NOT NULL,
+	[LandedFactor] [numeric](5, 0) NOT NULL,
+	[Cost] [numeric](18, 6) NOT NULL,
+	[flgActive] [bit] NOT NULL,
+	[LogUser] [varchar](100) NOT NULL,
+	[LogDate] [datetime] NOT NULL,
+	[FKSourceID] [int] NOT NULL,
+ CONSTRAINT [PK_LogMstResourceDetail] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[LogMstSalesPriceList]    Script Date: 19/10/2022 4:01:55 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[LogMstSalesPriceList](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[CustomerCode] [varchar](50) NOT NULL,
+	[CustomerName] [varchar](250) NOT NULL,
+	[PLName] [varchar](100) NOT NULL,
+	[flgDefult] [bit] NOT NULL,
+	[LogUser] [varchar](100) NOT NULL,
+	[LogDate] [datetime] NOT NULL,
+	[SourceID] [int] NOT NULL,
+ CONSTRAINT [PK_LogMstSalesPriceList] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[LogMstSalesPriceListDetail]    Script Date: 19/10/2022 4:01:55 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[LogMstSalesPriceListDetail](
+	[ID] [int] NOT NULL,
+	[FKID] [int] NOT NULL,
+	[ProductCode] [varchar](50) NOT NULL,
+	[ProductDescription] [varchar](250) NOT NULL,
+	[PerUnitSalesPrice] [numeric](18, 6) NOT NULL,
+	[LogUser] [varchar](100) NOT NULL,
+	[LogDate] [datetime] NOT NULL,
+	[FKSourceID] [int] NOT NULL,
+ CONSTRAINT [PK_LogMstSalesPriceListDetail] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[LogMstUserProfile]    Script Date: 19/10/2022 4:01:55 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[LogMstUserProfile](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[UserCode] [varchar](50) NOT NULL,
+	[UserName] [varchar](100) NOT NULL,
+	[Password] [varchar](80) NOT NULL,
+	[FKDesignationID] [int] NOT NULL,
+	[FKDeptID] [int] NOT NULL,
+	[EmailID] [varchar](100) NOT NULL,
+	[flgSuper] [bit] NOT NULL,
+	[flgActive] [bit] NOT NULL,
+	[LogUser] [varchar](100) NOT NULL,
+	[LogDate] [datetime] NOT NULL,
+	[SourceID] [int] NOT NULL,
+ CONSTRAINT [PK_LogMstUserProfile] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[MstActivityType]    Script Date: 19/10/2022 4:01:55 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[MstActivityType](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[Code] [varchar](50) NOT NULL,
+	[Description] [varchar](100) NOT NULL,
+	[flgActive] [bit] NOT NULL,
+ CONSTRAINT [PK_MstActivityType] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[MstApprovalOriginator]    Script Date: 19/10/2022 4:01:55 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[MstApprovalOriginator](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[FkApprovalID] [int] NULL,
+	[OriginatorID] [int] NULL,
+ CONSTRAINT [PK_MstApprovalOriginator] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[MstApprovalSetup]    Script Date: 19/10/2022 4:01:55 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[MstApprovalSetup](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [varchar](200) NULL,
+	[flgSalesQuatation] [bit] NULL,
+	[flgMonthlyVOHCalc] [bit] NULL,
+	[flgItemPriceList] [bit] NULL,
+	[flgResourceMasterData] [bit] NULL,
+	[flgMonthlyFOHDriverRateCalc] [bit] NULL,
+	[flgMonthlyFOHCostCalc] [bit] NULL,
+	[flgFOHRateCalc] [bit] NULL,
+	[flgVariableOverheadCost] [bit] NULL,
+	[flgActive] [bit] NULL,
+	[CreatedBy] [varchar](100) NULL,
+	[CreatedDate] [datetime] NULL,
+	[CAppStamp] [varchar](100) NULL,
+	[UpdatedBy] [varchar](100) NULL,
+	[UpdatedDate] [datetime] NULL,
+	[UAppStamp] [varchar](100) NULL,
+ CONSTRAINT [PK_MstApprovalSetup] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[MstApprovalStage]    Script Date: 19/10/2022 4:01:55 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[MstApprovalStage](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[FKStageID] [int] NULL,
+	[FKStageName] [varchar](200) NULL,
+	[FKApprovalID] [int] NULL,
+	[ApprovalPriority] [int] NULL,
+ CONSTRAINT [PK_MstApprovalStage] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[MstApprovalTerms]    Script Date: 19/10/2022 4:01:55 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[MstApprovalTerms](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[FKApprovalID] [int] NULL,
+	[Always] [bit] NULL,
+	[TermQuery] [varchar](500) NULL,
+ CONSTRAINT [PK_MstApprovalTerms] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[MstCostDriversType]    Script Date: 19/10/2022 4:01:55 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[MstCostDriversType](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[Code] [varchar](50) NOT NULL,
+	[Description] [varchar](100) NOT NULL,
+	[flgActive] [bit] NOT NULL,
+ CONSTRAINT [PK_MstCostDriversType] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[MstCostType]    Script Date: 19/10/2022 4:01:55 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[MstCostType](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[Code] [varchar](50) NOT NULL,
+	[Description] [varchar](100) NOT NULL,
+	[flgActive] [bit] NOT NULL,
+ CONSTRAINT [PK_MstCostType] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[MstDepartment]    Script Date: 19/10/2022 4:01:55 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[MstDepartment](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[Code] [varchar](50) NOT NULL,
+	[Description] [varchar](100) NOT NULL,
+	[flgActive] [bit] NOT NULL,
+ CONSTRAINT [PK_MstDepartment] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[MstDesignation]    Script Date: 19/10/2022 4:01:55 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[MstDesignation](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[Code] [varchar](50) NOT NULL,
+	[Description] [varchar](100) NOT NULL,
+	[flgActive] [bit] NOT NULL,
+ CONSTRAINT [PK_MstDesignation] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[MstForm]    Script Date: 19/10/2022 4:01:55 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[MstForm](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[FormCode] [int] NULL,
+	[FormName] [varchar](150) NULL,
+	[CreatedBy] [varchar](100) NULL,
+	[CreatedDate] [datetime] NULL,
+	[CAppStamp] [varchar](100) NULL,
+	[UpdatedBy] [varchar](100) NULL,
+	[UpdatedDate] [datetime] NULL,
+	[UAppStamp] [varchar](100) NULL,
+	[flgDataAccess] [bit] NULL,
+	[flgApprovalSetup] [bit] NULL,
+ CONSTRAINT [PK_MstForm] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[MstGroupSetup]    Script Date: 19/10/2022 4:01:55 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[MstGroupSetup](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[Code] [varchar](50) NOT NULL,
+	[Description] [varchar](100) NOT NULL,
+	[Type] [varchar](50) NULL,
+	[flgActive] [bit] NOT NULL,
+ CONSTRAINT [PK_MstGroupSetup] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[MstItemPriceList]    Script Date: 19/10/2022 4:01:55 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[MstItemPriceList](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[DocNum] [int] NOT NULL,
+	[DocDate] [date] NULL,
+	[PLName] [varchar](100) NOT NULL,
+	[flgDefaultPL] [bit] NOT NULL,
+	[PriceBase] [varchar](50) NOT NULL,
+	[ExchangeRate] [numeric](18, 6) NOT NULL,
+	[DocStatus] [varchar](50) NULL,
+	[DocApprovalStatus] [varchar](50) NULL,
+ CONSTRAINT [PK_MstItemPriceList] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[MstItemPriceListDetail]    Script Date: 19/10/2022 4:01:55 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[MstItemPriceListDetail](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[FKID] [int] NOT NULL,
+	[ItemCode] [varchar](50) NOT NULL,
+	[ItemName] [varchar](250) NOT NULL,
+	[HSCode] [varchar](50) NOT NULL,
+	[FKGroupSetup1] [int] NOT NULL,
+	[FKGroupSetup2] [int] NOT NULL,
+	[FKGroupSetup3] [int] NOT NULL,
+	[FKGroupSetup4] [int] NOT NULL,
+	[BlanketAgreement] [varchar](50) NOT NULL,
+	[BasicPrice] [numeric](18, 6) NOT NULL,
+	[Currency] [varchar](50) NOT NULL,
+	[Rate] [numeric](18, 6) NOT NULL,
+	[UnitPricePKR] [numeric](18, 6) NOT NULL,
+	[InsuranceCostPer] [numeric](18, 6) NOT NULL,
+	[InsuranceCostValue] [numeric](18, 6) NOT NULL,
+	[FreightCostPer] [numeric](18, 6) NOT NULL,
+	[FreightCostValue] [numeric](18, 6) NOT NULL,
+	[LandingCostPer] [numeric](18, 6) NOT NULL,
+	[LandingCostValue] [numeric](18, 6) NOT NULL,
+	[WHChargesPer] [numeric](18, 6) NOT NULL,
+	[WHChargesValue] [numeric](18, 6) NOT NULL,
+	[YardPaymentPer] [numeric](18, 6) NOT NULL,
+	[YardPaymentValue] [numeric](18, 6) NOT NULL,
+	[CleaningChargesPer] [numeric](18, 6) NOT NULL,
+	[CleaningChargesValue] [numeric](18, 6) NOT NULL,
+	[ImportPer] [numeric](18, 6) NOT NULL,
+	[ImportValue] [numeric](18, 6) NOT NULL,
+	[CustomDutyPer] [numeric](18, 6) NOT NULL,
+	[CustomDutyValue] [numeric](18, 6) NOT NULL,
+	[RegulatoryDutyPer] [numeric](18, 6) NOT NULL,
+	[RegulatoryDutyValue] [numeric](18, 6) NOT NULL,
+	[AdditionalDutyPer] [numeric](18, 6) NOT NULL,
+	[AdditionalDutyValue] [numeric](18, 6) NOT NULL,
+	[ExciseDutyPer] [numeric](18, 6) NOT NULL,
+	[ExciseDutyValue] [numeric](18, 6) NOT NULL,
+	[DutiesPer] [numeric](18, 6) NOT NULL,
+	[DutiesValue] [numeric](18, 6) NOT NULL,
+	[SalesTaxPer] [numeric](18, 6) NOT NULL,
+	[SalesTaxValue] [numeric](18, 6) NOT NULL,
+	[IncomeTaxPer] [numeric](18, 6) NOT NULL,
+	[IncomeTaxValue] [numeric](18, 6) NOT NULL,
+	[Value] [numeric](18, 6) NOT NULL,
+	[Others] [numeric](18, 6) NOT NULL,
+	[FinalItemPrice] [numeric](18, 6) NOT NULL,
+ CONSTRAINT [PK_MstItemPriceListDetail] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[MstLabourRate]    Script Date: 19/10/2022 4:01:55 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[MstLabourRate](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[DocNum] [int] NULL,
+	[FromDate] [date] NULL,
+	[ToDate] [date] NULL,
+ CONSTRAINT [PK_MstLaborRate] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[MstLabourRateDetail]    Script Date: 19/10/2022 4:01:55 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[MstLabourRateDetail](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[FKID] [int] NULL,
+	[Description] [varchar](100) NULL,
+	[WageRate] [numeric](18, 6) NULL,
+	[FKCostTypeID] [int] NULL,
+	[flgActive] [bit] NULL,
+ CONSTRAINT [PK_MstLaborRateDetail] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[MstMenu]    Script Date: 19/10/2022 4:01:55 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[MstMenu](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[MenuID] [int] NULL,
+	[MenuParent] [int] NULL,
+	[MenuName] [varchar](150) NULL,
+	[SortNum] [int] NULL,
+	[MenuLink] [varchar](150) NULL,
+	[Icon] [varchar](150) NULL,
+	[FlgReport] [bit] NULL,
+	[FlgActive] [bit] NULL,
+	[CreatedBy] [varchar](100) NULL,
+	[CreatedDate] [datetime] NULL,
+	[CAppStamp] [varchar](100) NULL,
+	[UpdatedBy] [varchar](100) NULL,
+	[UpdatedDate] [datetime] NULL,
+	[UAppStamp] [varchar](100) NULL,
+ CONSTRAINT [PK_MstMenu] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[MstResource]    Script Date: 19/10/2022 4:01:55 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[MstResource](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[DocNum] [int] NULL,
+	[ResrListName] [varchar](100) NULL,
+	[DocDate] [date] NULL,
+	[CurrencySAP] [varchar](100) NULL,
+	[RateSAP] [numeric](18, 6) NULL,
+	[FKCostTypeID] [int] NULL,
+	[CostTypeDesc] [varchar](100) NULL,
+	[flgDefaultResrMst] [bit] NULL,
+	[flgActive] [bit] NULL,
+	[DocStatus] [varchar](50) NULL,
+	[DocApprovalStatus] [varchar](50) NULL,
+	[CreatedBy] [varchar](100) NULL,
+	[CreatedDate] [datetime] NULL,
+	[CAppStamp] [varchar](50) NULL,
+	[UpdatedBy] [varchar](50) NULL,
+	[UpdatedDate] [datetime] NULL,
+	[UAppStamp] [varchar](100) NULL,
+ CONSTRAINT [PK_MstResource] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[MstResourceDetail]    Script Date: 19/10/2022 4:01:55 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[MstResourceDetail](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[FKID] [int] NULL,
+	[TypeOfResr] [varchar](50) NULL,
+	[ResrDescription] [varchar](100) NULL,
+	[CurrCodeSAP] [varchar](50) NULL,
+	[CurrNameSAP] [varchar](50) NULL,
+	[Rate] [numeric](18, 6) NULL,
+	[Price] [numeric](18, 6) NULL,
+	[LandedFactor] [numeric](5, 0) NULL,
+	[Cost] [numeric](18, 6) NULL,
+	[flgActive] [bit] NULL,
+	[DocStatus] [varchar](50) NULL,
+	[DocApprovalStatus] [varchar](50) NULL,
+ CONSTRAINT [PK_MstResourceDetail] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[MstSalesPriceList]    Script Date: 19/10/2022 4:01:55 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[MstSalesPriceList](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[CustomerCode] [varchar](50) NOT NULL,
+	[CustomerName] [varchar](250) NOT NULL,
+	[PLName] [varchar](100) NOT NULL,
+	[flgDefult] [bit] NOT NULL,
+ CONSTRAINT [PK_MstSalesPriceList] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[MstSalesPriceListDetail]    Script Date: 19/10/2022 4:01:55 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[MstSalesPriceListDetail](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[FKID] [int] NOT NULL,
+	[ProductCode] [varchar](50) NOT NULL,
+	[ProductDescription] [varchar](250) NOT NULL,
+	[PerUnitSalesPrice] [numeric](18, 6) NOT NULL,
+ CONSTRAINT [PK_MstSalesPriceListDetail] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[MstStage]    Script Date: 19/10/2022 4:01:55 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[MstStage](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[StageName] [varchar](100) NULL,
+	[NoOfApproval] [int] NULL,
+	[NoOfRejection] [int] NULL,
+	[CreatedBy] [varchar](100) NULL,
+	[CreatedDate] [datetime] NULL,
+	[CAppStamp] [varchar](100) NULL,
+	[UpdatedBy] [varchar](100) NULL,
+	[UpdatedDate] [datetime] NULL,
+	[UAppStamp] [varchar](100) NULL,
+ CONSTRAINT [PK_MstStage] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[MstStageDetail]    Script Date: 19/10/2022 4:01:55 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[MstStageDetail](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[FkStageID] [int] NULL,
+	[FkUserID] [int] NULL,
+	[flgType] [bit] NULL,
+ CONSTRAINT [PK_MstStageDetail] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[MstUserProfile]    Script Date: 19/10/2022 4:01:55 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[MstUserProfile](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[UserCode] [varchar](50) NOT NULL,
+	[UserName] [varchar](100) NOT NULL,
+	[Password] [varchar](80) NOT NULL,
+	[FKDesignationID] [int] NOT NULL,
+	[FKDeptID] [int] NOT NULL,
+	[EmailID] [varchar](200) NOT NULL,
+	[flgSuper] [bit] NOT NULL,
+	[flgActive] [bit] NOT NULL,
+	[TokenValue] [varchar](1000) NULL,
+	[EncryptKey] [varchar](500) NULL,
+	[DesignationDescription] [varchar](100) NULL,
+	[DepartmentDescription] [varchar](100) NULL,
+	[FlgPasswordRequest] [bit] NULL,
+ CONSTRAINT [PK_MstUserProfile] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[PasswordReset]    Script Date: 19/10/2022 4:01:55 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[PasswordReset](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[Email] [nvarchar](250) NULL,
+	[UserCode] [nvarchar](250) NULL,
+	[EncryptKey] [nvarchar](250) NULL,
+	[flgActive] [bit] NULL,
+ CONSTRAINT [PK_PasswordReset] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[TrnsDirectMaterial]    Script Date: 19/10/2022 4:01:55 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[TrnsDirectMaterial](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[ProductCode] [varchar](50) NULL,
+	[ProductDescription] [varchar](250) NULL,
+	[ProductDept] [varchar](150) NULL,
+	[DocDate] [date] NULL,
+	[DocName] [varchar](100) NULL,
+	[FKCostTypeID] [int] NULL,
+	[CostTypeDesc] [varchar](250) NULL,
+	[CurrencyER] [varchar](50) NULL,
+	[ExchangeRate] [numeric](18, 6) NULL,
+	[FKItemPriceListDocNum] [int] NULL,
+	[ForAnalysis] [char](3) NULL,
+	[TotalMaterialCost] [numeric](18, 6) NULL,
+	[TotalImportCost] [numeric](18, 6) NULL,
+	[TotalLocalCost] [numeric](18, 6) NULL,
+	[DocNum] [int] NULL,
+	[FlgAnalysis] [bit] NULL,
+	[FkSqdocNum] [int] NULL,
+ CONSTRAINT [PK_TrnsDirectMatrial] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[TrnsDirectMaterialDetail]    Script Date: 19/10/2022 4:01:55 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[TrnsDirectMaterialDetail](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[FKID] [int] NULL,
+	[ItemCode] [varchar](50) NULL,
+	[ItemName] [varchar](250) NULL,
+	[ConsQty] [numeric](18, 6) NULL,
+	[UOM] [varchar](50) NULL,
+	[Currency] [varchar](50) NULL,
+	[UnitPriceFC] [numeric](18, 6) NULL,
+	[LCFactor] [numeric](18, 6) NULL,
+	[UnitPricePKR] [numeric](18, 6) NULL,
+	[AmountPKR] [numeric](18, 6) NULL,
+	[ChangeConsQty] [numeric](18, 6) NULL,
+	[ChangePricePKR] [numeric](18, 6) NULL,
+	[Remarks] [varchar](200) NULL,
+ CONSTRAINT [PK_TrnsDirectMaterialDetail] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[TrnsFOHCost]    Script Date: 19/10/2022 4:01:55 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[TrnsFOHCost](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[DocNum] [int] NULL,
+	[DocDate] [date] NULL,
+	[LYear] [varchar](50) NULL,
+	[LMonth] [varchar](50) NULL,
+	[TotalCost] [numeric](18, 6) NULL,
+	[TotalVOH] [numeric](18, 6) NULL,
+	[TotalFOH] [numeric](18, 6) NULL,
+	[DocStatus] [varchar](50) NULL,
+	[DocApprovalStatus] [varchar](50) NULL,
+ CONSTRAINT [PK_TrnsFOHCost] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[TrnsFOHCostDetail]    Script Date: 19/10/2022 4:01:55 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[TrnsFOHCostDetail](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[FKID] [int] NOT NULL,
+	[FKCostDriverTypeID] [int] NULL,
+	[CostDriver] [varchar](100) NULL,
+	[AcctCode] [varchar](80) NULL,
+	[AcctDescription] [varchar](80) NULL,
+	[Amount] [numeric](18, 6) NULL,
+	[VOHAmount] [numeric](18, 6) NULL,
+	[FOHAmount] [numeric](18, 6) NULL,
+ CONSTRAINT [PK_TrnsFOHCostDetail] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[TrnsFOHDriverRates]    Script Date: 19/10/2022 4:01:55 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[TrnsFOHDriverRates](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[DocNum] [int] NULL,
+	[DocDate] [date] NULL,
+	[LYear] [varchar](50) NULL,
+	[LMonth] [varchar](50) NULL,
+	[CostDriver] [numeric](18, 6) NULL,
+	[DistributionCost] [numeric](18, 6) NULL,
+	[TotalCostDC] [numeric](18, 6) NULL,
+	[TotalDriverValue] [numeric](18, 6) NULL,
+	[DocStatus] [varchar](50) NULL,
+	[DocApprovalStatus] [varchar](50) NULL,
+ CONSTRAINT [PK_TrnsFOHDriverRates] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[TrnsFOHDriverRatesDetail]    Script Date: 19/10/2022 4:01:55 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[TrnsFOHDriverRatesDetail](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[FKID] [int] NOT NULL,
+	[ProductCode] [varchar](50) NULL,
+	[ProductName] [varchar](250) NULL,
+	[DriverValue] [numeric](18, 6) NULL,
+	[FOHDistributionCost] [numeric](18, 6) NULL,
+ CONSTRAINT [PK_TrnsFOHDriverRatesDetail] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[TrnsFOHRates]    Script Date: 19/10/2022 4:01:55 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[TrnsFOHRates](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[DocNum] [int] NOT NULL,
+	[DocDate] [date] NULL,
+	[DocName] [varchar](100) NULL,
+	[ProductCode] [varchar](50) NULL,
+	[ProductName] [varchar](250) NULL,
+	[FKCostTypeID] [int] NULL,
+	[FOHRate] [numeric](18, 6) NULL,
+	[DocStatus] [varchar](50) NULL,
+	[DocApprovalStatus] [varchar](50) NULL,
+ CONSTRAINT [PK_TrnsFOHRates] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[TrnsFOHRatesDetail]    Script Date: 19/10/2022 4:01:55 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[TrnsFOHRatesDetail](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[FKID] [int] NOT NULL,
+	[FKCostDriversTypeID] [int] NULL,
+	[Rate] [numeric](18, 6) NULL,
+	[FKCostDrivesTypeDescription] [varchar](100) NULL,
+ CONSTRAINT [PK_TrnsFOHRatesDetail] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[TrnsSalesQuotation]    Script Date: 19/10/2022 4:01:55 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[TrnsSalesQuotation](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[DocNum] [int] NOT NULL,
+	[DocDate] [date] NULL,
+	[CustomerCode] [varchar](250) NULL,
+	[CustomerName] [varchar](250) NOT NULL,
+	[SalesPriceList] [varchar](100) NULL,
+	[FkcostTypeId] [int] NULL,
+	[CostTypeDesc] [varchar](150) NULL,
+	[DocStatus] [varchar](50) NULL,
+	[DocApprovalStatus] [varchar](50) NULL,
+ CONSTRAINT [PK_TrnsSalesQuotation] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[TrnsSalesQuotationDetail]    Script Date: 19/10/2022 4:01:55 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[TrnsSalesQuotationDetail](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[FKID] [int] NOT NULL,
+	[ProductCode] [varchar](50) NOT NULL,
+	[ProductDescription] [varchar](250) NOT NULL,
+	[ProductDepartment] [varchar](250) NOT NULL,
+	[FKDirectMaterialID] [int] NOT NULL,
+	[FKDirectMaterialDocNum] [int] NULL,
+	[FKVOHID] [int] NOT NULL,
+	[FKVOHDocNum] [int] NULL,
+	[FKFOHID] [int] NOT NULL,
+	[FKFOHDocNum] [int] NULL,
+	[RMAnalysis] [varchar](50) NOT NULL,
+	[ImportCost] [numeric](18, 6) NOT NULL,
+	[LocalCost] [numeric](18, 6) NOT NULL,
+	[TotalRMCost] [numeric](18, 6) NOT NULL,
+	[VOHAnalysis] [varchar](50) NOT NULL,
+	[Machine] [varchar](50) NOT NULL,
+	[Labour] [varchar](50) NOT NULL,
+	[Electricity] [varchar](50) NOT NULL,
+	[DiesAndMolds] [varchar](50) NOT NULL,
+	[Tools] [varchar](50) NOT NULL,
+	[Gasoline] [varchar](50) NOT NULL,
+	[Packing] [varchar](50) NOT NULL,
+	[Transportation] [varchar](50) NOT NULL,
+	[Others] [varchar](50) NOT NULL,
+	[TotalVOHCost] [numeric](18, 6) NOT NULL,
+	[TotalDirectCost] [numeric](18, 6) NOT NULL,
+	[FOHRatePer] [numeric](18, 6) NOT NULL,
+	[FOHAmount] [numeric](18, 6) NOT NULL,
+	[OtherFOH] [numeric](18, 6) NOT NULL,
+	[TotalFOH] [numeric](18, 6) NOT NULL,
+	[TotalUnitCost] [numeric](18, 6) NOT NULL,
+	[SellingPrice] [numeric](18, 6) NOT NULL,
+	[Margin] [numeric](18, 6) NOT NULL,
+	[MarginPer] [numeric](18, 6) NOT NULL,
+ CONSTRAINT [PK_TrnsSalesQuatationDetail] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[TrnsVOC]    Script Date: 19/10/2022 4:01:55 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[TrnsVOC](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[DocNum] [int] NULL,
+	[DocDate] [date] NULL,
+	[DocName] [varchar](100) NULL,
+	[ProductCode] [varchar](50) NULL,
+	[ProductName] [varchar](250) NULL,
+	[PerDayShiftHrs] [numeric](18, 6) NULL,
+	[WorkingDays] [numeric](18, 6) NULL,
+	[NoOfShift] [numeric](18, 6) NULL,
+	[MonthlyVolume] [numeric](18, 6) NULL,
+	[FKResourceDocNum] [int] NULL,
+	[flgDefault] [bit] NULL,
+	[FKCostTypeID] [int] NULL,
+	[CostTypeDesc] [varchar](250) NULL,
+	[ForAnalysis] [char](3) NULL,
+	[DocStatus] [varchar](50) NULL,
+	[DocApprovalStatus] [varchar](50) NULL,
+	[FlgAnalysis] [bit] NULL,
+	[FkSqdocNum] [int] NULL,
+ CONSTRAINT [PK_TrnsVOC] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[TrnsVOCActivityDetail]    Script Date: 19/10/2022 4:01:55 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[TrnsVOCActivityDetail](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[FKID] [int] NOT NULL,
+	[FKActivityTypeID] [int] NULL,
+	[FKActivityDescription] [varchar](250) NULL,
+	[ActualTimeCycle] [numeric](18, 6) NULL,
+	[IncFactor] [numeric](18, 6) NULL,
+	[CycleTimeSec] [numeric](18, 6) NULL,
+ CONSTRAINT [PK_TrnsVOCActivityDetail] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[TrnsVOCDyesAndMoldDetail]    Script Date: 19/10/2022 4:01:55 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[TrnsVOCDyesAndMoldDetail](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[FKID] [int] NOT NULL,
+	[FKActivityTypeID] [int] NOT NULL,
+	[FKActivityDescription] [varchar](250) NULL,
+	[FKResourceID] [int] NULL,
+	[DyesAndMold] [varchar](50) NULL,
+	[Cost] [numeric](18, 6) NULL,
+	[CycleTimeSec] [numeric](18, 6) NULL,
+	[NoOfWorkers] [numeric](18, 6) NULL,
+	[Nos] [numeric](18, 6) NULL,
+	[LifeUnit] [numeric](18, 6) NULL,
+	[Total] [numeric](18, 6) NULL,
+ CONSTRAINT [PK_TrnsDyesAndMoldDetail] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[TrnsVOCElectricityDetail]    Script Date: 19/10/2022 4:01:55 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[TrnsVOCElectricityDetail](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[FKID] [int] NOT NULL,
+	[FKActivityTypeID] [int] NOT NULL,
+	[FKActivityDescription] [varchar](250) NULL,
+	[FKResourceID] [int] NULL,
+	[MachineType] [varchar](100) NULL,
+	[NoOfWorkers] [numeric](18, 6) NULL,
+	[ActualKWPerHrs] [numeric](18, 6) NULL,
+	[IncFactor] [numeric](18, 6) NULL,
+	[KWPerHrs] [numeric](18, 6) NULL,
+	[RatePerUnit] [numeric](18, 6) NULL,
+	[CostPerSec] [numeric](18, 6) NULL,
+	[CycleTimeSec] [numeric](18, 6) NULL,
+	[Total] [numeric](18, 6) NULL,
+	[NoOfMachine] [numeric](18, 6) NULL,
+ CONSTRAINT [PK_TrnsVOCElectricityDetail] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[TrnsVOCGasolineDetail]    Script Date: 19/10/2022 4:01:55 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[TrnsVOCGasolineDetail](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[FKID] [int] NOT NULL,
+	[FKActivityTypeID] [int] NOT NULL,
+	[FKActivityDescription] [varchar](250) NULL,
+	[FKResourceID] [int] NULL,
+	[GasolineType] [varchar](50) NULL,
+	[Cost] [numeric](18, 6) NULL,
+	[CycleTimeSec] [numeric](18, 6) NULL,
+	[NoOfWorkers] [numeric](18, 6) NULL,
+	[Nos] [numeric](18, 6) NULL,
+	[LifeUnit] [numeric](18, 6) NULL,
+	[Total] [numeric](18, 6) NULL,
+ CONSTRAINT [PK_TrnsVOCGasolineDetail] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[TrnsVOCLaborDetail]    Script Date: 19/10/2022 4:01:55 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[TrnsVOCLaborDetail](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[FKID] [int] NOT NULL,
+	[FKActivityTypeID] [int] NOT NULL,
+	[FKActivityDescription] [varchar](250) NULL,
+	[FKLaborRateID] [int] NULL,
+	[LaborDescription] [varchar](100) NULL,
+	[WageRate] [numeric](18, 6) NULL,
+	[CostPerSec] [numeric](18, 6) NULL,
+	[CycleTimeSec] [numeric](18, 6) NULL,
+	[NoOfWorkers] [numeric](18, 6) NULL,
+	[Total] [numeric](18, 6) NULL,
+ CONSTRAINT [PK_TrnsVOCLaborDetail] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[TrnsVOCMachineDetail]    Script Date: 19/10/2022 4:01:55 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[TrnsVOCMachineDetail](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[FKID] [int] NOT NULL,
+	[FKActivityTypeID] [int] NULL,
+	[FKActivityDescription] [varchar](250) NULL,
+	[FKResourceID] [int] NULL,
+	[MachineType] [varchar](100) NULL,
+	[Cost] [numeric](18, 6) NULL,
+	[CycleTimeSec] [numeric](18, 6) NULL,
+	[NoOfWorkers] [numeric](18, 6) NULL,
+	[Nos] [numeric](18, 6) NULL,
+	[LifeYears] [numeric](18, 6) NULL,
+	[Total] [numeric](18, 6) NULL,
+ CONSTRAINT [PK_TrnsVOCMachineDetail] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[TrnsVOCToolsDetail]    Script Date: 19/10/2022 4:01:55 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[TrnsVOCToolsDetail](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[FKID] [int] NOT NULL,
+	[FKActivityTypeID] [int] NOT NULL,
+	[FKActivityDescription] [varchar](250) NULL,
+	[FKResourceID] [int] NULL,
+	[ToolsType] [varchar](50) NULL,
+	[Cost] [numeric](18, 6) NULL,
+	[CycleTimeSec] [numeric](18, 6) NULL,
+	[NoOfWorkers] [numeric](18, 6) NULL,
+	[Nos] [numeric](18, 6) NULL,
+	[LifeUnit] [numeric](18, 6) NULL,
+	[Total] [numeric](18, 6) NULL,
+ CONSTRAINT [PK_TrnsVOCToolsDetail] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[TrnsVOH]    Script Date: 19/10/2022 4:01:55 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[TrnsVOH](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[DocNum] [int] NOT NULL,
+	[DocDate] [date] NOT NULL,
+	[LYear] [varchar](50) NOT NULL,
+	[LMonth] [varchar](50) NOT NULL,
+	[DocStatus] [varchar](50) NULL,
+	[DocApprovalStatus] [varchar](50) NULL,
+ CONSTRAINT [PK_TrnsMonthlyVOH] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[TrnsVOHDyesAndMoldDetail]    Script Date: 19/10/2022 4:01:55 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[TrnsVOHDyesAndMoldDetail](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[FKID] [int] NOT NULL,
+	[ProductCode] [varchar](50) NOT NULL,
+	[ProductName] [varchar](250) NOT NULL,
+	[DyesAndMoldVOHRate] [numeric](18, 6) NOT NULL,
+	[DyesAndMoldVOHAmount] [numeric](18, 6) NOT NULL,
+ CONSTRAINT [PK_TrnsVOHDyesAndMoldDetail] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[TrnsVOHElectricityDetail]    Script Date: 19/10/2022 4:01:55 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[TrnsVOHElectricityDetail](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[FKID] [int] NOT NULL,
+	[ProductCode] [varchar](50) NULL,
+	[ProductName] [varchar](250) NULL,
+	[ElectricityVOHRate] [numeric](18, 6) NULL,
+	[ElectricityVOHAmount] [numeric](18, 6) NULL,
+ CONSTRAINT [PK_TrnsVOHElectricityDetail] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[TrnsVOHGasolineDetail]    Script Date: 19/10/2022 4:01:55 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[TrnsVOHGasolineDetail](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[FKID] [int] NOT NULL,
+	[ProductCode] [varchar](50) NULL,
+	[ProductName] [varchar](250) NULL,
+	[GasolineVOHRate] [numeric](18, 6) NULL,
+	[GasolineVOHAmount] [numeric](18, 6) NULL,
+ CONSTRAINT [PK_TrnsVOHGasolineDetail] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[TrnsVOHLabourDetail]    Script Date: 19/10/2022 4:01:55 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[TrnsVOHLabourDetail](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[FKID] [int] NOT NULL,
+	[ProductCode] [varchar](50) NULL,
+	[ProductName] [varchar](250) NULL,
+	[LabourVOHRate] [numeric](18, 6) NULL,
+	[LabourVOHAmount] [numeric](18, 6) NULL,
+ CONSTRAINT [PK_TrnsVOHLabourDetail] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[TrnsVOHMachineDetail]    Script Date: 19/10/2022 4:01:55 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[TrnsVOHMachineDetail](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[FKID] [int] NOT NULL,
+	[ProductCode] [varchar](50) NULL,
+	[ProductName] [varchar](250) NULL,
+	[MachineVOHRate] [numeric](18, 6) NULL,
+	[MachineVOHAmount] [numeric](18, 6) NULL,
+ CONSTRAINT [PK_TrnsVOHMachineDetail] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[TrnsVOHToolsDetail]    Script Date: 19/10/2022 4:01:55 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[TrnsVOHToolsDetail](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[FKID] [int] NOT NULL,
+	[ProductCode] [varchar](50) NULL,
+	[ProductName] [varchar](250) NULL,
+	[ToolsVOHRate] [numeric](18, 6) NULL,
+	[ToolsVOHAmount] [numeric](18, 6) NULL,
+ CONSTRAINT [PK_TrnsVOHToolsDetail] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[UserAuthorization]    Script Date: 19/10/2022 4:01:55 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[UserAuthorization](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[FKUserID] [int] NULL,
+	[UserRights] [int] NULL,
+	[FKMenuID] [int] NULL,
+	[CreatedBy] [varchar](100) NULL,
+	[CreatedDate] [datetime] NULL,
+	[CAppStamp] [varchar](100) NULL,
+	[UpdatedBy] [varchar](100) NULL,
+	[UpdatedDate] [datetime] NULL,
+	[UAppStamp] [varchar](100) NULL,
+	[MenuParent] [int] NULL,
+	[MenuName] [varchar](150) NULL,
+	[MenuLink] [varchar](150) NULL,
+ CONSTRAINT [PK_UserAuthorization] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[UserDataAccess]    Script Date: 19/10/2022 4:01:55 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[UserDataAccess](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[FormCode] [int] NULL,
+	[FormName] [varchar](150) NULL,
+	[FkCostID] [int] NULL,
+	[Description] [varchar](150) NULL,
+	[FkUserID] [int] NULL,
+	[flgAccess] [bit] NULL,
+ CONSTRAINT [PK_UserDataAccess] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[MstApprovalOriginator]  WITH CHECK ADD  CONSTRAINT [FK_MstApprovalOriginator_MstApprovalSetup] FOREIGN KEY([FkApprovalID])
+REFERENCES [dbo].[MstApprovalSetup] ([ID])
+GO
+ALTER TABLE [dbo].[MstApprovalOriginator] CHECK CONSTRAINT [FK_MstApprovalOriginator_MstApprovalSetup]
+GO
+ALTER TABLE [dbo].[MstApprovalStage]  WITH CHECK ADD  CONSTRAINT [FK_MstApprovalStage_MstApprovalSetup] FOREIGN KEY([FKApprovalID])
+REFERENCES [dbo].[MstApprovalSetup] ([ID])
+GO
+ALTER TABLE [dbo].[MstApprovalStage] CHECK CONSTRAINT [FK_MstApprovalStage_MstApprovalSetup]
+GO
+ALTER TABLE [dbo].[MstApprovalTerms]  WITH CHECK ADD  CONSTRAINT [FK_MstApprovalTerms_MstApprovalSetup] FOREIGN KEY([FKApprovalID])
+REFERENCES [dbo].[MstApprovalSetup] ([ID])
+GO
+ALTER TABLE [dbo].[MstApprovalTerms] CHECK CONSTRAINT [FK_MstApprovalTerms_MstApprovalSetup]
+GO
+ALTER TABLE [dbo].[MstItemPriceListDetail]  WITH CHECK ADD  CONSTRAINT [FK_MstItemPriceListDetail_MstItemPriceList] FOREIGN KEY([FKID])
+REFERENCES [dbo].[MstItemPriceList] ([ID])
+GO
+ALTER TABLE [dbo].[MstItemPriceListDetail] CHECK CONSTRAINT [FK_MstItemPriceListDetail_MstItemPriceList]
+GO
+ALTER TABLE [dbo].[MstLabourRateDetail]  WITH CHECK ADD  CONSTRAINT [FK_MstLaborRateDetail_MstLaborRate] FOREIGN KEY([FKID])
+REFERENCES [dbo].[MstLabourRate] ([ID])
+GO
+ALTER TABLE [dbo].[MstLabourRateDetail] CHECK CONSTRAINT [FK_MstLaborRateDetail_MstLaborRate]
+GO
+ALTER TABLE [dbo].[MstResourceDetail]  WITH CHECK ADD  CONSTRAINT [FK_MstResourceDetail_MstResource] FOREIGN KEY([FKID])
+REFERENCES [dbo].[MstResource] ([ID])
+GO
+ALTER TABLE [dbo].[MstResourceDetail] CHECK CONSTRAINT [FK_MstResourceDetail_MstResource]
+GO
+ALTER TABLE [dbo].[MstSalesPriceListDetail]  WITH CHECK ADD  CONSTRAINT [FK_MstSalesPriceListDetail_MstSalesPriceList] FOREIGN KEY([FKID])
+REFERENCES [dbo].[MstSalesPriceList] ([ID])
+GO
+ALTER TABLE [dbo].[MstSalesPriceListDetail] CHECK CONSTRAINT [FK_MstSalesPriceListDetail_MstSalesPriceList]
+GO
+ALTER TABLE [dbo].[MstStageDetail]  WITH CHECK ADD  CONSTRAINT [FK_MstStageDetail_MstStage] FOREIGN KEY([FkStageID])
+REFERENCES [dbo].[MstStage] ([ID])
+GO
+ALTER TABLE [dbo].[MstStageDetail] CHECK CONSTRAINT [FK_MstStageDetail_MstStage]
+GO
+ALTER TABLE [dbo].[TrnsDirectMaterialDetail]  WITH CHECK ADD  CONSTRAINT [FK_TrnsDirectMaterialDetail_TrnsDirectMaterial] FOREIGN KEY([FKID])
+REFERENCES [dbo].[TrnsDirectMaterial] ([ID])
+GO
+ALTER TABLE [dbo].[TrnsDirectMaterialDetail] CHECK CONSTRAINT [FK_TrnsDirectMaterialDetail_TrnsDirectMaterial]
+GO
+ALTER TABLE [dbo].[TrnsFOHCostDetail]  WITH CHECK ADD  CONSTRAINT [FK_TrnsFOHCostDetail_TrnsFOHCost] FOREIGN KEY([FKID])
+REFERENCES [dbo].[TrnsFOHCost] ([ID])
+GO
+ALTER TABLE [dbo].[TrnsFOHCostDetail] CHECK CONSTRAINT [FK_TrnsFOHCostDetail_TrnsFOHCost]
+GO
+ALTER TABLE [dbo].[TrnsFOHDriverRatesDetail]  WITH CHECK ADD  CONSTRAINT [FK_TrnsFOHDriverRatesDetail_TrnsFOHDriverRates] FOREIGN KEY([FKID])
+REFERENCES [dbo].[TrnsFOHDriverRates] ([ID])
+GO
+ALTER TABLE [dbo].[TrnsFOHDriverRatesDetail] CHECK CONSTRAINT [FK_TrnsFOHDriverRatesDetail_TrnsFOHDriverRates]
+GO
+ALTER TABLE [dbo].[TrnsFOHRatesDetail]  WITH CHECK ADD  CONSTRAINT [FK_TrnsFOHRatesDetail_TrnsFOHRates] FOREIGN KEY([FKID])
+REFERENCES [dbo].[TrnsFOHRates] ([ID])
+GO
+ALTER TABLE [dbo].[TrnsFOHRatesDetail] CHECK CONSTRAINT [FK_TrnsFOHRatesDetail_TrnsFOHRates]
+GO
+ALTER TABLE [dbo].[TrnsSalesQuotationDetail]  WITH CHECK ADD  CONSTRAINT [FK_TrnsSalesQuatationDetail_TrnsSalesQuotation] FOREIGN KEY([FKID])
+REFERENCES [dbo].[TrnsSalesQuotation] ([ID])
+GO
+ALTER TABLE [dbo].[TrnsSalesQuotationDetail] CHECK CONSTRAINT [FK_TrnsSalesQuatationDetail_TrnsSalesQuotation]
+GO
+ALTER TABLE [dbo].[TrnsVOCActivityDetail]  WITH CHECK ADD  CONSTRAINT [FK_TrnsVOCActivityDetail_TrnsVOC] FOREIGN KEY([FKID])
+REFERENCES [dbo].[TrnsVOC] ([ID])
+GO
+ALTER TABLE [dbo].[TrnsVOCActivityDetail] CHECK CONSTRAINT [FK_TrnsVOCActivityDetail_TrnsVOC]
+GO
+ALTER TABLE [dbo].[TrnsVOCDyesAndMoldDetail]  WITH CHECK ADD  CONSTRAINT [FK_TrnsVOCDyesAndMoldDetail_TrnsVOC] FOREIGN KEY([FKID])
+REFERENCES [dbo].[TrnsVOC] ([ID])
+GO
+ALTER TABLE [dbo].[TrnsVOCDyesAndMoldDetail] CHECK CONSTRAINT [FK_TrnsVOCDyesAndMoldDetail_TrnsVOC]
+GO
+ALTER TABLE [dbo].[TrnsVOCElectricityDetail]  WITH CHECK ADD  CONSTRAINT [FK_TrnsVOCElectricityDetail_TrnsVOC] FOREIGN KEY([FKID])
+REFERENCES [dbo].[TrnsVOC] ([ID])
+GO
+ALTER TABLE [dbo].[TrnsVOCElectricityDetail] CHECK CONSTRAINT [FK_TrnsVOCElectricityDetail_TrnsVOC]
+GO
+ALTER TABLE [dbo].[TrnsVOCGasolineDetail]  WITH CHECK ADD  CONSTRAINT [FK_TrnsVOCGasolineDetail_TrnsVOC] FOREIGN KEY([FKID])
+REFERENCES [dbo].[TrnsVOC] ([ID])
+GO
+ALTER TABLE [dbo].[TrnsVOCGasolineDetail] CHECK CONSTRAINT [FK_TrnsVOCGasolineDetail_TrnsVOC]
+GO
+ALTER TABLE [dbo].[TrnsVOCLaborDetail]  WITH CHECK ADD  CONSTRAINT [FK_TrnsVOCLaborDetail_TrnsVOC] FOREIGN KEY([FKID])
+REFERENCES [dbo].[TrnsVOC] ([ID])
+GO
+ALTER TABLE [dbo].[TrnsVOCLaborDetail] CHECK CONSTRAINT [FK_TrnsVOCLaborDetail_TrnsVOC]
+GO
+ALTER TABLE [dbo].[TrnsVOCMachineDetail]  WITH CHECK ADD  CONSTRAINT [FK_TrnsVOCMachineDetail_TrnsVOC] FOREIGN KEY([FKID])
+REFERENCES [dbo].[TrnsVOC] ([ID])
+GO
+ALTER TABLE [dbo].[TrnsVOCMachineDetail] CHECK CONSTRAINT [FK_TrnsVOCMachineDetail_TrnsVOC]
+GO
+ALTER TABLE [dbo].[TrnsVOCToolsDetail]  WITH CHECK ADD  CONSTRAINT [FK_TrnsVOCToolsDetail_TrnsVOC] FOREIGN KEY([FKID])
+REFERENCES [dbo].[TrnsVOC] ([ID])
+GO
+ALTER TABLE [dbo].[TrnsVOCToolsDetail] CHECK CONSTRAINT [FK_TrnsVOCToolsDetail_TrnsVOC]
+GO
+ALTER TABLE [dbo].[TrnsVOHDyesAndMoldDetail]  WITH CHECK ADD  CONSTRAINT [FK_TrnsVOHDyesAndMoldDetail_TrnsVOH] FOREIGN KEY([FKID])
+REFERENCES [dbo].[TrnsVOH] ([ID])
+GO
+ALTER TABLE [dbo].[TrnsVOHDyesAndMoldDetail] CHECK CONSTRAINT [FK_TrnsVOHDyesAndMoldDetail_TrnsVOH]
+GO
+ALTER TABLE [dbo].[TrnsVOHElectricityDetail]  WITH CHECK ADD  CONSTRAINT [FK_TrnsVOHElectricityDetail_TrnsVOH] FOREIGN KEY([FKID])
+REFERENCES [dbo].[TrnsVOH] ([ID])
+GO
+ALTER TABLE [dbo].[TrnsVOHElectricityDetail] CHECK CONSTRAINT [FK_TrnsVOHElectricityDetail_TrnsVOH]
+GO
+ALTER TABLE [dbo].[TrnsVOHGasolineDetail]  WITH CHECK ADD  CONSTRAINT [FK_TrnsVOHGasolineDetail_TrnsVOH] FOREIGN KEY([FKID])
+REFERENCES [dbo].[TrnsVOH] ([ID])
+GO
+ALTER TABLE [dbo].[TrnsVOHGasolineDetail] CHECK CONSTRAINT [FK_TrnsVOHGasolineDetail_TrnsVOH]
+GO
+ALTER TABLE [dbo].[TrnsVOHLabourDetail]  WITH CHECK ADD  CONSTRAINT [FK_TrnsVOHLabourDetail_TrnsVOH] FOREIGN KEY([FKID])
+REFERENCES [dbo].[TrnsVOH] ([ID])
+GO
+ALTER TABLE [dbo].[TrnsVOHLabourDetail] CHECK CONSTRAINT [FK_TrnsVOHLabourDetail_TrnsVOH]
+GO
+ALTER TABLE [dbo].[TrnsVOHMachineDetail]  WITH CHECK ADD  CONSTRAINT [FK_TrnsVOHMachineDetail_TrnsVOH] FOREIGN KEY([FKID])
+REFERENCES [dbo].[TrnsVOH] ([ID])
+GO
+ALTER TABLE [dbo].[TrnsVOHMachineDetail] CHECK CONSTRAINT [FK_TrnsVOHMachineDetail_TrnsVOH]
+GO
+ALTER TABLE [dbo].[TrnsVOHToolsDetail]  WITH CHECK ADD  CONSTRAINT [FK_TrnsVOHToolsDetail_TrnsVOH] FOREIGN KEY([FKID])
+REFERENCES [dbo].[TrnsVOH] ([ID])
+GO
+ALTER TABLE [dbo].[TrnsVOHToolsDetail] CHECK CONSTRAINT [FK_TrnsVOHToolsDetail_TrnsVOH]
+GO
