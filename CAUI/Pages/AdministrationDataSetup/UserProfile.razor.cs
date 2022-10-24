@@ -87,30 +87,38 @@ namespace CA.UI.Pages.AdministrationDataSetup
                     if (oUserProfileList.Where(x => x.UserCode == oModelUserProfile.UserCode).Count() > 0)
                     {
                         Snackbar.Add("Code already exist", Severity.Error, (options) => { options.Icon = Icons.Sharp.Error; });
+                        return res;
+
                     }
                     if (oUserProfileList.Where(x => x.EmailId == oModelUserProfile.EmailId).Count() > 0)
                     {
                         Snackbar.Add("Email already exist", Severity.Error, (options) => { options.Icon = Icons.Sharp.Error; });
+                        return res;
                     }
                     if (oUserProfileList.Where(x => x.UserName == oModelUserProfile.UserName).Count() > 0)
                     {
                         Snackbar.Add("Description already exist", Severity.Error, (options) => { options.Icon = Icons.Sharp.Error; });
+                        return res;
                     }
                     else if (usercode < 3)
                     {
                         Snackbar.Add("User Code Must be greater then 3 ", Severity.Error, (options) => { options.Icon = Icons.Sharp.Error; });
+                        return res;
                     }
                     else if (username < 3)
                     {
                         Snackbar.Add("User Name Must be greater then 3 ", Severity.Error, (options) => { options.Icon = Icons.Sharp.Error; });
+                        return res;
                     }
                     else if (password < 3)
                     {
                         Snackbar.Add("Password Must be greater then 8 ", Severity.Error, (options) => { options.Icon = Icons.Sharp.Error; });
+                        return res;
                     }
-                    else if (match.Success==false)
+                    else if (match.Success == false)
                     {
                         Snackbar.Add("Email  Must be in proper formet ", Severity.Error, (options) => { options.Icon = Icons.Sharp.Error; });
+                        return res;
 
 
                     }
@@ -146,7 +154,7 @@ namespace CA.UI.Pages.AdministrationDataSetup
                         Snackbar.Add(res.Message, Severity.Error, (options) => { options.Icon = Icons.Sharp.Error; });
                     }
                     oModel.FlgActive = true;
-                    oModelUserProfile.FlgSuper=true;
+                    oModelUserProfile.FlgSuper = true;
                 }
                 else
                 {

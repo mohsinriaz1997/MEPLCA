@@ -241,7 +241,15 @@ namespace CA.UI.General
             if (string.IsNullOrWhiteSpace(searchString1))
                 return true;
 
-            if (element2.FlgDefaultPl.Equals(searchString1))
+            //if  (Convert.ToInt32( element2.DocNum.Equals(searchString3, StringComparison.OrdinalIgnoreCase)))
+            //    return true;
+            //if (element2.DocDate.Equals(searchString1))
+            //    return true;
+            if (element2.Plname.Equals(searchString1))
+                return true;
+            if (element2.PriceBase.Equals(searchString1))
+                return true;
+            if (element2.ExchangeRate.Equals(searchString1))
                 return true;
             return false;
         }
@@ -260,7 +268,11 @@ namespace CA.UI.General
             if (string.IsNullOrWhiteSpace(searchString3))
                 return true;
 
-            if (element3.FlgDefult.Equals(searchString3))
+            if (element3.CustomerCode.Equals(searchString3, StringComparison.OrdinalIgnoreCase))
+                return true;
+            if (element3.CustomerName.Equals(searchString3, StringComparison.OrdinalIgnoreCase))
+                return true;
+            if (element3.Plname.Equals(searchString3, StringComparison.OrdinalIgnoreCase))
                 return true;
             return false;
         }

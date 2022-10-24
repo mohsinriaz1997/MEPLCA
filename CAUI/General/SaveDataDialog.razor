@@ -228,7 +228,7 @@
                         <ToolBarContent>
                             <MudText Typo="Typo.h6">Sale Price List Master Data</MudText>
                             <MudSpacer />
-                            <MudTextField T="string" @bind-Value="searchString3" Placeholder="Search" Variant="Variant.Text" Clearable="true" Immediate="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" />
+                            <MudTextField  @bind-Value="searchString3" Placeholder="Search" Variant="Variant.Text" Clearable="true" Immediate="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" />
                         </ToolBarContent>
                         <HeaderContent>
                             <MudTh>Customer Code</MudTh>
@@ -241,7 +241,7 @@
                             <MudTd DataLabel="Code">@context.Plname</MudTd>
                         </RowTemplate>
                         <PagerContent>
-                            <MudPagination SelectedChanged="PageChanged" Count="@((_table.GetFilteredItemsCount() + _table.RowsPerPage - 1) / _table.RowsPerPage)" Class="pa-4" />
+                            <MudPagination SelectedChanged="PageChanged" Count="@((_table2.GetFilteredItemsCount() + _table2.RowsPerPage - 1) / _table2.RowsPerPage)" Class="pa-4" />
                         </PagerContent>
                         <PagerContent>
                             <MudTablePager />
