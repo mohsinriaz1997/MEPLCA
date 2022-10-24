@@ -65,7 +65,7 @@
                                   Adornment="Adornment.Start" AdornmentIcon="@Icons.Filled.AddToPhotos" AdornmentColor="Color.Info" OnAdornmentClick="@((e) => OpenSaveDataDialogForResourceMasterData(FullView))" ReadOnly="true" />
                 </MudItem>
                 <MudItem xs="4" sm="4" md="4" lg="4">
-                    <MudAutocomplete ToStringFunc="@(e=> e==null?null : $"{e.Description}")" T="MstCostType" Label="Cost Type" @bind-Value="oModelCostType" SearchFunc="@SearchCostType" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" />
+                    <MudAutocomplete ToStringFunc="@(e=> e==null?null : $"{e.Description}")" T="UserDataAccess" Label="Cost Type" @bind-Value="oModelMstUserProfile" SearchFunc="@SearchCostType" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" />
                 </MudItem>
                 <MudItem xs="4" sm="4" md="4" lg="4">
                     <MudSwitch @bind-Checked="oModel.FlgDefault" Label="Default" Color="Color.Success" />

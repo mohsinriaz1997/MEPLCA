@@ -1,4 +1,5 @@
-﻿using CA.API.Models;
+﻿using Blazored.LocalStorage;
+using CA.API.Models;
 using CA.UI.Dialog;
 using CA.UI.General;
 using CA.UI.Interfaces.AdministrationData;
@@ -27,6 +28,11 @@ namespace CA.UI.Pages.Cost_Allocations
 
         [Inject]
         public ICostType _mstCostType { get; set; }
+        [Inject]
+        public IUserProfile _mstUserProfile { get; set; }
+        [Inject]
+        public ILocalStorageService _localStorageService { get; set; }
+
 
         #endregion InjectService
 
@@ -71,9 +77,13 @@ namespace CA.UI.Pages.Cost_Allocations
 
         private List<TrnsVocgasolineDetail> oDetailGasolineDetailList = new List<TrnsVocgasolineDetail>();
 
+        private UserDataAccess oModelMstUserProfile = new UserDataAccess();
+        private List<UserDataAccess> oMstUserProfileList = new List<UserDataAccess>();
+
         private DialogOptions FullView = new DialogOptions() { MaxWidth = MaxWidth.ExtraExtraLarge, FullWidth = true, CloseButton = true, DisableBackdropClick = true, CloseOnEscapeKey = true };
 
         private bool ForAnalysis = false;
+        private string LoginUserCode = "";
 
         #endregion Variables
 
@@ -83,7 +93,7 @@ namespace CA.UI.Pages.Cost_Allocations
         {
             try
             {
-                oCostTypeList = await _mstCostType.GetAllData();
+                oMstUserProfileList = await _mstUserProfile.GetAllFormAndCostTypesVariableOverHeadCost(LoginUserCode);
             }
             catch (Exception ex)
             {
@@ -91,21 +101,21 @@ namespace CA.UI.Pages.Cost_Allocations
             }
         }
 
-        private async Task<IEnumerable<MstCostType>> SearchCostType(string value)
+        private async Task<IEnumerable<UserDataAccess>> SearchCostType(string value)
         {
             try
             {
                 await Task.Delay(1);
                 if (string.IsNullOrWhiteSpace(value))
-                    return oCostTypeList.Select(o => new MstCostType
+                    return oMstUserProfileList.Select(o => new UserDataAccess
                     {
-                        Id = o.Id,
+                        FkCostId = o.FkCostId,
                         Description = o.Description
                     }).ToList();
-                var res = oCostTypeList.Where(x => x.Description.ToUpper().Contains(value.ToUpper())).ToList();
-                return res.Select(x => new MstCostType
+                var res = oMstUserProfileList.Where(x => x.Description.ToUpper().Contains(value.ToUpper())).ToList();
+                return res.Select(x => new UserDataAccess
                 {
-                    Id = x.Id,
+                    FkCostId = x.FkCostId,
                     Description = x.Description
                 }).ToList();
             }
@@ -685,8 +695,15 @@ namespace CA.UI.Pages.Cost_Allocations
             try
             {
                 Loading = true;
-                oModel.DocDate = DateTime.Now;
-                await GetAllCostType();
+                var Session = await _localStorageService.GetItemAsync<MstUserProfile>("User");
+                if (Session != null)
+                {
+                    //oModel.FlgActive = true;
+                    //oModel.FlgDefaultResrMst = true;
+                    LoginUserCode = Session.UserCode;
+                    oModel.DocDate = DateTime.Now;
+                    await GetAllCostType();
+                }
                 Loading = false;
             }
             catch (Exception ex)

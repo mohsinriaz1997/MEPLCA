@@ -21,6 +21,7 @@ namespace CA.UI.Interfaces.AdministrationData
         Task<List<UserDataAccess>> GetAllFormAndCostType(int userID);
         Task<List<UserDataAccess>> GetAllFormAndCostTypesResource(string userID);
         Task<List<UserDataAccess>> GetAllFormAndCostTypesFOHRate(string userID);
+        Task<List<UserDataAccess>> GetAllFormAndCostTypesVariableOverHeadCost(string userID);
         Task<ApiResponseModel> AddUserDataAccess(List<UserDataAccess> oUserDataAccess);
     }
 }
