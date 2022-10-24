@@ -96,7 +96,7 @@ namespace CA.UI.Pages.Cost_Allocations
         {
             try
             {
-                oMstUserProfileList = await _mstUserProfile.GetAllFormAndCostTypesVariableOverHeadCost(LoginUserCode);
+                oMstUserProfileList = await _mstUserProfile.GetAllFormAndCostTypesDirectMaterial(LoginUserCode);
             }
             catch (Exception ex)
             {
@@ -465,8 +465,15 @@ namespace CA.UI.Pages.Cost_Allocations
                 else
                 {
                     Loading = true;
-                    oModel.DocDate = DateTime.Today;
-                    await GetAllCostType();
+                    var Session = await _localStorageService.GetItemAsync<MstUserProfile>("User");
+                    if (Session != null)
+                    {
+                        //oModel.FlgActive = true;
+                        //oModel.FlgDefaultResrMst = true;
+                        LoginUserCode = Session.UserCode;
+                        oModel.DocDate = DateTime.Today;
+                        await GetAllCostType();
+                    }
                     Loading = false;
                 }
             }
