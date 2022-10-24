@@ -15,6 +15,7 @@
         Task<List<UserDataAccess>> GetAllFormAndCostType(int UserID);
         Task<List<UserDataAccess>> GetAllFormAndCostTypesResource(string UserID);
         Task<List<UserDataAccess>> GetAllFormAndCostTypesFOHRate(string UserID);
+        Task<List<UserDataAccess>> GetAllFormAndCostTypesVariableOverHeadCost(string UserID);
         Task<ApiResponseModel> AddUserDataAccess(List<UserDataAccess> oUserDataAccess);
     }
 }

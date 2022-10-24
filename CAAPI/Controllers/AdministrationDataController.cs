@@ -334,6 +334,29 @@ namespace CA.API.Controllers
                 return BadRequest("Something went wrong.");
             }
         }
+        [Route("GetAllFormAndCostTypesVariableOverHeadCost")]
+        [HttpGet]
+        public async Task<IActionResult> GetAllFormAndCostTypesVariableOverHeadCost(string UserID)
+        {
+            List<UserDataAccess> oUserDataAccess = new List<UserDataAccess>();
+            try
+            {
+                oUserDataAccess = await _mstUserProfile.GetAllFormAndCostTypesVariableOverHeadCost(UserID);
+                if (oUserDataAccess == null)
+                {
+                    return BadRequest(oUserDataAccess);
+                }
+                else
+                {
+                    return Ok(oUserDataAccess);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logs.GenerateLogs(ex);
+                return BadRequest("Something went wrong.");
+            }
+        }
 
 
         [Route("addUserDataAccess")]
