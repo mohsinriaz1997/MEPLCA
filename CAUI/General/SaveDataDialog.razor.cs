@@ -165,7 +165,7 @@ namespace CA.UI.General
 
         private TrnsFohrate oModelTrnsFohrate = new TrnsFohrate();
         private List<TrnsFohrate> oListTrnsFohrate = new List<TrnsFohrate>();
-        
+
         private TrnsFohdriverRate oModelTrnsFohdriverRate = new TrnsFohdriverRate();
         private List<TrnsFohdriverRate> oListTrnsFohdriverRate = new List<TrnsFohdriverRate>();
 
@@ -174,7 +174,7 @@ namespace CA.UI.General
 
         private MstItemPriceList oModelItem = new MstItemPriceList();
         private List<MstItemPriceList> oListItem = new List<MstItemPriceList>();
-        
+
         private MstItemPriceListDetail oModelItemDetail = new MstItemPriceListDetail();
         private List<MstItemPriceListDetail> oListItemDetail = new List<MstItemPriceListDetail>();
 
@@ -192,10 +192,10 @@ namespace CA.UI.General
 
         private TrnsVoc oModelTrnsVoc = new TrnsVoc();
         private List<TrnsVoc> oTrnsVoc = new List<TrnsVoc>();
-        
+
         private MstStage oModelMstStage = new MstStage();
         private List<MstStage> oMstStage = new List<MstStage>();
-        
+
         private MstApprovalSetup oModelMstApprovalSetup = new MstApprovalSetup();
         private List<MstApprovalSetup> oMstApprovalSetup = new List<MstApprovalSetup>();
 
@@ -624,7 +624,7 @@ namespace CA.UI.General
                 {
                     if (oModelItem.Id > 0)
                     {
-                        
+
                         MudDialog.Close(DialogResult.Ok<MstItemPriceList>(oModelItem));
                     }
                     else

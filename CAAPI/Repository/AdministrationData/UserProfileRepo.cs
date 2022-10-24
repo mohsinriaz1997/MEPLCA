@@ -408,6 +408,70 @@ namespace CA.API.Repository.AdministrationData
             }
             return oList;
         }
+        public async Task<List<UserDataAccess>> GetAllFormAndCostTypesResource(string UserID)
+        {
+            List<UserDataAccess> oList = new List<UserDataAccess>();
+            try
+            {
+                using (var command = _DBContext.Database.GetDbConnection().CreateCommand())
+                {
+                    command.CommandText = @$"select * from UserDataAccess t1 inner join MstUserProfile t2 on t1.FkUserID=t2.ID where t2.UserCode='{UserID}' and t1.FormCode='4' and flgAccess='1' ";
+                    command.CommandType = CommandType.Text;
+                    _DBContext.Database.OpenConnection();
+
+                    using (var result = command.ExecuteReader())
+                    {
+                        while (result.Read())
+                        {
+                            UserDataAccess oData = new UserDataAccess();
+                            oData.FormCode = Convert.ToInt32(result["FormCode"].ToString());
+                            oData.FormName = result["FormName"].ToString();
+                            oData.FkCostId = Convert.ToInt32(result["FkCostId"].ToString());
+                            oData.Description = result["Description"].ToString();
+                            oData.FlgAccess = Convert.ToBoolean(result["flgAccess"].ToString());
+                            oList.Add(oData);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logs.GenerateLogs(ex);
+            }
+            return oList;
+        }
+        public async Task<List<UserDataAccess>> GetAllFormAndCostTypesFOHRate(string UserID)
+        {
+            List<UserDataAccess> oList = new List<UserDataAccess>();
+            try
+            {
+                using (var command = _DBContext.Database.GetDbConnection().CreateCommand())
+                {
+                    command.CommandText = @$"select * from UserDataAccess t1 inner join MstUserProfile t2 on t1.FkUserID=t2.ID where t2.UserCode='{UserID}' and t1.FormCode='7' and flgAccess='1' ";
+                    command.CommandType = CommandType.Text;
+                    _DBContext.Database.OpenConnection();
+
+                    using (var result = command.ExecuteReader())
+                    {
+                        while (result.Read())
+                        {
+                            UserDataAccess oData = new UserDataAccess();
+                            oData.FormCode = Convert.ToInt32(result["FormCode"].ToString());
+                            oData.FormName = result["FormName"].ToString();
+                            oData.FkCostId = Convert.ToInt32(result["FkCostId"].ToString());
+                            oData.Description = result["Description"].ToString();
+                            oData.FlgAccess = Convert.ToBoolean(result["flgAccess"].ToString());
+                            oList.Add(oData);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logs.GenerateLogs(ex);
+            }
+            return oList;
+        }
 
         public async Task<ApiResponseModel> AddUserDataAccess(List<UserDataAccess> oUserDataAccess)
         {

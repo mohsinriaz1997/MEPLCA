@@ -19,6 +19,8 @@ namespace CA.UI.Interfaces.AdministrationData
         Task<ApiResponseModel> ChangePassword(MstUserProfile oMstUser);
 
         Task<List<UserDataAccess>> GetAllFormAndCostType(int userID);
+        Task<List<UserDataAccess>> GetAllFormAndCostTypesResource(string userID);
+        Task<List<UserDataAccess>> GetAllFormAndCostTypesFOHRate(string userID);
         Task<ApiResponseModel> AddUserDataAccess(List<UserDataAccess> oUserDataAccess);
     }
 }

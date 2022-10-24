@@ -326,6 +326,56 @@ namespace CA.UI.Data.AdministrationData
                 return null;
             }
         }
+        public async Task<List<UserDataAccess>> GetAllFormAndCostTypesResource(string UserID)
+        {
+            try
+            {
+                List<UserDataAccess> oList = new List<UserDataAccess>();
+
+                var request = new RestRequest($"AdministrationData/GetAllFormAndCostTypesResource?userID={UserID}", Method.Get) { RequestFormat = DataFormat.Json };
+
+                var response = await _restClient.ExecuteAsync<List<UserDataAccess>>(request);
+
+                if (response.IsSuccessful)
+                {
+                    return response.Data;
+                }
+                else
+                {
+                    return response.Data;
+                }
+            }
+            catch (Exception ex)
+            {
+                Logs.GenerateLogs(ex);
+                return null;
+            }
+        }
+        public async Task<List<UserDataAccess>> GetAllFormAndCostTypesFOHRate(string UserID)
+        {
+            try
+            {
+                List<UserDataAccess> oList = new List<UserDataAccess>();
+
+                var request = new RestRequest($"AdministrationData/GetAllFormAndCostTypesFOHRate?userID={UserID}", Method.Get) { RequestFormat = DataFormat.Json };
+
+                var response = await _restClient.ExecuteAsync<List<UserDataAccess>>(request);
+
+                if (response.IsSuccessful)
+                {
+                    return response.Data;
+                }
+                else
+                {
+                    return response.Data;
+                }
+            }
+            catch (Exception ex)
+            {
+                Logs.GenerateLogs(ex);
+                return null;
+            }
+        }
 
         public async Task<ApiResponseModel> AddUserDataAccess(List<UserDataAccess> oUserDataAccess)
         {

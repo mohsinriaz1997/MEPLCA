@@ -33,6 +33,7 @@ namespace CA.UI.Pages.MasterDataSetup
         public ICostType _mstCostType { get; set; }
 
 
+
         [Inject]
         public ILocalStorageService _localStorageService { get; set; }
         [Parameter]
@@ -53,11 +54,15 @@ namespace CA.UI.Pages.MasterDataSetup
 
         private MstCostType oModelCostType = new MstCostType();
         private List<MstCostType> oCostTypeList = new List<MstCostType>();
+        
+        private UserDataAccess oModelMstUserProfile = new UserDataAccess();
+        private List<UserDataAccess> oMstUserProfileList = new List<UserDataAccess>();
 
         private DialogOptions FullView = new DialogOptions() { MaxWidth = MaxWidth.ExtraExtraLarge, FullWidth = true, CloseButton = true, DisableBackdropClick = true, CloseOnEscapeKey = true };
 
 
         private string LoginUserCode = "";
+        
 
 
 
@@ -234,21 +239,21 @@ namespace CA.UI.Pages.MasterDataSetup
             }
         }
 
-        private async Task<IEnumerable<MstCostType>> SearchCostType(string value)
+        private async Task<IEnumerable<UserDataAccess>> SearchCostType(string value)
         {
             try
             {
                 await Task.Delay(1);
                 if (string.IsNullOrWhiteSpace(value))
-                    return oCostTypeList.Select(o => new MstCostType
+                    return oMstUserProfileList.Select(o => new UserDataAccess
                     {
-                        Id = o.Id,
+                        FkCostId = o.FkCostId,
                         Description = o.Description
                     }).ToList();
-                var res = oCostTypeList.Where(x => x.Description.ToUpper().Contains(value.ToUpper())).ToList();
-                return res.Select(x => new MstCostType
+                var res = oMstUserProfileList.Where(x => x.Description.ToUpper().Contains(value.ToUpper())).ToList();
+                return res.Select(x => new UserDataAccess
                 {
-                    Id = x.Id,
+                    FkCostId = x.FkCostId,
                     Description = x.Description
                 }).ToList();
             }
@@ -263,7 +268,9 @@ namespace CA.UI.Pages.MasterDataSetup
         {
             try
             {
-                oCostTypeList = await _mstCostType.GetAllData();
+
+                oMstUserProfileList = await _mstUserProfile.GetAllFormAndCostTypesResource(LoginUserCode);
+                //oCostTypeList = await _mstCostType.GetAllData();
             }
             catch (Exception ex)
             {
@@ -398,18 +405,18 @@ namespace CA.UI.Pages.MasterDataSetup
         {
             Loading = true;
 
-            //var Session = await _localStorageService.GetItemAsync<MstUserProfile>("User");
-            //if (Session != null)
-            //{
-            //    var res = await _mstUserProfile.FetchUserAuth(Session.Id);
-            //    if (res.Where(x => x.MenuName == "Resource Master Data" && x.UserRights != 1).ToList().Count > 0)
-            //    {
-            //LoginUserCode = Session.UserCode;
-            oModel.FlgActive = true;
-            oModel.FlgDefaultResrMst = true;
-            oModel.DocDate = DateTime.Today;
-            await GetAllCostType();
-            //    }
+            var Session = await _localStorageService.GetItemAsync<MstUserProfile>("User");
+            if (Session != null)
+            {
+                //    var res = await _mstUserProfile.FetchUserAuth(Session.Id);
+                //    if (res.Where(x => x.MenuName == "Resource Master Data" && x.UserRights != 1).ToList().Count > 0)
+                //    {
+                LoginUserCode = Session.UserCode;
+                oModel.FlgActive = true;
+                oModel.FlgDefaultResrMst = true;
+                oModel.DocDate = DateTime.Today;
+                await GetAllCostType();
+            }
             //}
             //else
             //{

@@ -1,4 +1,5 @@
-﻿using CA.API.Models;
+﻿using Blazored.LocalStorage;
+using CA.API.Models;
 using CA.UI.General;
 using CA.UI.Interfaces.AdministrationData;
 using CA.UI.Interfaces.Cost_Allocation;
@@ -20,8 +21,8 @@ namespace CA.UI.Pages.Cost_Allocations
         [Inject]
         public ISnackbar Snackbar { get; set; }
 
-        //[Inject]
-        //public IResourceMasterData _mstUserProfiled { get; set; }
+        [Inject]
+        public IUserProfile _mstUserProfile { get; set; }
         [Inject]
         public IFOHRatesCalc _mstUserProfiled { get; set; }
 
@@ -30,6 +31,9 @@ namespace CA.UI.Pages.Cost_Allocations
 
         [Inject]
         public ICostDriversType _mstCostDriverType { get; set; }
+
+        [Inject]
+        public ILocalStorageService _localStorageService { get; set; }
 
         [Parameter]
         public string DialogFor { get; set; }
@@ -58,7 +62,15 @@ namespace CA.UI.Pages.Cost_Allocations
         private List<MstSalesPriceListDetail> oDetailSalesPriceList = new List<MstSalesPriceListDetail>();
         private MstSalesPriceListDetail mstSalesPriceListDetail = new MstSalesPriceListDetail();
 
+
+        private UserDataAccess oModelMstUserProfile = new UserDataAccess();
+        private List<UserDataAccess> oMstUserProfileList = new List<UserDataAccess>();
+
         private DialogOptions FullView = new DialogOptions() { MaxWidth = MaxWidth.ExtraExtraLarge, FullWidth = true, CloseButton = true, DisableBackdropClick = true, CloseOnEscapeKey = true };
+
+
+
+        private string LoginUserCode = "";
 
         #endregion Variables
 
@@ -261,21 +273,21 @@ namespace CA.UI.Pages.Cost_Allocations
             }
         }
 
-        private async Task<IEnumerable<MstCostType>> SearchCostType(string value)
+        private async Task<IEnumerable<UserDataAccess>> SearchCostType(string value)
         {
             try
             {
                 await Task.Delay(1);
                 if (string.IsNullOrWhiteSpace(value))
-                    return oCostTypeList.Select(o => new MstCostType
+                    return oMstUserProfileList.Select(o => new UserDataAccess
                     {
-                        Id = o.Id,
+                        FkCostId = o.FkCostId,
                         Description = o.Description
                     }).ToList();
-                var res = oCostTypeList.Where(x => x.Description.ToUpper().Contains(value.ToUpper())).ToList();
-                return res.Select(x => new MstCostType
+                var res = oMstUserProfileList.Where(x => x.Description.ToUpper().Contains(value.ToUpper())).ToList();
+                return res.Select(x => new UserDataAccess
                 {
-                    Id = x.Id,
+                    FkCostId = x.FkCostId,
                     Description = x.Description
                 }).ToList();
             }
@@ -315,7 +327,9 @@ namespace CA.UI.Pages.Cost_Allocations
         {
             try
             {
-                oCostTypeList = await _mstCostType.GetAllData();
+
+                oMstUserProfileList = await _mstUserProfile.GetAllFormAndCostTypesFOHRate(LoginUserCode);
+                //oCostTypeList = await _mstCostType.GetAllData();
             }
             catch (Exception ex)
             {
@@ -459,11 +473,16 @@ namespace CA.UI.Pages.Cost_Allocations
             try
             {
                 Loading = true;
-                //oModel.FlgActive = true;
-                //oModel.FlgDefaultResrMst = true;
-                oModel.DocDate = DateTime.Today;
-                await GetAllCostType();
-                await GetAllCostDriverType();
+                var Session = await _localStorageService.GetItemAsync<MstUserProfile>("User");
+                if (Session != null)
+                {
+                    //oModel.FlgActive = true;
+                    //oModel.FlgDefaultResrMst = true;
+                    LoginUserCode = Session.UserCode;
+                    oModel.DocDate = DateTime.Today;
+                    await GetAllCostType();
+                    await GetAllCostDriverType();
+                }
                 Loading = false;
             }
             catch (Exception ex)

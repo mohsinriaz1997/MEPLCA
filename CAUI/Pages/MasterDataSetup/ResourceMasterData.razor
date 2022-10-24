@@ -39,7 +39,7 @@
                     <MudIconButton OnClick="@((e) => OpenSAPDataDialog(FullView, oModel.DocDate))" Icon="@Icons.Material.Filled.MenuOpen" Color="Color.Primary" Size="Size.Small" Title="Search Item"></MudIconButton>
                 </MudItem>
                 <MudItem xs="4" sm="4" md="4" lg="4">
-                    <MudAutocomplete ToStringFunc="@(e=> e==null?null : $"{e.Description}")" T="MstCostType" Label="Cost Type" @bind-Value="oModelCostType" SearchFunc="@SearchCostType" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" />
+                    <MudAutocomplete ToStringFunc="@(e=> e==null?null : $"{e.Description}")" T="UserDataAccess" Label="Cost Type" @bind-Value="oModelMstUserProfile" SearchFunc="@SearchCostType" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" />
                 </MudItem>
                 <MudItem xs="2" sm="2" md="2" lg="2">
                     <MudSwitch @bind-Checked="oModel.FlgDefaultResrMst" Label="Default Resource" Color="Color.Info" />

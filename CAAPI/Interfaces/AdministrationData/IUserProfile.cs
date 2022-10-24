@@ -13,6 +13,8 @@
         Task<ApiResponseModel> AuthenticateOTP(PasswordReset oPasswordReset);
         Task<ApiResponseModel> ChangePassword(MstUserProfile oMstUser);
         Task<List<UserDataAccess>> GetAllFormAndCostType(int UserID);
+        Task<List<UserDataAccess>> GetAllFormAndCostTypesResource(string UserID);
+        Task<List<UserDataAccess>> GetAllFormAndCostTypesFOHRate(string UserID);
         Task<ApiResponseModel> AddUserDataAccess(List<UserDataAccess> oUserDataAccess);
     }
 }
