@@ -21,6 +21,7 @@ namespace CA.UI.Pages.Account
 
 
         MstUserProfile oModel = new MstUserProfile();
+        List<MstUserProfile> oMstUserProfile = new List<MstUserProfile>();
 
         //async Task<MstUserProfile> validatelogin()
         //{
@@ -59,7 +60,9 @@ namespace CA.UI.Pages.Account
             {
                 Loading = true;
                 var res = new MstUserProfile();
+                //oMstUserProfile = await _userProfileService.GetAllData();
                 await Task.Delay(1);
+                var usercode = oModel.UserCode;
                 if (!string.IsNullOrWhiteSpace(oModel.UserCode) && !string.IsNullOrWhiteSpace(oModel.Password))
                 {
                     //oModel.UserCode = "";
@@ -69,8 +72,18 @@ namespace CA.UI.Pages.Account
                     res = await _userProfileService.ValidateLogin(oModel);
                     if (res != null)
                     {
-                        Snackbar.Add("Welcome: " + res.UserCode, Severity.Info, (options) => { options.Icon = Icons.Sharp.Info; });
-                        navigation.NavigateTo("/Dashboard", forceLoad: true);
+                        //res.Password = oModel.Password;
+                        int pass = string.Compare(oModel.Password, res.Password, StringComparison.Ordinal);
+                        if (pass != 0)
+                        {
+                            Snackbar.Add("Username/Password incorrect", Severity.Error, (options) => { options.Icon = Icons.Sharp.Error; });
+                        }
+                        else
+                        {
+                            Snackbar.Add("Welcome: " + res.UserCode, Severity.Info, (options) => { options.Icon = Icons.Sharp.Info; });
+                            navigation.NavigateTo("/Dashboard", forceLoad: true);
+                        }
+
                     }
                     else
                     {

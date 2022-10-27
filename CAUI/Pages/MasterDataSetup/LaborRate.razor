@@ -16,7 +16,7 @@
     <MudGrid class="block-design">
         <MudItem xs="4" sm="4" md="4" lg="4">
          <MudTextField @bind-Value="oModel.DocNum" InputMode="InputMode.text" Immediate="true" Clearable="true" Label="Document Number" Variant="Variant.Text"
-          Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields"  />
+          Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" Disabled  />
          </MudItem>
    
     <MudItem xs="4" sm="4" md="4" lg="4">
@@ -65,7 +65,8 @@
                               <HeaderContent>
                                     <MudTh>Labor Description</MudTh>
                                     <MudTh>Wage Rate</MudTh>
-                                    <MudTh>Cost Type</MudTh>
+                                    <MudTh>Cost Type Id</MudTh>
+                                    <MudTh>Cost Type Description</MudTh>
                                     <MudTh>In-Active</MudTh>
                                     <MudTh>Action</MudTh>
                                 </HeaderContent>
@@ -73,6 +74,7 @@
                                     <MudTd DataLabel="Description">@context.Description</MudTd>
                                     <MudTd DataLabel="WageRate">@context.WageRate</MudTd>
                                     <MudTd DataLabel="FkcostTypeId Code">@context.FkcostTypeId</MudTd>
+                                    <MudTd DataLabel="FkcostTypeDescription">@context.FkcostTypeDescription</MudTd>
                                     <MudTd DataLabel="FlgActive">@context.FlgActive</MudTd>
                                     <MudTd DataLabel="Action">
                                         <MudIconButton Color="Color.Primary" Variant="Variant.Outlined" Icon="@Icons.Material.Filled.Edit"  OnClick="@((e) => OpenEditDialog(FullView, context))" Title="Edit"></MudIconButton>

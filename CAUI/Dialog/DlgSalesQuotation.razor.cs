@@ -427,7 +427,7 @@ namespace CA.UI.Dialog
                     mstSalesQuatationDetail.Fkvohid = res.Id;
                     var machine = res.TrnsVocmachineDetails.Where(x => x.Fkid == res.Id).Select(x => new { x.MachineType, x.Total }).FirstOrDefault();
                     mstSalesQuatationDetail.Machine = machine.MachineType;
-                    decimal machineTotal = DataConversion.ValueRound2(machine.Total);
+                    decimal machineTotal = DataConversion.ValueRound2((decimal)machine.Total);
                     var Labor = res.TrnsVoclaborDetails.Where(x => x.Fkid == res.Id).Select(x => new { x.LaborDescription, x.Total }).FirstOrDefault();
                     mstSalesQuatationDetail.Labour = Labor.LaborDescription;
                     decimal LaborTotal = DataConversion.ValueRound2((decimal)Labor.Total);

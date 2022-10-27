@@ -70,8 +70,18 @@ namespace CA.UI.Pages.AdministrationDataSetup
                 var username = oModelUserProfile.UserName.Count();
                 var password = oModelUserProfile.Password.Count();
                 string email = oModelUserProfile.EmailId.ToLower();
+                string userCode= oModelUserProfile.UserCode;
+                string userName= oModelUserProfile.UserName;
                 Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
+                //Regex r = new Regex(@"[~`!@#$%^&*()+=|\\{}':;.,<>/?[\]""_-]");
+
+                var regexItem = new Regex("^[a-zA-Z0-9 ]*$");
+                //if (regexItem.IsMatch(YOUR_STRING)) { ..}
+
                 Match match = regex.Match(email);
+                //Match matchUserCode = regex.Match(userCode);
+                //Match matchUserName = regex.Match(userName);
+
                 //string email = oModelUserProfile.EmailId;
                 //Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
                 //Match match = regex.Match(email);
@@ -85,43 +95,67 @@ namespace CA.UI.Pages.AdministrationDataSetup
                 await Task.Delay(3);
                 if (!string.IsNullOrWhiteSpace(oModelUserProfile.UserCode))
                 {
-                    if (oUserProfileList.Where(x => x.UserCode == oModelUserProfile.UserCode).Count() > 0)
+                    if (oModelUserProfile.Id == 0)
                     {
-                        Snackbar.Add("Code already exist", Severity.Error, (options) => { options.Icon = Icons.Sharp.Error; });
-                        return res;
+                        if (oUserProfileList.Where(x => x.UserCode == oModelUserProfile.UserCode).Count() > 0)
+                        {
+                            Snackbar.Add("Code already exist", Severity.Error, (options) => { options.Icon = Icons.Sharp.Error; });
+                            return res;
 
-                    }
-                    if (oUserProfileList.Where(x => x.EmailId == oModelUserProfile.EmailId).Count() > 0)
-                    {
-                        Snackbar.Add("Email already exist", Severity.Error, (options) => { options.Icon = Icons.Sharp.Error; });
-                        return res;
-                    }
-                    if (oUserProfileList.Where(x => x.UserName == oModelUserProfile.UserName).Count() > 0)
-                    {
-                        Snackbar.Add("Description already exist", Severity.Error, (options) => { options.Icon = Icons.Sharp.Error; });
-                        return res;
-                    }
-                    else if (usercode < 3)
-                    {
-                        Snackbar.Add("User Code Must be greater then 3 ", Severity.Error, (options) => { options.Icon = Icons.Sharp.Error; });
-                        return res;
-                    }
-                    else if (username < 3)
-                    {
-                        Snackbar.Add("User Name Must be greater then 3 ", Severity.Error, (options) => { options.Icon = Icons.Sharp.Error; });
-                        return res;
-                    }
-                    else if (password < 3)
-                    {
-                        Snackbar.Add("Password Must be greater then 8 ", Severity.Error, (options) => { options.Icon = Icons.Sharp.Error; });
-                        return res;
-                    }
-                    else if (match.Success == false)
-                    {
-                        Snackbar.Add("Email  Must be in proper formet ", Severity.Error, (options) => { options.Icon = Icons.Sharp.Error; });
-                        return res;
+                        }
+                        if (oUserProfileList.Where(x => x.EmailId == oModelUserProfile.EmailId).Count() > 0)
+                        {
+                            Snackbar.Add("Email already exist", Severity.Error, (options) => { options.Icon = Icons.Sharp.Error; });
+                            return res;
+                        }
+                        if (oUserProfileList.Where(x => x.UserName == oModelUserProfile.UserName).Count() > 0)
+                        {
+                            Snackbar.Add("Description already exist", Severity.Error, (options) => { options.Icon = Icons.Sharp.Error; });
+                            return res;
+                        }
+                        else if (usercode < 3)
+                        {
+                            Snackbar.Add("User Code Must be greater then 3 ", Severity.Error, (options) => { options.Icon = Icons.Sharp.Error; });
+                            return res;
+                        }
+                        else if (username < 3)
+                        {
+                            Snackbar.Add("User Name Must be greater then 3 ", Severity.Error, (options) => { options.Icon = Icons.Sharp.Error; });
+                            return res;
+                        }
+                        else if (password < 3)
+                        {
+                            Snackbar.Add("Password Must be greater then 8 ", Severity.Error, (options) => { options.Icon = Icons.Sharp.Error; });
+                            return res;
+                        }
+                        else if (match.Success == false)
+                        {
+                            Snackbar.Add("Email  Must be in proper formet ", Severity.Error, (options) => { options.Icon = Icons.Sharp.Error; });
+                            return res;
+                        }
+                        else if (!regexItem.IsMatch(userCode))
+                        {
+                            Snackbar.Add("User Code  Must be in proper formet ", Severity.Error, (options) => { options.Icon = Icons.Sharp.Error; });
+                            return res;
+                        }
 
+                        else if (!regexItem.IsMatch(userName))
+                        {
+                            Snackbar.Add("User Name  Must be in proper formet ", Severity.Error, (options) => { options.Icon = Icons.Sharp.Error; });
+                            return res;
+                        }
+                        oModelUserProfile.FkdesignationId = Convert.ToInt32(oModelDesignation.Id);
+                        oModelUserProfile.DesignationDescription = oModelDesignation.Description;
 
+                        oModelUserProfile.FkdeptId = Convert.ToInt32(oModel.Id);
+                        oModelUserProfile.DepartmentDescription = oModel.Description;
+                        oModel.FlgActive = oModel.FlgActive;
+
+                        //oModelUserProfile.FkdeptId = oModel.Id;
+                        if (oModelUserProfile.Id == 0)
+                        {
+                            res = await _mstUserProfiled.Insert(oModelUserProfile);
+                        }
                     }
                     else
                     {
@@ -141,7 +175,22 @@ namespace CA.UI.Pages.AdministrationDataSetup
                         }
                         else
                         {
+                            if (!regexItem.IsMatch(userCode))
+                            {
+                                Snackbar.Add("User Code  Must be in proper formet ", Severity.Error, (options) => { options.Icon = Icons.Sharp.Error; });
+                                return res;
+                            }
+
+                            else if (!regexItem.IsMatch(userName))
+                            {
+                                Snackbar.Add("User Name  Must be in proper formet ", Severity.Error, (options) => { options.Icon = Icons.Sharp.Error; });
+                                return res;
+                            }
+                            else
+                            { 
                             res = await _mstUserProfiled.Update(oModelUserProfile);
+                            }
+
                         }
                     }
                     if (res != null && res.Id == 1)

@@ -26,6 +26,8 @@ namespace CA.UI.General
         private bool Loading = false;
 
         private string searchString1 = "";
+        private string searchStringAccount = "";
+        private string searchStringCustomer = "";
 
         private int selectedRowNumber = -1;
 
@@ -52,8 +54,10 @@ namespace CA.UI.General
         private MudTable<SAPModels> _tableGasoline;
 
         private bool FilterFunc1(SAPModels element) => FilterFunc(element, searchString1);
+        private bool FilterFuncCustomer(SAPModels elementCustomer) => FilterFuncCustomer(elementCustomer, searchStringCustomer);
 
         private bool FilterFuncBom(SAPModels element) => FilterFuncBomItem(element, searchString1);
+        private bool FilterFuncAccount(SAPModels elementAccount) => FilterFuncBomAccount(elementAccount, searchStringAccount);
         private bool FilterFuncVohMachine(SAPModels element) => FilterFuncVohMachine(element, searchString1);
         private bool FilterFuncVohLabor(SAPModels element) => FilterFuncVohLabor(element, searchString1);
         private bool FilterFuncVohElectricity(SAPModels element) => FilterFuncVohElectricity(element, searchString1);
@@ -123,6 +127,24 @@ namespace CA.UI.General
                 return false;
             }
         }
+        private bool FilterFuncCustomer(SAPModels elementCustomer, string searchStringCustomer)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(searchStringCustomer))
+                    return true;
+                if (elementCustomer.CardCode.Contains(searchStringCustomer, StringComparison.OrdinalIgnoreCase))
+                    return true;
+                if (elementCustomer.CardName.Contains(searchStringCustomer, StringComparison.OrdinalIgnoreCase))
+                    return true;
+                return false;
+            }
+            catch (Exception ex)
+            {
+                Logs.GenerateLogs(ex);
+                return false;
+            }
+        }
         private bool FilterFuncVohLabor(SAPModels element, string searchString)
         {
             try
@@ -156,6 +178,25 @@ namespace CA.UI.General
                     return true;
                 if (element.BOMUOM.Contains(searchString, StringComparison.OrdinalIgnoreCase))
                     return true;
+                return false;
+            }
+            catch (Exception ex)
+            {
+                Logs.GenerateLogs(ex);
+                return false;
+            }
+        }
+        private bool FilterFuncBomAccount(SAPModels elementAccount, string searchStringAccount)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(searchStringAccount))
+                    return true;
+                if (elementAccount.AcctCode.Contains(searchStringAccount, StringComparison.OrdinalIgnoreCase))
+                    return true;
+                if (elementAccount.AcctName.Contains(searchStringAccount, StringComparison.OrdinalIgnoreCase))
+                    return true;
+                
                 return false;
             }
             catch (Exception ex)
@@ -802,6 +843,25 @@ namespace CA.UI.General
                 return string.Empty;
             }
         }
+        private string SelectedRowClassFuncAccount(SAPModels elementAccount, int rowNumber)
+        {
+            if (selectedRowNumber == rowNumber)
+            {
+                selectedRowNumber = -1;
+                clickedEvents.Add("Selected Row: None");
+                return string.Empty;
+            }
+            else if (_table.SelectedItem != null && _table.SelectedItem.Equals(elementAccount))
+            {
+                selectedRowNumber = rowNumber;
+                clickedEvents.Add($"Selected Row: {rowNumber}");
+                return "selected";
+            }
+            else
+            {
+                return string.Empty;
+            }
+        }
         private string SelectedRowClassFuncVohMachine(SAPModels element, int rowNumber)
         {
             if (selectedRowNumber == rowNumber)
@@ -1054,6 +1114,26 @@ namespace CA.UI.General
         }
 
         private void RowClickEvent(TableRowClickEventArgs<SAPModels> tableRowClickEventArgs)
+        {
+            try
+            {
+                selectedItems1.Add(oSAPModels);
+                //foreach (var item in selectedItems1)
+                //{
+                //    TrnsDirectMaterialDetail s = new TrnsDirectMaterialDetail();
+                //    s.ItemCode = item.ItemCode;
+                //    s.ItemName = item.ItemName;
+                //    trnsDirectMaterialDetails.Add(s);
+                //}
+
+            }
+            catch (Exception ex)
+            {
+
+                Logs.GenerateLogs(ex.Message);
+            }
+        }
+        private void RowClickEventAccount(TableRowClickEventArgs<SAPModels> tableRowClickEventArgs)
         {
             try
             {

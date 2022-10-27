@@ -56,7 +56,7 @@ namespace CA.UI.Data.AdministrationData
             ApiResponseModel response = new ApiResponseModel();
             try
             {
-                var request = new RestRequest("AdministrationData/updateCostType", Method.Post);
+                var request = new RestRequest("AdministrationData/updateUserProfile", Method.Post);
                 request.AddJsonBody(oMstUserProfile);
                 var res = await _restClient.ExecuteAsync(request);
                 if (res.IsSuccessful)

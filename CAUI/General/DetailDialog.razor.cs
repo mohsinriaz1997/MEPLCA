@@ -1725,7 +1725,9 @@ namespace CA.UI.General
                     Snackbar.Add("Fill the required field(s).", Severity.Error, (options) => { options.Icon = Icons.Sharp.Error; });
                     return;
                 }
-                mstLabourRateList.FkcostTypeId = oModelCostType.Id;
+                    mstLabourRateList.FkcostTypeId = oModelCostType.Id;
+                    mstLabourRateList.FkcostTypeDescription = oModelCostType.Description;
+                    mstLabourRateList.FlgActive = mstLabourRateList.FlgActive;
                 MudDialog.Close(DialogResult.Ok<MstLabourRateDetail>(mstLabourRateList));
             }
             if (DialogFor == "SalePriceList")
