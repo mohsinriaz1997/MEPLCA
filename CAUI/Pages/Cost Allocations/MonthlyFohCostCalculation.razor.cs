@@ -30,6 +30,10 @@ namespace CA.UI.Pages.Cost_Allocations
 
         [Parameter]
         public string DialogFor { get; set; }
+        [Parameter]
+        public string year { get; set; }
+        [Parameter]
+        public string month { get; set; }
 
         #endregion InjectService
 
@@ -44,6 +48,9 @@ namespace CA.UI.Pages.Cost_Allocations
         private TrnsFohcostDetail oModelList = new TrnsFohcostDetail();
         private List<TrnsFohcostDetail> oDetailList = new List<TrnsFohcostDetail>();
         private List<TrnsFohcostDetail> oDetail = new List<TrnsFohcostDetail>();
+
+        private YearModel oYearModel = new YearModel();
+        private List<YearModel> oYearModelList = new List<YearModel>();
 
         private MstCostType oModelCostType = new MstCostType();
         private List<MstCostType> oCostTypeList = new List<MstCostType>();
@@ -73,7 +80,39 @@ namespace CA.UI.Pages.Cost_Allocations
             //oModel.CurrencySap = null;
             //oModel.RateSap = null;
         }
+        public async Task<IEnumerable<YearModel>> DateChange(string value)
+        {
+            List<string> year = new List<string>();
+            var CYear = DateTime.Now.Year;
+            var PYear = DateTime.Now.AddYears(-1).Year;
+            var NYear = DateTime.Now.AddYears(1).Year;
 
+            year.Add(NYear.ToString());
+            year.Add(CYear.ToString());
+            year.Add(PYear.ToString());
+
+            try
+            {
+                await Task.Delay(1);
+                if (string.IsNullOrWhiteSpace(value))
+                    return year.Select(o => new YearModel
+                    {
+                        year = o.ToString(),
+                        //Description = o.Description
+                    }).ToList();
+                var res = year.Where(x => x.ToUpper().Contains(value.ToUpper())).ToList();
+                return res.Select(x => new YearModel
+                {
+                    year = x.ToString(),
+                    //Description = x.Description
+                }).ToList();
+            }
+            catch (Exception ex)
+            {
+                Logs.GenerateLogs(ex);
+                return null;
+            }
+        }
         private async Task OpenAddDialog(DialogOptions options)
         {
             try

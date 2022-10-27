@@ -313,7 +313,7 @@ namespace CA.UI.Pages.Cost_Allocations
                         Loading = true;
                         var res1 = new ApiResponseModel();
                         await Task.Delay(1);
-                        if (oModel.ProductCode == null || oModel.DocName == null || oModelCostType.Id == 0 || oModel.ExchangeRate == null)
+                        if (oModel.ProductCode == null || oModel.DocName == null || oModel.ExchangeRate == null)
                         {
                             Snackbar.Add("Please fill the required field(s)", Severity.Error, (options) => { options.Icon = Icons.Sharp.Error; });
                             Loading = false;

@@ -1,5 +1,6 @@
 ﻿@page "/MonthlyFohCostCalculation"
 @using CA.API.Models
+@using CA.UI.General
 <div class="container-fluid page-content-setting">
     <div class="row">
         <div class="col-sm-11">
@@ -18,18 +19,28 @@
                                   Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields" disabled />
                 </MudItem>
 
-                <MudItem xs="4" sm="4" md="4" lg="4">
-                    <MudTextField @bind-Value="oModel.Lyear" InputMode="InputMode.text" Immediate="true" Clearable="true" Label="Yaer" Variant="Variant.Text"
-                                  Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields"  />
-                </MudItem>
-                     <MudItem xs="4" sm="4" md="4" lg="4">
-                    <MudTextField @bind-Value="oModel.Lmonth" InputMode="InputMode.text" Immediate="true" Clearable="true" Label="Month" Variant="Variant.Text"
-                                  Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields"  />
-               </MudItem>
-                     <MudItem xs="4" sm="4" md="4" lg="4">
-                    <MudDatePicker @bind-Date="oModel.DocDate" PickerVariant="PickerVariant.Dialog" Label="Doc Date" HelperText="Doc Date"
-                                   DateFormat="dd/MM/yyyy" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.CalendarMonth" PickerClosed="OnDateChange" />
-                </MudItem>
+                
+                    <MudItem xs="4" sm="4" md="4" lg="4">
+
+                        <MudAutocomplete ToStringFunc="@(e=> e==null?null : $"{e.year}")" T="YearModel" Label="Year" @bind-Value="oYearModel" SearchFunc="@DateChange" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" />
+                    </MudItem>
+                <MudSelect xs="4" sm="4" md="4" lg="4" T="string" @bind-Value="@oModel.Lmonth" Label="Month" Variant="Variant.Text" AnchorOrigin="Origin.BottomCenter">
+                    <MudSelectItem Value="@("1")" />
+                    <MudSelectItem Value="@("2")" />
+                    <MudSelectItem Value="@("3")" />
+                    <MudSelectItem Value="@("4")" />
+                    <MudSelectItem Value="@("5")" />
+                    <MudSelectItem Value="@("6")" />
+                    <MudSelectItem Value="@("7")" />
+                    <MudSelectItem Value="@("8")" />
+                    <MudSelectItem Value="@("9")" />
+                    <MudSelectItem Value="@("10")" />
+                    <MudSelectItem Value="@("11")" />
+                    <MudSelectItem Value="@("12")" />
+
+                </MudSelect>
+                     
+               
                 <MudItem xs="12" sm="12" md="12" lg="12">
                 @if (Loading)
                 {
