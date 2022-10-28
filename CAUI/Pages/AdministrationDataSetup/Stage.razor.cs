@@ -136,6 +136,12 @@ namespace CA.UI.Pages.AdministrationDataSetup
                         }
                         if (AuthorizerNames != null && AuthorizerNames.Count() > 0)
                         {
+                            if (oModel.NoOfApproval != AuthorizerNames.Count())
+                            {
+                                Snackbar.Add("Please fill the same authorizer name and no of approval field(s)", Severity.Error, (options) => { options.Icon = Icons.Sharp.Error; });
+                                Loading = false;
+                                return null;
+                            }
                             oModel.MstStageDetails.Clear();
                             foreach (var Line in AuthorizerNames)
                             {
