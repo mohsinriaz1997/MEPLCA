@@ -11,6 +11,7 @@ namespace CA.API.Models
         public decimal? WageRate { get; set; }
         public int? FkcostTypeId { get; set; }
         public bool? FlgActive { get; set; }
+        public string FkcostTypeDescription { get; set; }
 
         public virtual MstLabourRate Fk { get; set; }
     }

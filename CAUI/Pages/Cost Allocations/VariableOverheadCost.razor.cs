@@ -590,7 +590,7 @@ namespace CA.UI.Pages.Cost_Allocations
                         await Task.Delay(1);
 
                         if (oModel.DocName == null || oModel.ProductCode == null || oModel.PerDayShiftHrs == null || oModel.WorkingDays == null || oModel.MonthlyVolume == null
-                            || oModel.FkresourceDocNum == null || oModelCostType.Id == 0
+                            || oModel.FkresourceDocNum == null 
                             || oActivityDetailList.Count() == 0 || oDetailMachineDetailList.Count() == 0 || oDetailLaborDetailList.Count() == 0 || oDetailElecticityDetailList.Count() == 0
                             || oDetailDyesDetailList.Count() == 0 || oDetailToolsDetailList.Count() == 0 || oDetailGasolineDetailList.Count() == 0)
                         {

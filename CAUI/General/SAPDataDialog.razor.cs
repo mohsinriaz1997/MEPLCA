@@ -1,4 +1,5 @@
 ﻿using CA.API.Models;
+using CA.UI.Interfaces.Cost_Allocation;
 using CA.UI.Interfaces.SAPData;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
@@ -18,6 +19,9 @@ namespace CA.UI.General
 
         [Inject]
         public ISnackbar Snackbar { get; set; }
+        [Inject]
+        public IVOC _mstVOC { get; set; }
+
 
         #endregion InjectService
 
@@ -77,6 +81,10 @@ namespace CA.UI.General
         [Parameter]
         public TrnsDirectMaterialDetail oDMDetail { get; set; } = new TrnsDirectMaterialDetail(); 
         private List<TrnsDirectMaterialDetail> oDMDetailList = new List<TrnsDirectMaterialDetail>();
+
+        private TrnsVoc oModelVOC = new TrnsVoc();
+        private List<TrnsVoc> oVOCList = new List<TrnsVoc>();
+
         [Parameter]
         public string year { get; set; }
 
@@ -621,10 +629,24 @@ namespace CA.UI.General
                             TrnsVohmachineDetail s = new TrnsVohmachineDetail();
                             s.ProductCode = item.ItemCodeVOH;
                             s.ProductName = item.ItemNameVOH;
+                            s.ProductQuantity = Convert.ToDecimal( item.ItemQuantityVOH);
                             //s.p = Convert.ToDecimal(item.ItemQuantityVOH);
                             //s.Uom = item.BOMUOM;
                             TrnsVohmachineDetail.Add(s);
                         }
+                        //foreach (var item in TrnsVohmachineDetail)
+                        //{
+                        //    //var VOCData = (from a in oVOCList
+                        //    //        where a.ProductCode == item.ProductCode && a.FlgDefault == true
+                        //    //        select a).FirstOrDefault();
+
+                        //    //var itemcode=oVOCList.Select(x=>x.ProductCode).Join(item.ProductCode)
+                        //    //var innerJoin = oVOCList.Join(TrnsVohmachineDetail,
+                        //    //                str1 => str1,
+                        //    //                str2 => str2,
+                        //    //                (str1, str2) => str1);
+                        //    //var sdefault = from s in oVOCList where item.ProductCode; 
+                        //}
                         //oSAPModels.DialogFor = "MonthlyVohRlMachineTab";
                         MudDialog.Close(DialogResult.Ok<List<TrnsVohmachineDetail>>(TrnsVohmachineDetail));
                     }
@@ -646,6 +668,7 @@ namespace CA.UI.General
                             TrnsVohlabourDetail s = new TrnsVohlabourDetail();
                             s.ProductCode = item.ItemCodeVOH;
                             s.ProductName = item.ItemNameVOH;
+                            s.ProductQuantity = Convert.ToDecimal(item.ItemQuantityVOH);
                             //s.p = Convert.ToDecimal(item.ItemQuantityVOH);
                             //s.Uom = item.BOMUOM;
                             TrnsVohlabourDetail.Add(s);
@@ -673,6 +696,7 @@ namespace CA.UI.General
                             TrnsVohelectricityDetail s = new TrnsVohelectricityDetail();
                             s.ProductCode = item.ItemCodeVOH;
                             s.ProductName = item.ItemNameVOH;
+                            s.ProductQuantity = Convert.ToDecimal(item.ItemQuantityVOH);
                             //s.p = Convert.ToDecimal(item.ItemQuantityVOH);
                             //s.Uom = item.BOMUOM;
                             TrnsVohelectricityDetail.Add(s);
@@ -700,6 +724,7 @@ namespace CA.UI.General
                                 TrnsVohdyesAndMoldDetail s = new TrnsVohdyesAndMoldDetail();
                                 s.ProductCode = item.ItemCodeVOH;
                                 s.ProductName = item.ItemNameVOH;
+                                s.ProductQuantity = Convert.ToDecimal(item.ItemQuantityVOH);
                                 //s.p = Convert.ToDecimal(item.ItemQuantityVOH);
                                 //s.Uom = item.BOMUOM;
                                 TrnsVohdyesAndMoldDetail.Add(s);
@@ -727,6 +752,7 @@ namespace CA.UI.General
                             TrnsVohtoolsDetail s = new TrnsVohtoolsDetail();
                             s.ProductCode = item.ItemCodeVOH;
                             s.ProductName = item.ItemNameVOH;
+                            s.ProductQuantity = Convert.ToDecimal(item.ItemQuantityVOH);
                             //s.p = Convert.ToDecimal(item.ItemQuantityVOH);
                             //s.Uom = item.BOMUOM;
                             TrnsVohtoolsDetail.Add(s);
@@ -754,6 +780,7 @@ namespace CA.UI.General
                             TrnsVohgasolineDetail s = new TrnsVohgasolineDetail();
                             s.ProductCode = item.ItemCodeVOH;
                             s.ProductName = item.ItemNameVOH;
+                            s.ProductQuantity = Convert.ToDecimal(item.ItemQuantityVOH);
                             //s.p = Convert.ToDecimal(item.ItemQuantityVOH);
                             //s.Uom = item.BOMUOM;
                             TrnsVohgasolineDetail.Add(s);
@@ -993,6 +1020,7 @@ namespace CA.UI.General
                         await GetExchangeRate(Convert.ToString(DocDatePara));
                     }
                 }
+                await GetallVOV();
                 if (DialogFor == "AccountExpenseList")
                 {
                     await GetAccounts();
@@ -1271,6 +1299,19 @@ namespace CA.UI.General
             {
 
                 Logs.GenerateLogs(ex.Message);
+            }
+        }
+        private async Task GetallVOV()
+        {
+            try
+            {
+                oVOCList = await _mstVOC.GetAllData();
+                //var productCodeofVoc = oVOCList.Select(x => x.ProductCode).ToList();
+
+            }
+            catch (Exception ex)
+            {
+                Logs.GenerateLogs(ex);
             }
         }
         //private void SelectedItemsChanged(HashSet<SAPModels> items)

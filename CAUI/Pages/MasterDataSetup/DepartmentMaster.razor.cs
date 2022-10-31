@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using static System.Net.WebRequestMethods;
 using System.Net.Http.Headers;
+using System.Text.RegularExpressions;
 
 namespace CA.UI.Pages.MasterDataSetup
 {
@@ -51,11 +52,19 @@ namespace CA.UI.Pages.MasterDataSetup
         {
             try
             {
+                var code=oModel.Code;
+                var regexItem = new Regex("^[a-zA-Z0-9 ]*$");
                 Loading = true;
                 var res = new ApiResponseModel();
                 await Task.Delay(3);
                 if (!string.IsNullOrWhiteSpace(oModel.Code))
                 {
+                    if (!regexItem.IsMatch(code))
+                    {
+                        Snackbar.Add("User Code  Must be in proper formet ", Severity.Error, (options) => { options.Icon = Icons.Sharp.Error; });
+                        Loading = false;
+                        return null;
+                    }
                     if (oList.Where(x => x.Code == oModel.Code).Count() > 0)
                     {
                         Snackbar.Add("Code already exist", Severity.Error, (options) => { options.Icon = Icons.Sharp.Error; });

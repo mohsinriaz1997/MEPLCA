@@ -1011,7 +1011,7 @@ namespace CA.UI.Dialog
                 if (DialogFor == "VOCMachineTab")
                 {
                     await GetAllMachine();
-                    //oResouceTypeList = oModelResource.MstResourceDetails.Where(x => x.TypeOfResr == "Machine").ToList();
+                    oResouceTypeList = oModelResource.MstResourceDetails.Where(x => x.TypeOfResr == "Machine").ToList();
                     foreach (var item in oResouceTypeList)
                     {
                         oModelResouceType.Id = item.Id;
@@ -1024,7 +1024,7 @@ namespace CA.UI.Dialog
                 }
                 if (DialogFor == "VOCElectricityTab")
                 {
-                    oResouceTypeList = oModelResource.MstResourceDetails.Where(x => x.TypeOfResr == "Machine").ToList();
+                    oResouceTypeList = oModelResource.MstResourceDetails.Where(x => x.TypeOfResr == "Electricity").ToList();
                     foreach (var item in oResouceTypeList)
                     {
                         oModelResouceType.Id = item.Id;
@@ -1034,7 +1034,7 @@ namespace CA.UI.Dialog
                 if (DialogFor == "VOCDyesAndMoldTab")
                 {
                     await GetAllDyes();
-                    //oResouceTypeList = oModelResource.MstResourceDetails.Where(x => x.TypeOfResr == "Dyes").ToList();
+                    oResouceTypeList = oModelResource.MstResourceDetails.Where(x => x.TypeOfResr == "Dyes").ToList();
                     foreach (var item in oResouceTypeList)
                     {
                         oModelResouceType.Id = item.Id;
@@ -1044,7 +1044,7 @@ namespace CA.UI.Dialog
                 if (DialogFor == "VOCToolsTab")
                 {
                     await GetAllTools();
-                    //oResouceTypeList = oModelResource.MstResourceDetails.Where(x => x.TypeOfResr == "Tools").ToList();
+                    oResouceTypeList = oModelResource.MstResourceDetails.Where(x => x.TypeOfResr == "Tools").ToList();
                     foreach (var item in oResouceTypeList)
                     {
                         oModelResouceType.Id = item.Id;
@@ -1054,7 +1054,7 @@ namespace CA.UI.Dialog
                 if (DialogFor == "VOCGasolineTab")
                 {
                     await GetAllGasoline();
-                    //oResouceTypeList = oModelResource.MstResourceDetails.Where(x => x.TypeOfResr == "Gasoline").ToList();
+                    oResouceTypeList = oModelResource.MstResourceDetails.Where(x => x.TypeOfResr == "Gasoline").ToList();
                     foreach (var item in oResouceTypeList)
                     {
                         oModelResouceType.Id = item.Id;

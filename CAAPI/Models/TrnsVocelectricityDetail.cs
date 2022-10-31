@@ -16,7 +16,7 @@ namespace CA.API.Models
         public decimal? IncFactor { get; set; }
         public decimal? KwperHrs { get; set; }
         public decimal? RatePerUnit { get; set; }
-        public decimal CostPerSec { get; set; }
+        public decimal? CostPerSec { get; set; }
         public decimal? CycleTimeSec { get; set; }
         public decimal? Total { get; set; }
         public decimal? NoOfMachine { get; set; }

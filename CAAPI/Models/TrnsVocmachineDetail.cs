@@ -16,7 +16,7 @@ namespace CA.API.Models
         public decimal? NoOfWorkers { get; set; }
         public decimal? Nos { get; set; }
         public decimal? LifeYears { get; set; }
-        public decimal Total { get; set; }
+        public decimal? Total { get; set; }
 
         public virtual TrnsVoc Fk { get; set; }
     }

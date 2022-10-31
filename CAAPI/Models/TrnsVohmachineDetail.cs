@@ -11,6 +11,7 @@ namespace CA.API.Models
         public string ProductName { get; set; }
         public decimal? MachineVohrate { get; set; }
         public decimal? MachineVohamount { get; set; }
+        public decimal? ProductQuantity { get; set; }
 
         public virtual TrnsVoh Fk { get; set; }
     }

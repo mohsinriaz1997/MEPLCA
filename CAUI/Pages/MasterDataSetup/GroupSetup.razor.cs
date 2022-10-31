@@ -5,6 +5,7 @@ using CA.UI.Interfaces.AdministrationData;
 using CA.UI.Interfaces.MasterData;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
+using System.Text.RegularExpressions;
 
 namespace CA.UI.Pages.MasterDataSetup
 {
@@ -47,11 +48,19 @@ namespace CA.UI.Pages.MasterDataSetup
         {
             try
             {
+                var code = oModel.Code;
+                var regexItem = new Regex("^[a-zA-Z0-9 ]*$");
                 Loading = true;
                 var res = new ApiResponseModel();
                 await Task.Delay(3);
                 if (!string.IsNullOrWhiteSpace(oModel.Description))
                 {
+                    if (!regexItem.IsMatch(code))
+                    {
+                        Snackbar.Add("Code  Must be in proper formet ", Severity.Error, (options) => { options.Icon = Icons.Sharp.Error; });
+                        Loading = false;
+                        return null;
+                    }
                     if (oList.Where(x => x.Code == oModel.Code).Count() > 0)
                     {
                         Snackbar.Add("Code already exist", Severity.Error, (options) => { options.Icon = Icons.Sharp.Error; });

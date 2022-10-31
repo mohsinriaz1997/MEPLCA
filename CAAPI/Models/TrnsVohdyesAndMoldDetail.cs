@@ -11,6 +11,7 @@ namespace CA.API.Models
         public string ProductName { get; set; }
         public decimal DyesAndMoldVohrate { get; set; }
         public decimal DyesAndMoldVohamount { get; set; }
+        public decimal? ProductQuantity { get; set; }
 
         public virtual TrnsVoh Fk { get; set; }
     }

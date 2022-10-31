@@ -30,6 +30,9 @@ namespace CA.UI.Pages.Cost_Allocations
 
         [Inject]
         public ICostType _mstCostType { get; set; }
+        
+        [Inject]
+        public IVOC _mstVOC { get; set; }
 
         [Parameter]
         public string DialogFor { get; set; }
@@ -88,6 +91,11 @@ namespace CA.UI.Pages.Cost_Allocations
 
         private MstCostType oModelCostType = new MstCostType();
         private List<MstCostType> oCostTypeList = new List<MstCostType>();
+        
+        private TrnsVoc oModelVOC = new TrnsVoc();
+        private List<TrnsVoc> oVOCList = new List<TrnsVoc>();
+
+
         private YearModel oYearModel = new YearModel();
         private List<YearModel> oYearModelList = new List<YearModel>();
 
@@ -194,15 +202,26 @@ namespace CA.UI.Pages.Cost_Allocations
                 oModel.Lyear = year;
                 if (!result.Cancelled)
                 {
+
+                    
+
                     oModel.TrnsVohmachineDetails = (ICollection<TrnsVohmachineDetail>)result.Data;
                     foreach (var Line in oModel.TrnsVohmachineDetails)
                     {
-                        //User already select item master and its detaail
-
-
-                        //var itemDetail = (from a in oModel.TrnsVohmachineDetails
-
-                        //                  select a).FirstOrDefault();
+                        var VOCData = (from a in oVOCList
+                                       where a.ProductCode == Line.ProductCode && a.FlgDefault == true
+                                       select a).FirstOrDefault();
+                        
+                        if (VOCData != null)
+                        {
+                            Line.MachineVohrate = VOCData.TrnsVocmachineDetails.Select(x => x.Total).Sum();
+                            var vocMachineAmmount = Line.ProductQuantity * Line.MachineVohrate;
+                            Line.MachineVohamount= vocMachineAmmount;
+                        }
+                        else
+                        {
+                            Line.MachineVohrate = 0;
+                        }
 
                         Line.ProductName = Line.ProductName;
                         Line.ProductCode = Line.ProductCode;
@@ -241,14 +260,23 @@ namespace CA.UI.Pages.Cost_Allocations
                 if (!result.Cancelled)
                 {
                     oModel.TrnsVohlabourDetails = (ICollection<TrnsVohlabourDetail>)result.Data;
+
                     foreach (var Line in oModel.TrnsVohlabourDetails)
                     {
-                        //User already select item master and its detaail
+                        var VOCData = (from a in oVOCList
+                                       where a.ProductCode == Line.ProductCode && a.FlgDefault == true
+                                       select a).FirstOrDefault();
 
-
-                        //var itemDetail = (from a in oModel.TrnsVohmachineDetails
-
-                        //                  select a).FirstOrDefault();
+                        if (VOCData != null)
+                        {
+                            Line.LabourVohrate = VOCData.TrnsVoclaborDetails.Select(x => x.Total).Sum();
+                            var vocMachineAmmount = Line.ProductQuantity * Line.LabourVohrate;
+                            Line.LabourVohamount = vocMachineAmmount;
+                        }
+                        else
+                        {
+                            Line.LabourVohrate = 0;
+                        }
 
                         Line.ProductName = Line.ProductName;
                         Line.ProductCode = Line.ProductCode;
@@ -335,12 +363,20 @@ namespace CA.UI.Pages.Cost_Allocations
                     oModel.TrnsVohdyesAndMoldDetails = (ICollection<TrnsVohdyesAndMoldDetail>)result.Data;
                     foreach (var Line in oModel.TrnsVohdyesAndMoldDetails)
                     {
-                        //User already select item master and its detaail
+                        var VOCData = (from a in oVOCList
+                                       where a.ProductCode == Line.ProductCode && a.FlgDefault == true
+                                       select a).FirstOrDefault();
 
-
-                        //var itemDetail = (from a in oModel.TrnsVohmachineDetails
-
-                        //                  select a).FirstOrDefault();
+                        if (VOCData != null)
+                        {
+                            Line.DyesAndMoldVohrate = (decimal)VOCData.TrnsVocdyesAndMoldDetails.Select(x => x.Total).Sum();
+                            var vocMachineAmmount = Line.ProductQuantity * Line.DyesAndMoldVohrate;
+                            Line.DyesAndMoldVohamount = (decimal)vocMachineAmmount;
+                        }
+                        else
+                        {
+                            Line.DyesAndMoldVohrate = 0;
+                        }
 
                         Line.ProductName = Line.ProductName;
                         Line.ProductCode = Line.ProductCode;
@@ -381,12 +417,20 @@ namespace CA.UI.Pages.Cost_Allocations
                     oModel.TrnsVohtoolsDetails = (ICollection<TrnsVohtoolsDetail>)result.Data;
                     foreach (var Line in oModel.TrnsVohtoolsDetails)
                     {
-                        //User already select item master and its detaail
+                        var VOCData = (from a in oVOCList
+                                       where a.ProductCode == Line.ProductCode && a.FlgDefault == true
+                                       select a).FirstOrDefault();
 
-
-                        //var itemDetail = (from a in oModel.TrnsVohmachineDetails
-
-                        //                  select a).FirstOrDefault();
+                        if (VOCData != null)
+                        {
+                            Line.ToolsVohrate = (decimal)VOCData.TrnsVoctoolsDetails.Select(x => x.Total).Sum();
+                            var vocMachineAmmount = Line.ProductQuantity * Line.ToolsVohrate;
+                            Line.ToolsVohamount = (decimal)vocMachineAmmount;
+                        }
+                        else
+                        {
+                            Line.ToolsVohrate = 0;
+                        }
 
                         Line.ProductName = Line.ProductName;
                         Line.ProductCode = Line.ProductCode;
@@ -427,12 +471,20 @@ namespace CA.UI.Pages.Cost_Allocations
                     oModel.TrnsVohgasolineDetails = (ICollection<TrnsVohgasolineDetail>)result.Data;
                     foreach (var Line in oModel.TrnsVohgasolineDetails)
                     {
-                        //User already select item master and its detaail
+                        var VOCData = (from a in oVOCList
+                                       where a.ProductCode == Line.ProductCode && a.FlgDefault == true
+                                       select a).FirstOrDefault();
 
-
-                        //var itemDetail = (from a in oModel.TrnsVohmachineDetails
-
-                        //                  select a).FirstOrDefault();
+                        if (VOCData != null)
+                        {
+                            Line.GasolineVohrate = (decimal)VOCData.TrnsVocgasolineDetails.Select(x => x.Total).Sum();
+                            var vocMachineAmmount = Line.ProductQuantity * Line.GasolineVohrate;
+                            Line.GasolineVohamount = (decimal)vocMachineAmmount;
+                        }
+                        else
+                        {
+                            Line.GasolineVohrate = 0;
+                        }
 
                         Line.ProductName = Line.ProductName;
                         Line.ProductCode = Line.ProductCode;
@@ -1169,6 +1221,19 @@ namespace CA.UI.Pages.Cost_Allocations
                 Logs.GenerateLogs(ex);
             }
         }
+        private async Task GetallVOV()
+        {
+            try
+            {
+                oVOCList = await _mstVOC.GetAllData();
+                var productCodeofVoc=oVOCList.Select(x=>x.ProductCode).ToList();
+
+            }
+            catch (Exception ex)
+            {
+                Logs.GenerateLogs(ex);
+            }
+        }
 
         public void RemoveRecord(string TypeOfRescr, string RescDesc, string CurrCodeSap, string CurrNameSAP, decimal? Rate, decimal? Price, decimal? Cost)
         {
@@ -1309,6 +1374,8 @@ namespace CA.UI.Pages.Cost_Allocations
                 oModel.DocDate = DateTime.Today;
                 await GetAllCostType();
                 await GetAllCostDriverType();
+                await GetallVOV();
+
                 Loading = false;
             }
             catch (Exception ex)
