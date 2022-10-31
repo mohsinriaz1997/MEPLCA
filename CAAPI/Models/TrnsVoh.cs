@@ -22,6 +22,12 @@ namespace CA.API.Models
         public string Lmonth { get; set; }
         public string DocStatus { get; set; }
         public string DocApprovalStatus { get; set; }
+        public string TotalVohmachine { get; set; }
+        public string TotalVohgasoline { get; set; }
+        public string TotalVohdyes { get; set; }
+        public string TotalVohElectriccity { get; set; }
+        public string TotalTools { get; set; }
+        public string TotalVohlabor { get; set; }
 
         public virtual ICollection<TrnsVohdyesAndMoldDetail> TrnsVohdyesAndMoldDetails { get; set; }
         public virtual ICollection<TrnsVohelectricityDetail> TrnsVohelectricityDetails { get; set; }

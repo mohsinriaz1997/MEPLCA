@@ -1143,6 +1143,10 @@ namespace CA.API.Models
                     .HasMaxLength(100)
                     .IsUnicode(false);
 
+                entity.Property(e => e.FkcostTypeDescription)
+                    .HasMaxLength(50)
+                    .HasColumnName("FKCostTypeDescription");
+
                 entity.Property(e => e.FkcostTypeId).HasColumnName("FKCostTypeID");
 
                 entity.Property(e => e.Fkid).HasColumnName("FKID");
@@ -2319,6 +2323,26 @@ namespace CA.API.Models
                     .HasMaxLength(50)
                     .IsUnicode(false)
                     .HasColumnName("LYear");
+
+                entity.Property(e => e.TotalTools).HasMaxLength(50);
+
+                entity.Property(e => e.TotalVohElectriccity).HasMaxLength(50);
+
+                entity.Property(e => e.TotalVohdyes)
+                    .HasMaxLength(50)
+                    .HasColumnName("TotalVOHDyes");
+
+                entity.Property(e => e.TotalVohgasoline)
+                    .HasMaxLength(50)
+                    .HasColumnName("TotalVOHGasoline");
+
+                entity.Property(e => e.TotalVohlabor)
+                    .HasMaxLength(50)
+                    .HasColumnName("TotalVOHLabor");
+
+                entity.Property(e => e.TotalVohmachine)
+                    .HasMaxLength(50)
+                    .HasColumnName("TotalVOHMachine");
             });
 
             modelBuilder.Entity<TrnsVohdyesAndMoldDetail>(entity =>
@@ -2346,6 +2370,8 @@ namespace CA.API.Models
                     .IsRequired()
                     .HasMaxLength(250)
                     .IsUnicode(false);
+
+                entity.Property(e => e.ProductQuantity).HasColumnType("numeric(18, 0)");
 
                 entity.HasOne(d => d.Fk)
                     .WithMany(p => p.TrnsVohdyesAndMoldDetails)
@@ -2378,6 +2404,8 @@ namespace CA.API.Models
                     .HasMaxLength(250)
                     .IsUnicode(false);
 
+                entity.Property(e => e.ProductQuantity).HasColumnType("numeric(18, 0)");
+
                 entity.HasOne(d => d.Fk)
                     .WithMany(p => p.TrnsVohelectricityDetails)
                     .HasForeignKey(d => d.Fkid)
@@ -2408,6 +2436,8 @@ namespace CA.API.Models
                 entity.Property(e => e.ProductName)
                     .HasMaxLength(250)
                     .IsUnicode(false);
+
+                entity.Property(e => e.ProductQuantity).HasColumnType("numeric(18, 0)");
 
                 entity.HasOne(d => d.Fk)
                     .WithMany(p => p.TrnsVohgasolineDetails)
@@ -2440,6 +2470,8 @@ namespace CA.API.Models
                     .HasMaxLength(250)
                     .IsUnicode(false);
 
+                entity.Property(e => e.ProductQuantity).HasColumnType("numeric(18, 0)");
+
                 entity.HasOne(d => d.Fk)
                     .WithMany(p => p.TrnsVohlabourDetails)
                     .HasForeignKey(d => d.Fkid)
@@ -2471,6 +2503,8 @@ namespace CA.API.Models
                     .HasMaxLength(250)
                     .IsUnicode(false);
 
+                entity.Property(e => e.ProductQuantity).HasColumnType("numeric(18, 0)");
+
                 entity.HasOne(d => d.Fk)
                     .WithMany(p => p.TrnsVohmachineDetails)
                     .HasForeignKey(d => d.Fkid)
@@ -2493,6 +2527,8 @@ namespace CA.API.Models
                 entity.Property(e => e.ProductName)
                     .HasMaxLength(250)
                     .IsUnicode(false);
+
+                entity.Property(e => e.ProductQuantity).HasColumnType("numeric(18, 0)");
 
                 entity.Property(e => e.ToolsVohamount)
                     .HasColumnType("numeric(18, 6)")

@@ -234,6 +234,10 @@ namespace CA.UI.Pages.Cost_Allocations
 
                     }
                     oDetailMachineList = oModel.TrnsVohmachineDetails.ToList();
+                    var sumFohRate = oDetailMachineList.Select(x => x.MachineVohrate);
+                    var totalsumfohrate = sumFohRate.Sum();
+                    oModel.TotalVohmachine = Convert.ToString(totalsumfohrate);
+                    //oModel.TrnsVohmachineDetails =totalsumfohrate;
                     //var res = (SAPModels)result.Data;
                     //oModelMachine.ProductCode = res.ItemCode;
                     //oModelMachine.ProductName = res.ItemName;
@@ -282,13 +286,13 @@ namespace CA.UI.Pages.Cost_Allocations
                         Line.ProductCode = Line.ProductCode;
                         Line.LabourVohrate = Line.LabourVohrate;
                         Line.LabourVohamount = Line.LabourVohamount;
-
-
-
-
-
                     }
                     oDetailLaborList = oModel.TrnsVohlabourDetails.ToList();
+                    var sumFohRate = oDetailLaborList.Select(x => x.LabourVohrate);
+                    var totalsumfohrate = sumFohRate.Sum();
+                    oModel.TotalVohlabor = Convert.ToString(totalsumfohrate);
+                    //oModel.TrnsVohlabourDetails
+                    //oModel.TrnsVohlabourDetails = Convert.ToDecimal(totalsumfohrate);
                     //var res = (SAPModels)result.Data;
                     //oModelMachine.ProductCode = res.ItemCode;
                     //oModelMachine.ProductName = res.ItemName;
@@ -335,6 +339,9 @@ namespace CA.UI.Pages.Cost_Allocations
 
                     }
                     oDetailElecticityList = oModel.TrnsVohelectricityDetails.ToList();
+                    var sumFohRate = oDetailElecticityList.Select(x => x.ElectricityVohrate);
+                    var totalsumfohrate = sumFohRate.Sum();
+                    oModel.TotalVohElectriccity = Convert.ToString(totalsumfohrate);
                     //var res = (SAPModels)result.Data;
                     //oModelMachine.ProductCode = res.ItemCode;
                     //oModelMachine.ProductName = res.ItemName;
@@ -389,6 +396,10 @@ namespace CA.UI.Pages.Cost_Allocations
 
                     }
                     oDetailDyesList = oModel.TrnsVohdyesAndMoldDetails.ToList();
+                    var sumFohRate = oDetailDyesList.Select(x => x.DyesAndMoldVohrate);
+                    var totalsumfohrate = sumFohRate.Sum();
+                    oModel.TotalVohdyes = Convert.ToString(totalsumfohrate);
+
                     //var res = (SAPModels)result.Data;
                     //oModelMachine.ProductCode = res.ItemCode;
                     //oModelMachine.ProductName = res.ItemName;
@@ -443,6 +454,9 @@ namespace CA.UI.Pages.Cost_Allocations
 
                     }
                     oDetailToolsList = oModel.TrnsVohtoolsDetails.ToList();
+                    var sumFohRate = oDetailToolsList.Select(x => x.ToolsVohrate);
+                    var totalsumfohrate = sumFohRate.Sum();
+                    oModel.TotalTools = Convert.ToString(totalsumfohrate);
                     //var res = (SAPModels)result.Data;
                     //oModelMachine.ProductCode = res.ItemCode;
                     //oModelMachine.ProductName = res.ItemName;
@@ -497,6 +511,9 @@ namespace CA.UI.Pages.Cost_Allocations
 
                     }
                     oDetailGasolineList = oModel.TrnsVohgasolineDetails.ToList();
+                    var sumFohRate = oDetailGasolineList.Select(x => x.GasolineVohrate);
+                    var totalsumfohrate = sumFohRate.Sum();
+                    oModel.TotalVohgasoline = Convert.ToString(totalsumfohrate);
                     //var res = (SAPModels)result.Data;
                     //oModelMachine.ProductCode = res.ItemCode;
                     //oModelMachine.ProductName = res.ItemName;
