@@ -408,7 +408,9 @@
                 }
     </DialogContent>
     <DialogActions>
-        <MudButton OnClick="Cancel">Cancel</MudButton>
-        <MudButton Color="Color.Primary" OnClick="Submit">Ok</MudButton>
+        <MudItem class="text-right custom-btn-design">
+            <MudButton Variant="Variant.Filled" OnClick="Submit" StartIcon="@Icons.Filled.CheckCircle" Color="Color.Info" Size="Size.Small">Ok</MudButton>
+            <MudButton Variant="Variant.Filled" OnClick="Cancel" StartIcon="@Icons.Filled.Cancel" Color="Color.Error">Cancel</MudButton>
+        </MudItem>
     </DialogActions>
 </MudDialog>

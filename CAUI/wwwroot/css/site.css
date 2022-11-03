@@ -294,18 +294,173 @@ button.mud-button-root.mud-icon-button.mud-icon-button-color-inherit.mud-ripple.
 /******************************/
 /***Csutom Style**/
 /******************************/
+.login100-form-logo {
+    /*	font-size: 60px;*/
+    color: #333333;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /*	width: 120px;
+	height: 120px;
+	border-radius: 50%;*/
+    background-image: url('../img/logo.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 122px;
+    height: 100px;
+    margin: 0 auto;
+    filter: brightness(0) invert(1);
+}
+
+.login-page-deisgn .mud-icon-button {
+    margin: 0;
+    padding: 0;
+}
+
+.login-page-deisgn .mud-input-input-control .mud-icon-root.mud-svg-icon {
+    fill: #000;
+}
+
+.login100-form-title {
+    font-size: 30px;
+    color: #fff;
+    line-height: 1.2;
+    text-align: center;
+    text-transform: uppercase;
+    display: block;
+    font-weight: 500;
+    padding: 20px 0 20px;
+}
+
+.login-page-deisgn .mud-input-helper-text {
+    color: #fff;
+}
+
+.dashboard-image {
+    background-image: url(../img/dah-img.jpg);
+    background-size: cover;
+    width: 100%;
+    width: 100%;
+    height: 100vh;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    position: relative;
+    box-shadow: 0 0 10px #0000002b;
+    border-radius: 0 20px 0 20px;
+    margin: 20px 0 0 0;
+}
+
+.dashboard-page .page-title {
+    background: unset;
+    color: #000;
+    font-size: 22px;
+    font-family: 'Roboto';
+    font-weight: 600;
+    margin: 0;
+}
+
+.dashboard-page .breadcrumb {
+    background: unset;
+    margin: 0;
+    padding: 0 0 0 16px;
+}
 
 .page-content-setting .search-action-block.mud-grid {
     align-items: center !important;
 }
 
+.ps-field {
+    margin: 18px 0 0;
+}
+
+    .ps-field .mud-input-label {
+        margin: 18 0 0;
+    }
+
 .page-content-setting .search-action-block button {
-   /* width: 35px !important;
+    /* width: 35px !important;
     height: 35px !important;*/
 }
 
+.counter-info {
+    padding: 2px 7px !important;
+    line-height: unset;
+    font-size: 12px;
+    height: unset;
+    border-radius: 50%;
+}
+
+.mud-navmenu .mud-nav-item .mud-nav-link {
+    position: relative;
+}
+
+    .mud-navmenu .mud-nav-item .mud-nav-link:before {
+        position: absolute;
+        content: "\A";
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #1e454a;
+        display: inline-block;
+        top: 17px;
+        left: 31px;
+    }
+
+    .mud-navmenu .mud-nav-item .mud-nav-link:hover:before {
+        background: #33707e;
+    }
+
+    .mud-navmenu .mud-nav-item .mud-nav-link.active:before {
+        background: #33707e;
+    }
+
 .page-content-setting .mud-card-content {
     padding: 0;
+}
+
+.mud-navmenu .mud-nav-item .mud-nav-link:hover:before:nth-of-type(1) {
+    display: none;
+}
+
+
+.cus-tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+}
+
+    .cus-tooltip .text-tooltiptext {
+        visibility: hidden;
+        width: 120px;
+        background-color: black;
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        padding: 5px 0;
+        /* Position the tooltip */
+        position: absolute;
+        z-index: 1;
+    }
+
+    .cus-tooltip:hover .text-tooltiptext {
+        visibility: visible;
+    }
+
+.dash-cus .mud-nav-link:before {
+    display: none !important;
 }
 
 .mud-drawer.mud-drawer-fixed.main-sidebar-nav {
@@ -353,7 +508,7 @@ button.mud-button-root.mud-icon-button.mud-icon-button-color-inherit.mud-ripple.
 .main-sidebar-nav .mud-drawer-content .mud-drawer-header {
     padding: 10px 10px 4px 10px;
     align-items: center;
-    border-bottom:1px solid #ccc;
+    border-bottom: 1px solid #ccc;
 }
 
     .main-sidebar-nav .mud-drawer-content .mud-drawer-header img {
@@ -365,7 +520,7 @@ button.mud-button-root.mud-icon-button.mud-icon-button-color-inherit.mud-ripple.
     .main-sidebar-nav .mud-drawer-content .mud-drawer-header .mud-typography-h6 {
         line-height: 20px;
         padding-left: 10px;
-        font-size:15px;
+        font-size: 15px;
     }
 
 .mud-appbar.header-bar {
@@ -436,6 +591,7 @@ button.mud-button-root.mud-icon-button.mud-icon-button-color-inherit.mud-ripple.
     height: 1px;
     background: #eee;
 }
+
 .btn {
     padding: 5px 14px;
     display: flex;
@@ -444,18 +600,21 @@ button.mud-button-root.mud-icon-button.mud-icon-button-color-inherit.mud-ripple.
     font-weight: 500;
     width: 100%;
 }
-.btn.login-btn, .btn.btn-sendotp {
-    background-color: unset;
-    box-shadow: none;
-    border: 1px solid #fff;
-    border-radius: 40px;
-    padding: 10px 0;
-}
-    .btn.login-btn:hover, .btn.btn-sendotp:hover {
-        background-color: #fff;
-        color: #000;
-        transition: ease all 0.8s;
+
+    .btn.login-btn, .btn.btn-sendotp {
+        background-color: unset;
+        box-shadow: none;
+        border: 1px solid #fff;
+        border-radius: 40px;
+        padding: 10px 0;
     }
+
+        .btn.login-btn:hover, .btn.btn-sendotp:hover {
+            background-color: #fff;
+            color: #000;
+            transition: ease all 0.8s;
+        }
+
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
@@ -482,6 +641,7 @@ input:-webkit-autofill:active {
     position: relative;
     /* z-index: 1; */
 }
+
 .login-info-content {
     text-align: center;
     padding: 0 100px;
@@ -489,19 +649,22 @@ input:-webkit-autofill:active {
     font-weight: 500;
     z-index: 12;
 }
-.login-info-content h2 {
-    font-size: 32px;
-    line-height: 34px;
-    font-family: 'Roboto';
-    margin: 0 0 20px;
-}
-.login-info-content p {
-    color: #fff;
-    font-family: 'Roboto';
-    font-weight: normal;
-    font-size: 14px;
-    line-height: 20px;
-}
+
+    .login-info-content h2 {
+        font-size: 32px;
+        line-height: 34px;
+        font-family: 'Roboto';
+        margin: 0 0 20px;
+    }
+
+    .login-info-content p {
+        color: #fff;
+        font-family: 'Roboto';
+        font-weight: normal;
+        font-size: 14px;
+        line-height: 20px;
+    }
+
 .login-page-deisgn .mud-input, .forgetpass-page .mud-input {
     background-color: #fff !important;
     border-radius: 40px;
@@ -509,6 +672,7 @@ input:-webkit-autofill:active {
     color: #000;
     padding: 0 18px;
 }
+
 .login100-form-title {
     font-size: 30px;
     color: #fff;
@@ -518,6 +682,7 @@ input:-webkit-autofill:active {
     display: block;
     font-weight: 500;
 }
+
 .container-login100-form-btn {
     width: 100%;
     display: -webkit-box;
@@ -530,34 +695,48 @@ input:-webkit-autofill:active {
     max-width: 200px;
     margin: 0 auto;
 }
+
 .modal-settings .mud-button-root {
-    top: -2px;
-    right: 18px;
+    /*    top: -2px;
+    right: 18px;*/
 }
+
 .modal-settings .mud-icon-root {
-    background: #ccc;
+    /*background: #ccc;
     border-radius: 50%;
-    padding: 4px;
+    padding: 4px;*/
 }
+
+.dash-cus .mud-nav-link-expand-icon {
+    display: none;
+}
+
 .container-login100-form-btn .mud-typography {
     font-size: 14px !important;
     font-weight: 600;
 }
- .container-login100-form-btn .txt1 {
-        font-family: 'Roboto';
-    }
-    .login-page-deisgn .mud-paper {
-        box-shadow: 0px 0px 3px 2px #bfbfbf;
-        border-radius: 20px;
-        background: linear-gradient(0deg, rgba(97,83,121,1) 0%, rgba(30,30,45,1) 39%);
-        position: relative;
-        position: relative;
-        box-shadow: none;
-        border-radius: 0;
-        height: 100vh;
-        background: rgb(29,61,65);
-        background: linear-gradient(0deg, rgba(29,61,65,1) 0%, rgba(30,30,45,1) 79%);
-    }
+
+.header-bar .mud-button-root {
+    margin: 0 10px 0 0;
+}
+
+.container-login100-form-btn .txt1 {
+    font-family: 'Roboto';
+}
+
+.login-page-deisgn .mud-paper {
+    box-shadow: 0px 0px 3px 2px #bfbfbf;
+    border-radius: 20px;
+    background: linear-gradient(0deg, rgba(97,83,121,1) 0%, rgba(30,30,45,1) 39%);
+    position: relative;
+    position: relative;
+    box-shadow: none;
+    border-radius: 0;
+    height: 100vh;
+    background: rgb(29,61,65);
+    background: linear-gradient(0deg, rgba(29,61,65,1) 0%, rgba(30,30,45,1) 79%);
+}
+
 .login-page-deisgn .mud-input.mud-input-underline:before, .forgetpass-page .mud-input.mud-input-underline:before {
     border-bottom: none;
 }
@@ -576,22 +755,27 @@ input:-webkit-autofill:active {
     align-items: center;
     color: #000;
 }
+
 form.login100-form.validate-form {
     width: 100%;
 }
-.login-page-deisgn .mud-input-label{
-    margin-left:20px;
+
+.login-page-deisgn .mud-input-label {
+    margin-left: 20px;
 }
+
 .login-page-deisgn .mud-shrink ~ label.mud-input-label.mud-input-label-inputcontrol {
     color: #ffffff;
     margin: 0;
 }
+
 .forgot-pass-screen {
     background-size: cover;
     background-repeat: no-repeat;
     width: 100%;
     height: 100vh;
 }
+
 .forgetpass-page {
     width: 100%;
     max-width: 550px;
@@ -606,18 +790,22 @@ form.login100-form.validate-form {
     background: rgb(29,61,65);
     background: linear-gradient(0deg, rgba(29,61,65,1) 0%, rgba(30,30,45,1) 79%);
 }
+
 .forgot-pass-screen .mud-input-control .mud-input-helper-text {
     color: #fff;
 }
+
 .forgot-pass-screen .mud-input-control .mud-input-label {
     color: #fff !important;
     font-size: 18px;
     font-weight: 600;
     margin: 0 0;
 }
+
 .forgot-pass-screen .mud-input-control .mud-icon-root.mud-svg-icon {
     fill: #000;
 }
+
 .page-content-setting .block-design {
     border: 1px solid #cccc;
     border-radius: 4px;
@@ -625,71 +813,85 @@ form.login100-form.validate-form {
     background: #fff;
     padding: 10px 10px;
 }
-.page-content-setting .block-design.mud-grid-spacing-xs-3 {
-    width: unset;
-    margin: unset;
-}
+
+    .page-content-setting .block-design.mud-grid-spacing-xs-3 {
+        width: unset;
+        margin: unset;
+    }
+
 .table-setting .mud-table-container .mud-button-root {
     border-color: #122f3b !important;
     padding: 3px;
 }
-.table-setting .mud-table-container .mud-button-root .mud-icon-root {
-    width: 15px;
-    height: 15px;
-    color: #1e1e2d !important;
-}
-.table-setting .mud-table-container .mud-button-root:hover {
-    background-color: #1e1e2d;
-}
-.table-setting .mud-table-container .mud-button-root:hover .mud-icon-root {
-    color: #fff !important;
-    transition: 0.9s ease all;
-}
+
+    .table-setting .mud-table-container .mud-button-root .mud-icon-root {
+        width: 15px;
+        height: 15px;
+        color: #1e1e2d !important;
+    }
+
+    .table-setting .mud-table-container .mud-button-root:hover {
+        background-color: #1e1e2d;
+    }
+
+        .table-setting .mud-table-container .mud-button-root:hover .mud-icon-root {
+            color: #fff !important;
+            transition: 0.9s ease all;
+        }
+
 .page-content-setting .mud-input-control-input-container .mud-input-label {
-   /* font-size: 16px;
+    /* font-size: 16px;
     font-weight: 600;
     color: #000;
     opacity: 1;
     font-family: 'Roboto';*/
 }
+
 .table-spacing .mud-input.mud-input-outlined.mud-input-adorned-end.mud-input-margin-dense.mud-select-input {
     margin-bottom: 0px;
     font-size: 12px;
 }
+
 .custom-btn-design .mud-button {
     padding: 0 10px 0 0;
 }
-.custom-btn-design .mud-button .mud-button-icon-start {
-    background: rgb(30 30 45);
-    width: 35px;
-    height: 35px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding-left: 3px;
-    position: relative;
-    margin-right: 10px;
-}
-    .custom-btn-design .mud-button .mud-button-icon-start:after {
-        content: "";
-        position: absolute;
-        margin-left: 0;
-        border-width: 7px;
-        border-style: solid;
-        border-color: #1e1e2d transparent transparent transparent;
-        transform: rotate(-89deg);
-        right: -14px;
+
+    .custom-btn-design .mud-button .mud-button-icon-start {
+        background: rgb(30 30 45);
+        width: 35px;
+        height: 35px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding-left: 3px;
+        position: relative;
+        margin-right: 10px;
     }
+
+        .custom-btn-design .mud-button .mud-button-icon-start:after {
+            content: "";
+            position: absolute;
+            margin-left: 0;
+            border-width: 7px;
+            border-style: solid;
+            border-color: #1e1e2d transparent transparent transparent;
+            transform: rotate(-89deg);
+            right: -14px;
+        }
+
 .modal-settings .mud-dialog-content .table-setting {
     box-shadow: 0 0 10px #ccc;
     border: 1px solid #ccc;
 }
+
 .modal-settings .mud-dialog-actions {
     padding: 10px 24px;
 }
-.custom-tab-design .mud-tabs-toolbar-wrapper{
-    margin:0 auto;
+
+.custom-tab-design .mud-tabs-toolbar-wrapper {
+    margin: 0 auto;
 }
+
 .custom-tab-design .mud-tab {
     font-size: 14px;
     margin: 0;
@@ -697,10 +899,12 @@ form.login100-form.validate-form {
     min-width: 152px;
     margin: 0 auto;
 }
-.search-action-block.mud-grid-spacing-xs-3{
-    width:unset;
-    margin:unset;
+
+.search-action-block.mud-grid-spacing-xs-3 {
+    width: unset;
+    margin: unset;
 }
+
 .h-custom {
     height: calc(100% - 73px);
 }

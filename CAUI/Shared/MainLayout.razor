@@ -2,21 +2,24 @@
 @inherits LayoutComponentBase
 
 <MudThemeProvider />
-<MudDialogProvider DisableBackdropClick="true"/>
+@*<MudDialogProvider DisableBackdropClick="true"/>*@
+<MudDialogProvider />
 <MudSnackbarProvider />
 
 <MudLayout>
     <MudAppBar Elevation="0" Class="header-bar">
         <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
         <MudSpacer />
+        <MudIconButton Icon="@Icons.Material.Filled.Message" Color="Color.Inherit" Link="https://mudblazor.com/" Target="_blank" />
+        <MudIconButton Icon="@Icons.Material.Filled.Notifications" Color="Color.Inherit" Link="https://github.com/MudBlazor/MudBlazor/" Target="_blank" />
         <MudIconButton Icon="@Icons.Material.Filled.Logout" Color="Color.Error" OnClick="LogOut" Title="Logout" />
     </MudAppBar>
-   
+
     <MudDrawer @bind-Open="_drawerOpen" Elevation="1" Class="main-sidebar-nav">
         <MudDrawerHeader>
 
-            <MudImage Src="img/logo.png" Alt="mepl logo" Elevation="25" Class=""/><MudText Typo="Typo.h6">Web-Based Costing</MudText>
-            <MudDivider/>
+            <MudImage Src="img/logo.png" Alt="mepl logo" Elevation="25" Class="" /><MudText Typo="Typo.h6">Web-Based Costing</MudText>
+            <MudDivider />
         </MudDrawerHeader>
         <NavMenu />
     </MudDrawer>
@@ -26,18 +29,18 @@
             @Body
         </MudContainer>
     </MudMainContent>
-    <MudThemeProvider Theme="_currentTheme" />
+    @*<MudThemeProvider Theme="_currentTheme" />*@
 </MudLayout>
 
 
 @code {
 
     [Inject]
-        public IUserProfile _userProfileService { get; set; }
+    public IUserProfile _userProfileService { get; set; }
 
-        
-        [Inject]
-        public NavigationManager navigation { get; set; }
+
+    [Inject]
+    public NavigationManager navigation { get; set; }
 
     bool _drawerOpen = true;
 
@@ -48,10 +51,10 @@
 
     private MudTheme _currentTheme = new MudTheme();
 
-       public async Task LogOut()
-        {
-            await _userProfileService.Logout();
-            navigation.NavigateTo("/login");
-        }
+    public async Task LogOut()
+    {
+        await _userProfileService.Logout();
+        navigation.NavigateTo("/login");
+    }
 
 }

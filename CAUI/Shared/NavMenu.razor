@@ -34,7 +34,7 @@
 
         @if (AuthMenus != null)
         {
-            <MudNavLink Href="Dashboard" Icon="@Icons.Sharp.Dashboard" IconColor="Color.Inherit">Dashboard</MudNavLink>
+            <MudNavLink Href="Dashboard" class="dash-cus" Icon="@Icons.Sharp.Dashboard" IconColor="Color.Inherit">Dashboard</MudNavLink>
 
             if (AuthMenus.Where(x => x.MenuParent == 1).ToList().Count > 0)
             {
@@ -43,7 +43,7 @@
                     {
                         @if (item.MenuName == "Document Approval")
                         {
-                            <MudNavLink Href=@item.MenuLink>@item.MenuName  <span class="bg-info p-2"><b>@oUserAlertList.Count</b></span></MudNavLink>
+                            <MudNavLink Href=@item.MenuLink>@item.MenuName  <span class="bg-info counter-info"><b>@oUserAlertList.Count</b></span></MudNavLink>
                         }
                         else
                         {

@@ -5,7 +5,9 @@
         <MudTextField @bind-Value="Remarks" T="string" Label="Remarks" Variant="Variant.Outlined" Lines="5" Margin="Margin.Dense" />
     </DialogContent>
     <DialogActions>
-        <MudButton OnClick="Cancel">Cancel</MudButton>
-        <MudButton OnClick="Submit">Submit</MudButton>
+        <MudItem class="text-right custom-btn-design">
+            <MudButton Variant="Variant.Filled" OnClick="Submit" StartIcon="@Icons.Filled.CheckCircle" Color="Color.Info" Size="Size.Small">Ok</MudButton>
+            <MudButton Variant="Variant.Filled" OnClick="Cancel" StartIcon="@Icons.Filled.Cancel" Color="Color.Error">Cancel</MudButton>
+        </MudItem>
     </DialogActions>
 </MudDialog>

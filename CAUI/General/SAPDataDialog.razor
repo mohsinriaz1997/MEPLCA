@@ -31,7 +31,7 @@
         }
         @if (DialogFor == "Currency")
         {
-            <MudTable FixedHeader="true" MultiSelection="true" HorizontalScrollbar="true" Height="350px" Dense="true" Bordered="true" Filter="new Func<SAPModels,bool>(FilterFunc1)" Loading="@Loading" LoadingProgressColor="Color.Primary" @ref="@_table" Items="SAPModelsList" Hover="true" Striped="true" @bind-SelectedItem="oSAPModels" RowClassFunc="@SelectedRowClassFunc" OnRowClick="RowClickEvent" T="SAPModels">
+            <MudTable FixedHeader="true" HorizontalScrollbar="true" Height="350px" Dense="true" Bordered="true" Filter="new Func<SAPModels,bool>(FilterFunc1)" Loading="@Loading" LoadingProgressColor="Color.Primary" @ref="@_table" Items="SAPModelsList" Hover="true" Striped="true" @bind-SelectedItem="oSAPModels" RowClassFunc="@SelectedRowClassFunc" OnRowClick="RowClickEvent" T="SAPModels">
                 <ToolBarContent>
                     <MudText Typo="Typo.h6">SAP Currency</MudText>
                     <MudSpacer />

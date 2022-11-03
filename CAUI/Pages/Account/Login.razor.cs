@@ -19,6 +19,9 @@ namespace CA.UI.Pages.Account
         [Inject]
         public ISnackbar Snackbar { get; set; }
 
+        bool isShow;
+        InputType PasswordInput = InputType.Password;
+        string PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
 
         MstUserProfile oModel = new MstUserProfile();
         List<MstUserProfile> oMstUserProfile = new List<MstUserProfile>();
@@ -105,6 +108,21 @@ namespace CA.UI.Pages.Account
             }
         }
 
+        void VisiblePassword()
+        {
+            if (isShow)
+            {
+                isShow = false;
+                PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
+                PasswordInput = InputType.Password;
+            }
+            else
+            {
+                isShow = true;
+                PasswordInputIcon = Icons.Material.Filled.Visibility;
+                PasswordInput = InputType.Text;
+            }
+        }
 
         async void GotoForgotPage()
         {

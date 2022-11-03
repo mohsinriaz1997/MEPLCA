@@ -1,6 +1,5 @@
 ﻿@page "/DataAccess"
 @using CA.API.Models
-<PageTitle>WBC || Data Access</PageTitle>
 
 <div class="input-field-setting">
     <h3>User Data Access</h3>
@@ -17,8 +16,11 @@
             </div>
         }
         <div class="col-md-4 col-sm-6">
-            <MudTextField Style="font-weight:bold" TextChanged="GetAllCostType" @bind-Value="oUser.UserCode" InputMode="InputMode.text" Immediate="true" Label="User Code" Variant="Variant.Filled" ReadOnly="true"
+            <MudTextField class="cus-tooltip" Style="font-weight:bold" TextChanged="GetAllCostType" @bind-Value="oUser.UserCode" InputMode="InputMode.text" Immediate="true" Label="User Code" Variant="Variant.Filled" ReadOnly="true"
                           Adornment="Adornment.Start" AdornmentColor="Color.Info" AdornmentIcon="@Icons.Filled.AddToPhotos" OnAdornmentClick="@((e) => OpenAddDialog(FullView))" />
+
+
+
         </div>
     </div>
     <br />
