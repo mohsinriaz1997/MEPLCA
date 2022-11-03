@@ -1299,7 +1299,7 @@ namespace CA.UI.Pages.Cost_Allocations
                         oModel.TrnsVohtoolsDetails = oDetailToolsList.ToList();
                         oModel.TrnsVohgasolineDetails = oDetailGasolineList.ToList();
 
-                        if (oModel.DocDate == null)
+                        if (oModel.DocDate == null && oModel.Lyear==null&&oModel.Lmonth==null)
                         {
                             Snackbar.Add("Please fill the required field(s)", Severity.Error, (options) => { options.Icon = Icons.Sharp.Error; });
                             Loading = false;

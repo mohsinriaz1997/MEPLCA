@@ -183,7 +183,7 @@
                     <MudAutocomplete ToStringFunc="@(e=> e==null?null : $"{e.Description}")" T="MstActivityType" Label="Activity Type" @bind-Value="oModelActivityType" SearchFunc="@SearchActivityType" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" TextChanged="onChangeVOCElectricityCycleTimeSec" />
                 </MudItem>
                 <MudItem xs="4" sm="4" md="4" lg="4">
-                    <MudAutocomplete ToStringFunc="@(e=> e==null?null : $"{e.ResrDescription}")" T="MstResourceDetail" Label="Machine Type" @bind-Value="oModelResouceType" SearchFunc="@searchResourceDescription" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" />
+                    <MudAutocomplete ToStringFunc="@(e=> e==null?null : $"{e.ResrDescription}")" T="MstResourceDetail" Label="Electricity Type" @bind-Value="oModelResouceType" SearchFunc="@searchResourceDescription" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" />
                 </MudItem>
                 <MudItem xs="4" sm="4" md="4" lg="4">
                     <MudNumericField Style="font-weight:bold" InputMode="InputMode.numeric" Immediate="true" Label="No Of Workers" Variant="Variant.Filled"

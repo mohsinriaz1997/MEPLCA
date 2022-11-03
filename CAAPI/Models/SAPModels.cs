@@ -9,6 +9,12 @@
         public string RateDate { get; set; }
 
         #endregion ExchangeRate
+        #region Expense Ammount
+
+        public int Amount { get; set; }
+        
+
+        #endregion ExchangeRate
 
         #region Currency
 

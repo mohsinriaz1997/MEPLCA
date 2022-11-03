@@ -64,6 +64,31 @@ namespace CA.UI.Data.SAPData
                 return null;
             }
         }
+        public async Task<List<SAPModels>> GetExpenseAccountAmmountFromSAP(string year,string month,string AccCode)
+        {
+            try
+            {
+                List<SAPModels> oList = new List<SAPModels>();
+
+                var request = new RestRequest($"SAPData/GetExpenseAccountAmmountFromSAP?year={year}&month={month}&AccCode={AccCode}", Method.Get) { RequestFormat = DataFormat.Json };
+
+                var response = await _restClient.ExecuteAsync<List<SAPModels>>(request);
+
+                if (response.IsSuccessful)
+                {
+                    return response.Data;
+                }
+                else
+                {
+                    return response.Data;
+                }
+            }
+            catch (Exception ex)
+            {
+                Logs.GenerateLogs(ex);
+                return null;
+            }
+        }
 
         public async Task<List<SAPModels>> GetBomItemsFromSAP(string ProductCode)
         {

@@ -3,6 +3,7 @@
     public interface ISAPData
     {
         List<SAPModels> GetExchangeRateFromSAP(string DocDate);
+        List<SAPModels> GetExpenseAccountAmmountFromSAP(string year,string month,string AccCode);
 
         List<SAPModels> GetCurrencyFromSAP();
 

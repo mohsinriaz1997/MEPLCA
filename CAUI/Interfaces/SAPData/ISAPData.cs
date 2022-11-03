@@ -5,6 +5,8 @@ namespace CA.UI.Interfaces.SAPData
     public interface ISAPData
     {
         Task<List<SAPModels>> GetExchangeRateFromSAP(string DocDate);
+        Task<List<SAPModels>> GetExpenseAccountAmmountFromSAP(string year, string month, string AccCode);
+        
 
         Task<List<SAPModels>> GetCurrencyFromSAP();
 

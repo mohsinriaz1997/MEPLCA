@@ -119,7 +119,8 @@ namespace CA.UI.Pages.Cost_Allocations
             {
                 var parameters = new DialogParameters();
                 parameters.Add("DialogFor", "MonthlyFohCostRl");
-
+                parameters.Add("year", oYearModel.year);
+                parameters.Add("month", oModel.Lmonth);
                 var dialog = Dialog.Show<DetailDialog>("", parameters, options);
                 var result = await dialog.Result;
                 if (!result.Cancelled)

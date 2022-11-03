@@ -131,7 +131,7 @@ namespace CA.UI.General
 
         private bool FilterFuncLabor(MstLabourRate element4) => FilterFuncLabor(element4, searchString4);
 
-        private bool FilterFuncCostDriver(MstCostDriversType element5) => FilterFuncCostDriver(element5, searchString4);
+        private bool FilterFuncCostDriver(MstCostDriversType element5) => FilterFuncCostDriver(element5, searchString5);
 
         private bool FilterFuncTrnsFohrate(TrnsFohrate element6) => FilterFuncFohrate(element6, searchString4);
         private bool FilterFuncTrnsFohDriver(TrnsFohdriverRate element7) => FilterFuncFohrate(element7, searchString13);

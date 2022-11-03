@@ -90,6 +90,8 @@ namespace CA.UI.General
 
         [Parameter]
         public string month { get; set; }
+        [Parameter]
+        public string AccCode { get; set; }
 
         [Parameter]
         public string DialogFor { get; set; }
@@ -408,6 +410,15 @@ namespace CA.UI.General
             //string year = "2007";
             //string month = "4";
             SAPModelsList = await _SAPService.GetItemsVOHFromSAP(Clause, year, month);
+            return SAPModelsList;
+        }
+        private async Task<List<SAPModels>> GetAllAcountsAmount()
+        {
+            SAPModelsList.Clear();
+            string Clause = "'105'";
+            //string year = "2007";
+            //string month = "4";
+            SAPModelsList = await _SAPService.GetExpenseAccountAmmountFromSAP( year, month, AccCode);
             return SAPModelsList;
         }
        
@@ -836,6 +847,7 @@ namespace CA.UI.General
                 {
                     if (oSAPModels.AcctCode != "")
                     {
+                        //await GetAllAcountsAmount();
                         //oSAPModels.DialogFor = "AccountCodeList";
                         MudDialog.Close(DialogResult.Ok<SAPModels>(oSAPModels));
                     }
@@ -1012,6 +1024,7 @@ namespace CA.UI.General
         {
             try
             {
+                //await GetAllAcountsAmount( year, month);
                 Loading = true;
                 if (DialogFor == "ExchangeRate")
                 {
@@ -1024,6 +1037,7 @@ namespace CA.UI.General
                 if (DialogFor == "AccountExpenseList")
                 {
                     await GetAccounts();
+                    
                 }
                 if (DialogFor == "Currency")
                 {
@@ -1131,6 +1145,7 @@ namespace CA.UI.General
                     //await GetRMItemsForSalesPriceList();
                     await GetRawItems();
                 }
+                //await GetAllAcountsAmount( );
                 Loading = false;
             }
             catch (Exception ex)

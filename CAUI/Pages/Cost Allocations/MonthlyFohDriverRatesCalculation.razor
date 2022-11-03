@@ -2,6 +2,7 @@
 @page "/MonthlyFohDriverRatesCalculation"
 <PageTitle>WBC || Monthly FOH Driver Calculation</PageTitle>
 @using CA.API.Models
+@using CA.UI.General
 <div class="container-fluid page-content-setting">
     <div class="row">
         <div class="col-sm-11">
@@ -24,9 +25,9 @@
                                    DateFormat="dd/MM/yyyy" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.CalendarMonth" PickerClosed="OnDateChange" />
                 </MudItem>
                 <MudItem xs="4" sm="4" md="4" lg="4">
-                    <MudTextField @bind-Value="oModel.Lyear" InputMode="InputMode.text" Immediate="true" Clearable="true" Label="Year" Variant="Variant.Text"
-                                  Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields"  />
-                </MudItem>
+
+                        <MudAutocomplete ToStringFunc="@(e=> e==null?null : $"{e.year}")" T="YearModel" Label="Year" @bind-Value="oYearModel" SearchFunc="@DateChange" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" />
+                    </MudItem>
                      <MudSelect xs="4" sm="4" md="4" lg="4" T="string" @bind-Value="@oModel.Lmonth" Label="Month" Variant="Variant.Text" AnchorOrigin="Origin.BottomCenter">
                     <MudSelectItem Value="@("1")" />
                     <MudSelectItem Value="@("2")" />

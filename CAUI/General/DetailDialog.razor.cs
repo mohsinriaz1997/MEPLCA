@@ -1,8 +1,11 @@
-﻿using CA.API.Models;
+﻿
+using CA.API.Models;
 using CA.UI.Interfaces.AdministrationData;
 using CA.UI.Interfaces.MasterData;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
+using CA.UI.Interfaces.Cost_Allocation;
+using CA.UI.Interfaces.SAPData;
 
 namespace CA.UI.General
 {
@@ -18,6 +21,8 @@ namespace CA.UI.General
 
         [Inject]
         public IResourceMasterData _mstResource { get; set; }
+        [Inject]
+        public IMonthlyVOHCalculation _mstVOH { get; set; }
 
         [Inject]
         public IGroupSetupMaster _mstGroupSetupMaster { get; set; }
@@ -30,6 +35,10 @@ namespace CA.UI.General
 
         [Inject]
         public IActivityType _mstActivityType { get; set; }
+
+
+        [Inject]
+        public ISAPData _SAPService { get; set; }
 
         [Parameter]
         public MstSalesPriceListDetail SalesPriceList { get; set; }
@@ -200,6 +209,11 @@ namespace CA.UI.General
         private List<MstResourceDetail> oMstResourceElectricityDetailList = new List<MstResourceDetail>();
         private List<MstResourceDetail> oMstResourceToolsDetailList = new List<MstResourceDetail>();
         private List<MstResourceDetail> oMstResourceGasolineDetailList = new List<MstResourceDetail>();
+       
+        
+        private List<TrnsVoh> oTrnsVoh = new List<TrnsVoh>();
+
+
 
         private SAPModels oSAPModels = new SAPModels();
         private List<SAPModels> SAPModelsList = new List<SAPModels>();
@@ -1116,6 +1130,17 @@ namespace CA.UI.General
                 Logs.GenerateLogs(ex);
             }
         }
+        private async Task GetallVoh()
+        {
+            try
+            {
+            oTrnsVoh = await _mstVOH.GetAllData();
+            }
+            catch (Exception ex)
+            {
+                Logs.GenerateLogs(ex);
+            }
+        }
 
         private void OnChange()
         {
@@ -1458,7 +1483,7 @@ namespace CA.UI.General
                 decimal CustomDutyPercent;
                 CustomDutyPercent = ((decimal)mstItemPriceListDetail.CustomDutyPer) / 100;
                 int customDutyCost = 0;
-                customDutyCost = Convert.ToInt32(mstItemPriceListDetail.UnitPricePkr * CustomDutyPercent);
+                customDutyCost = Convert.ToInt32(mstItemPriceListDetail.ImportValue * CustomDutyPercent);
                 mstItemPriceListDetail.CustomDutyValue = customDutyCost;
 
             }
@@ -1476,7 +1501,7 @@ namespace CA.UI.General
                 decimal RegulatoryPercent;
                 RegulatoryPercent = ((decimal)mstItemPriceListDetail.RegulatoryDutyPer) / 100;
                 int RegulatoryCost = 0;
-                RegulatoryCost = Convert.ToInt32(mstItemPriceListDetail.UnitPricePkr * RegulatoryPercent);
+                RegulatoryCost = Convert.ToInt32(mstItemPriceListDetail.ImportValue * RegulatoryPercent);
                 mstItemPriceListDetail.RegulatoryDutyValue = RegulatoryCost;
 
             }
@@ -1494,7 +1519,7 @@ namespace CA.UI.General
                 decimal AditionalPercent;
                 AditionalPercent = ((decimal)mstItemPriceListDetail.AdditionalDutyPer) / 100;
                 int AditionalCost = 0;
-                AditionalCost = Convert.ToInt32(mstItemPriceListDetail.UnitPricePkr * AditionalPercent);
+                AditionalCost = Convert.ToInt32(mstItemPriceListDetail.ImportValue * AditionalPercent);
                 mstItemPriceListDetail.AdditionalDutyValue = AditionalCost;
 
             }
@@ -1512,7 +1537,7 @@ namespace CA.UI.General
                 decimal ExcisePercent;
                 ExcisePercent = ((decimal)mstItemPriceListDetail.ExciseDutyPer) / 100;
                 int AditionalCost = 0;
-                AditionalCost = Convert.ToInt32(mstItemPriceListDetail.UnitPricePkr * ExcisePercent);
+                AditionalCost = Convert.ToInt32(mstItemPriceListDetail.ImportValue * ExcisePercent);
                 mstItemPriceListDetail.ExciseDutyValue = AditionalCost;
 
             }
@@ -1873,6 +1898,8 @@ namespace CA.UI.General
                 var parameters = new DialogParameters();
                 //parameters.Add("ProductCode", ProductCode);
                 parameters.Add("DialogFor", "AccountExpenseList");
+                parameters.Add("year", year);
+                parameters.Add("month", month);
                 var dialog = Dialog.Show<SAPDataDialog>("", parameters, options);
                 var result = await dialog.Result;
                 if (!result.Cancelled)
@@ -1880,6 +1907,8 @@ namespace CA.UI.General
                     var res = (SAPModels)result.Data;
                     oModelDetailFohcostDetail.AcctCode = res.AcctCode;
                     oModelDetailFohcostDetail.AcctDescription = res.AcctName;
+                    var Amount = await _SAPService.GetExpenseAccountAmmountFromSAP(year, month, res.AcctCode);
+                    oModelDetailFohcostDetail.Amount = Convert.ToDecimal(Amount.Select(x=>x.Amount).FirstOrDefault());
                     //oModelDetailTrns.ConsQty = Convert.ToDecimal(res.BOMQuantity);
                     //oModelDetailTrns.Uom = res.BOMUOM;
                     //oModelDetailTrns.CurrNameSap = res.CurrName;
@@ -1937,8 +1966,28 @@ namespace CA.UI.General
 
                     oModelCostDriversType.Code = res.Code;
                     oModelCostDriversType.Description = res.Description;
+                    if (res.Description== "Labor")
+                    {
 
-                    DialogFor = "MonthlyFohCostRl";
+                    }
+                    else if (res.Description == "Machine")
+                    {
+
+                    }
+                    else if (res.Description == "Electricity")
+                    {
+
+                    }
+                    else
+                    {
+                        oModelDetailFohcostDetail.Vohamount = 0;
+
+                    }
+                    //if (oModelCostDriversType.Description="Labour")
+                    //{
+
+                    //}
+                    //DialogFor = "MonthlyFohCostRl";
                 }
             }
             catch (Exception ex)
@@ -2352,6 +2401,7 @@ namespace CA.UI.General
            
             try
             {
+                await GetallVoh();
                 Loading = true;
 
                 if (DialogFor == "ResourceMaster")
@@ -2426,6 +2476,7 @@ namespace CA.UI.General
                         oModelListTrnsFohrate.FkcostDriversTypeId = Convert.ToInt32(oModelCostDriversType.Code);
                         oModelTrnsFohrate.Fohrate = oModelTrnsFohrate.Fohrate;
                         await GetAllCostDriverType();
+                       
 
                     }
                     else
@@ -2444,6 +2495,8 @@ namespace CA.UI.General
                 }
                 if (DialogFor == "MonthlyFohCostRl")
                 {
+                    var a = year;
+                    var b = month;
                     if (oDetailFohCost.AcctDescription != null)
                     {
                         //oModelListTrnsFohCost = oModelDetailFohcostDetail;
@@ -2453,10 +2506,18 @@ namespace CA.UI.General
                         oDetailFohCost.AcctCode = oModelDetailFohcostDetail.AcctCode;
                         oDetailFohCost.Amount = oModelDetailFohcostDetail.Amount;
                         oDetailFohCost.Vohamount = oModelDetailFohcostDetail.Vohamount;
+                        if (oDetailFohCost.CostDriver=="Labour")
+                        {
+
+                        }
 
                     }
                     else
                     {
+                        if (oDetailFohCost.CostDriver == "Labour")
+                        {
+                            oDetailFohCost.Vohamount = 0;
+                        }
                         //oModelTrnsFohCost.ProductName = null;
                         //oModelTrnsFohCost.ProductCode = null;
                         //oModelTrnsFohCost.DocNum = 0;

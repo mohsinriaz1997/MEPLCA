@@ -42,6 +42,34 @@ namespace CA.API.Controllers
         }
 
         #endregion ExchangeRate
+        #region ExchangeRate
+
+        [Route("GetExpenseAccountAmmountFromSAP")]
+        [HttpGet]
+        public async Task<IActionResult> GetExpenseAccountAmmountFromSAP(string year, string month, string AccCode)
+        {
+            List<SAPModels> oExchangeRateObjects = new List<SAPModels>();
+            try
+            {
+                await Task.Delay(2);
+                oExchangeRateObjects = _repo.GetExpenseAccountAmmountFromSAP(year,month, AccCode);
+                if (oExchangeRateObjects == null)
+                {
+                    return BadRequest(oExchangeRateObjects);
+                }
+                else
+                {
+                    return Ok(oExchangeRateObjects);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logs.GenerateLogs(ex);
+                return BadRequest("Something went wrong.");
+            }
+        }
+
+        #endregion ExchangeRate
 
         #region Currency
 

@@ -100,14 +100,17 @@ namespace CA.API.Repository.MasterData
             ApiResponseModel response = new ApiResponseModel();
             try
             {
-                await Task.Run(() =>
-                {
+               
                     int maxDocNum = _DBContext.MstResources.Max(p => (int?)p.DocNum) ?? 0;
                     maxDocNum++;
                     oMstResource.DocNum = maxDocNum;
                     oMstResource.DocStatus = "Draft";
                     oMstResource.DocApprovalStatus = "Pending";
                     _DBContext.MstResources.Add(oMstResource);
+                    //_DBContext.ExecuteSqlInterpolated($"SET IDENTITY_INSERT MyDB.Users ON;");
+                    //_DBContext.SaveChanges();
+                    //db.Database.ExecuteSqlInterpolated($"SET IDENTITY_INSERT MyDB.Users OFF");
+                //_DBContext.EnableIdentityInsert<T>();
                     _DBContext.SaveChanges();
                     var userCode = _DBContext.MstUserProfiles.Where(x => x.UserCode == oMstResource.CreatedBy).FirstOrDefault();
                     var chkStatus = _approvalSetupRepo.InsertDocApproval(userCode.Id, Convert.ToInt32(oMstResource.DocNum), "flgResourceMasterData", 4, "Rescource Master Data", userCode.UserCode);
@@ -120,7 +123,7 @@ namespace CA.API.Repository.MasterData
                         response.Id = 1;
                         response.Message = "Saved successfully";
                     }
-                });
+                
             }
             catch (Exception ex)
             {

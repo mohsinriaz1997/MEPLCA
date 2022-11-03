@@ -291,7 +291,8 @@ namespace CA.API.Repository.SAPData
                 string constr = configuration.GetSection("SAPConnection").Value.ToString();
                 using (SqlConnection conn = new SqlConnection(constr))
                 {
-                    string StrQuery = $@"select AcctCode,AcctName from OACT where 1=1 and {Clause}";
+                    //string StrQuery = $@"select AcctCode,AcctName from OACT where 1=1 and {Clause}";
+                    string StrQuery = $@"select AcctCode,AcctName from OACT where 1=1";
                     if (conn.State == System.Data.ConnectionState.Closed)
                     {
                         conn.Open();
@@ -317,7 +318,43 @@ namespace CA.API.Repository.SAPData
         }
 
         #endregion Expense Account
+        #region Expense Account Amount
 
+        public List<SAPModels> GetExpenseAccountAmmountFromSAP(string year,string month,string AccCode)
+        {
+            List<SAPModels> oList = new List<SAPModels>();
+            try
+            {
+                string constr = configuration.GetSection("SAPConnection").Value.ToString();
+                using (SqlConnection conn = new SqlConnection(constr))
+                {
+                    //string formatDocDate = Convert.ToDateTime(DocDate).ToString("yyyy-MM-dd");
+                    string StrQuery = $@"select   sum( ISNULL( t2.Debit,0) -IsNull (t2.Credit,0) )as Amount from OJDT t1 inner join JDT1 t2 on t1.TransId=t2.TransId where YEAR(t1.RefDate)={year} and MONTH(t1.RefDate)={month} and Account='{AccCode}' ";
+                    if (conn.State == System.Data.ConnectionState.Closed)
+                    {
+                        conn.Open();
+                    }
+                    SqlCommand command = new(StrQuery, conn);
+                    SqlDataReader rdr = command.ExecuteReader();
+                    while (rdr.Read())
+                    {
+                        SAPModels oExchangeRateObjects = new SAPModels();
+                        oExchangeRateObjects.Amount = Convert.ToInt32(rdr["Amount"]);
+                        
+                        oList.Add(oExchangeRateObjects);
+                    }
+                    conn.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logs.GenerateLogs(ex);
+                oList = null;
+            }
+            return oList;
+        }
+
+        #endregion ExchangeRate
         #region Items VOH
 
         public List<SAPModels> GetItemFromVOHSAP(string clause, string year, string month)
